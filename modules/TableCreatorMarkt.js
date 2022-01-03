@@ -40,7 +40,7 @@ const createTable = data => {
       <span id="maxValue_${i}" class="clickableValue">(0)</span>
         <span class="tradeInfoWrapper">
         <span class="tradeInfoWarn"><i class="fas fa-info tradeInfoBlink"></i>
-        <span class="tradeInfoText">Mindestabnahmemenge: 100t</span>
+        <span class="tradeInfoText">minimum: 100t</span>
         </span>
       </span>
     </td>

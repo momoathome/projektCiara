@@ -1,10 +1,10 @@
 const reduced = (accumulator, currentValue) => accumulator + currentValue
 import dbData from './getData.js'
 
-function kampfwertCheck() {
+function combatCheck() {
   let a = localStorage.getItem('attack')
   let b = a.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.querySelector('#kampfwert').innerHTML = b
+  document.querySelector('#combat').innerHTML = b
 }
 
 function RohstoffCheck() {
@@ -37,4 +37,4 @@ function anzahlCheck() {
   })
 }
 
-export {kampfwertCheck, RohstoffCheck, unitLimitCheck, anzahlCheck}
+export {combatCheck, RohstoffCheck, unitLimitCheck, anzahlCheck}

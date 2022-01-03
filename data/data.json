@@ -60,19 +60,11 @@
       }
     },
     {
-      "name": "Forschung",
+      "name": "Research",
       "type": "consumer",
       "energie": 2000,
       "cost": {
         "credits": 75000
-      }
-    },
-    {
-      "name": "Versorung",
-      "type": "consumer",
-      "energie": 1500,
-      "cost": {
-        "credits": 50000
       }
     },
     {
@@ -84,7 +76,15 @@
       }
     },
     {
-      "name": "Schild",
+      "name": "Supply",
+      "type": "consumer",
+      "energie": 1500,
+      "cost": {
+        "credits": 50000
+      }
+    },
+    {
+      "name": "Shield",
       "type": "consumer",
       "energie": 2500,
       "cost": {

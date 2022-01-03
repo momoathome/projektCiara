@@ -1,6 +1,6 @@
 const unitTable = document.querySelector('.unitTable')
 import {geldCheck} from '../modules/money.js'
-import {kampfwertCheck, unitLimitCheck, anzahlCheck} from '../modules/checkFunction.js'
+import {combatCheck, unitLimitCheck, anzahlCheck} from '../modules/checkFunction.js'
 import dbData from './getData.js'
 
 let rekrKosten = [0]
@@ -201,7 +201,7 @@ const input = document.querySelector('#form-unit').addEventListener('submit', e 
       anzahlCheck()
       maxUnit()
       geldCheck()
-      kampfwertCheck()
+      combatCheck()
       unitLimitCheck()
       document.querySelector('#rekrutierungsKosten').innerHTML = ''
     }

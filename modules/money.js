@@ -27,7 +27,7 @@ function geldBerechnung() {
   if (y < config.ticks) {
     window.setTimeout(() => {
       geldBerechnung()
-    }, 1000)
+    }, 5000)
     return
   } else {
     let geld = parseInt(localStorage.getItem('credits'))
@@ -36,7 +36,7 @@ function geldBerechnung() {
       geld = config.startMoney
     }
     let zeitMultiplikator = Math.floor(y / config.ticks)
-    let gehaltMultiplikator = localStorage.getItem('stufe_3')
+    let gehaltMultiplikator = localStorage.getItem('stufe_2')
 
     //marktstufe(aus der Datenbank) * credits pro sekunde (multipliziert mit dem level der Kampferfahrung) * ticks (weil alle ticks sekunden aktualisiert wird)
     let gehalt = zeitMultiplikator * (gehaltMultiplikator * Math.round(config.grundwert * config.ticks * config.faktor))
@@ -49,7 +49,7 @@ function geldBerechnung() {
   }
   window.setTimeout(() => {
     geldBerechnung()
-  }, 5000)
+  }, 30000)
 }
 
 function geldCheck() {

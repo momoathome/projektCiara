@@ -7,12 +7,12 @@ const createNavigation = () => {
   const navigation =
     /* html */
     `
-    <li><a href="/">Home</a></li>
-    <li><a href="../sites/units.html">Hangar</a></li>
-    <li><a href="../sites/station.html">Station</a></li>
-    <li><a href="#">#Forschung#</a></li>
-    <li><a href="../sites/markt.html">Markt</a></li>
-    <li><a href="../sites/farm.html">Asteroiden</a></li>
+    <li><a href="/">overview</a></li>
+    <li><a href="../sites/units.html">hangar</a></li>
+    <li><a href="../sites/station.html">modules</a></li>
+    <li><a href="../sites/markt.html">market</a></li>
+    <li><a href="#">#Research#</a></li>
+    <li><a href="../sites/farm.html">asteroids</a></li>
     <li><a href="#">#Ranking#</a></li>
     `
   uList.innerHTML = navigation

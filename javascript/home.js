@@ -2,7 +2,6 @@ import dbData from '../modules/getData.js'
 import {anzahlCheck} from '../modules/checkFunction.js'
 import {writeValueToTable} from '../modules/stationUpdate.js'
 
-const reducer = (accumulator, currentValue) => accumulator + currentValue
 const createUnitModule = data => {
   const tableBody = document.querySelector('.unitTable')
   // Table creation
@@ -17,14 +16,12 @@ const createUnitModule = data => {
       <td>${combat}</td>
       <td>${capacity}</td>
       <td id="unit_${i}"></td>
-      <td id="maxUnit_${i}"></td>
       `
     row.innerHTML = tableData
     tableBody.appendChild(row)
   })
 
   anzahlCheck()
-  maxUnitHome()
 }
 
 const createStationModule = data => {
@@ -38,45 +35,6 @@ const createStationModule = data => {
   })
 
   writeValueToTable()
-}
-
-function maxUnitHome() {
-  let currentAnzahl = []
-  const anzahl = []
-  const kosten = []
-  const maxKappa = []
-  const s = parseInt(localStorage.getItem('stufe_4') - 1)
-  const geld = parseInt(localStorage.getItem('credits'))
-  dbData.maxKappa.forEach(cap => {
-    maxKappa.push(cap)
-  })
-
-  dbData.units.forEach((unit, i) => {
-    let current = localStorage.getItem(`anzahl_${i}`)
-    if (isNaN(current) || current == 0 || current == undefined) {
-      current = 0
-    }
-    currentAnzahl.push(parseInt(current))
-    const maxAnzahlKappa = currentAnzahl.reduce(reducer)
-    kosten.push(unit.credits)
-
-    if (maxAnzahlKappa >= maxKappa[s]) {
-      anzahl[i] = 0
-      document.querySelector(`#maxUnit_${i}`).innerHTML = `(${anzahl[i]})`
-      return
-    } else {
-      anzahl[i] = Math.floor(geld / kosten[i])
-      if (anzahl[i] >= maxKappa[s]) {
-        anzahl[i] = maxKappa[s] - maxAnzahlKappa
-      }
-    }
-    let anzahlString = anzahl[i].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    if (anzahlString == 'NaN') {
-      anzahlString = 0
-    }
-    const maxUnit = document.querySelector(`#maxUnit_${i}`)
-    maxUnit.innerHTML = anzahlString
-  })
 }
 
 function createStationTableHome(data, index, table) {
@@ -105,4 +63,3 @@ function createStationTableHome(data, index, table) {
 
 createUnitModule(dbData)
 createStationModule(dbData)
-export {maxUnitHome}
