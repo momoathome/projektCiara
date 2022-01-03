@@ -1,0 +1,153 @@
+{
+  "units": [
+    {
+      "name": "Spacecruiser",
+      "credits": 10000,
+      "combat": 50,
+      "capacity": 50
+    },
+    {
+      "name": "Fighter",
+      "credits": 25000,
+      "combat": 150,
+      "capacity": 100
+    },
+    {
+      "name": "Guardian",
+      "credits": 50000,
+      "combat": 300,
+      "capacity": 250
+    },
+    {
+      "name": "Destroyer",
+      "credits": 150000,
+      "combat": 1000,
+      "capacity": 500
+    },
+    {
+      "name": "Nova",
+      "credits": 350000,
+      "combat": 2500,
+      "capacity": 1000
+    },
+    {
+      "name": "Horus",
+      "credits": 750000,
+      "combat": 6000,
+      "capacity": 1500
+    },
+    {
+      "name": "Reaper",
+      "credits": 1000000,
+      "combat": 8000,
+      "capacity": 2500
+    },
+    {
+      "name": "Deathstar",
+      "credits": 60000000,
+      "combat": 400000,
+      "capacity": 0
+    }
+  ],
+
+  "structure": [
+    {
+      "name": "Hangar",
+      "type": "consumer",
+      "energie": 1000,
+      "cost": {
+        "credits": 100000
+      }
+    },
+    {
+      "name": "Forschung",
+      "type": "consumer",
+      "energie": 2000,
+      "cost": {
+        "credits": 75000
+      }
+    },
+    {
+      "name": "Versorung",
+      "type": "consumer",
+      "energie": 1500,
+      "cost": {
+        "credits": 50000
+      }
+    },
+    {
+      "name": "Markt",
+      "type": "consumer",
+      "energie": 1000,
+      "cost": {
+        "credits": 20000
+      }
+    },
+    {
+      "name": "Schild",
+      "type": "consumer",
+      "energie": 2500,
+      "cost": {
+        "credits": 90000
+      }
+    },
+    {
+      "name": "Solar",
+      "type": "producer",
+      "energie": 36,
+      "cost": {
+        "credits": 10000
+      }
+    },
+    {
+      "name": "Ignition",
+      "type": "producer",
+      "energie": 250,
+      "cost": {
+        "credits": 150000
+      }
+    },
+    {
+      "name": "Fission",
+      "type": "producer",
+      "energie": 1100,
+      "cost": {
+        "credits": 2500000
+      }
+    },
+    {
+      "name": "Fusion",
+      "type": "producer",
+      "energie": 12000,
+      "cost": {
+        "credits": 15000000
+      }
+    },
+    {
+      "name": "Energiekern",
+      "type": "none",
+      "energie": 8000,
+      "cost": {
+        "credits": 30000
+      }
+    }
+  ],
+  "ressources": [
+    {
+      "name": "Titanium"
+    },
+    {
+      "name": "Carbon"
+    },
+    {
+      "name": "Kyberkristall"
+    },
+    {
+      "name": "Hydrogenium"
+    }
+  ],
+  "maxKappa": [
+    50, 100, 150, 250, 350, 500, 700, 950, 1200, 1500, 1850, 2300, 2800, 3400, 4100, 5000, 6000, 7200, 8500, 10000, 12000, 15000,
+    20000, 27500, 35000, 45000, 60000, 80000, 110000, 150000
+  ]
+}

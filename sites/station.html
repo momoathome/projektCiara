@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projekt Ciara | Station</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="../img/galaxy-11098.jpg" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../javascript/station.js"></script>
+  </head>
+
+  <body class="backgroundContainerStars">
+    <header>
+      <nav>
+        <div>
+          <h1 id="game-name"></h1>
+        </div>
+
+        <div id="navigation"></div>
+      </nav>
+    </header>
+
+    <section id="playerStats"></section>
+
+    <section>
+      <div class="statusParent">
+        <div class="error" id="output"></div>
+      </div>
+    </section>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <main class="mainSection">
+      <div class="container">
+        <div class="tableContainer">
+          <div>
+            <div class="mainTableDiv stationTableDiv">
+              <h3>Consumer</h3>
+              <table class="maintable stationTable">
+                <thead>
+                  <tr>
+                    <th>Gebäude</th>
+                    <th>Energie</th>
+                    <th>Kosten</th>
+                    <th>Stufe</th>
+                  </tr>
+                </thead>
+                <tbody class="consumerTable"></tbody>
+              </table>
+            </div>
+
+            <div class="mainTableDiv stationTableDiv">
+              <h3>Producer</h3>
+              <table class="maintable stationTable">
+                <thead>
+                  <tr>
+                    <th>Gebäude</th>
+                    <th>Energie</th>
+                    <th>Kosten</th>
+                    <th>Stufe</th>
+                  </tr>
+                </thead>
+                <tbody class="producerTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer">
+      <p>Game by Snow0wl - Coypright &copy; 2019</p>
+    </footer>
+  </body>
+</html>

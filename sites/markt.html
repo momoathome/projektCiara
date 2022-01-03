@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projekt Ciara | markt</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="../img/galaxy-11098.jpg" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://kit.fontawesome.com/eff03cd4fb.js" crossorigin="anonymous"></script>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../javascript/markt.js"></script>
+  </head>
+  <body class="backgroundContainerStars">
+    <header>
+      <nav>
+        <div>
+          <h1 id="game-name"></h1>
+        </div>
+
+        <div id="navigation"></div>
+      </nav>
+    </header>
+
+    <section id="playerStats"></section>
+
+    <section>
+      <div class="statusParent">
+        <div class="error" id="output"></div>
+      </div>
+    </section>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <section class="mainSection">
+      <div class="container">
+        <div id="markt">
+          <div class="tableContainer">
+            <div id="form-markt">
+              <div class="mainTableDiv marktTableDiv">
+                <table class="maintable marktTable">
+                  <thead>
+                    <tr>
+                      <th colspan="4" class="marktHeader">Intergalaktischer Markt</th>
+                    </tr>
+                    <tr>
+                      <th>Rohstoff</th>
+                      <th>Bestand</th>
+                      <th>Marktwert</th>
+                      <th>Handeln</th>
+                    </tr>
+                  </thead>
+                  <tbody class="tradeTable"></tbody>
+                  <tfoot>
+                    <tr>
+                      <td class="marktKostenText" colspan="2">
+                        Gesamtbetrag:
+                        <span id="marktKosten" class="gesamt"></span>
+                      </td>
+                      <td colspan="2">
+                        <div class="tradeButtonDiv">
+                          <button class="tradeButton">buy</button>
+                          <button class="tradeButton">sell</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <footer id="footer">
+    <p>Game by Snow0wl - Coypright &copy; 2019</p>
+  </footer>
+</html>
