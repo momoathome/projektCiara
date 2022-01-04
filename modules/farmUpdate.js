@@ -180,46 +180,48 @@ function atkUpdater(i) {
   dbData.units.forEach((unit, i) => {
     atkWert[i] = unit.combat
   })
-  let zwischenAtkWert = parseInt(document.querySelector(`#unit_${i}`).value) * atkWert[i]
-  let zwischenAtkWertString = zwischenAtkWert.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.querySelector(`.atkUnitfarm_${i}`).innerText = zwischenAtkWertString
+  let input = document.querySelector(`#unit_${i}`)
+  let zwischenAtkWert = parseInt(input.value) * atkWert[i]
+  if (isNaN(zwischenAtkWert)) {
+    zwischenAtkWert = 0
+  }
+  document.querySelector(`.atkUnitfarm_${i}`).innerText = zwischenAtkWert.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   schiffAtkWert[i] = zwischenAtkWert
   gesamtAtkUpdater()
 }
 
 function InputListenerValueUpdater(i) {
-  let inputValue = parseInt(document.querySelector(`#unit_${i}`).value)
-  if (inputValue < 0) {
-    document.querySelector(`#unit_${i}`).value = 0
-  } else if (inputValue > parseInt(anzahl[i] + inputArray[i])) {
-    document.querySelector(`#unit_${i}`).value = parseInt(anzahl[i] + inputArray[i])
+  let input = document.querySelector(`#unit_${i}`)
+  if (parseInt(input.value) < 0 || input.value == '') {
+    input.value = ''
+  } else if (input.value > parseInt(anzahl[i] + inputArray[i])) {
+    input.value = parseInt(anzahl[i] + inputArray[i])
   }
 
-  anzahl[i] = storageAnzahl[i] - parseInt(document.querySelector(`#unit_${i}`).value)
+  anzahl[i] = storageAnzahl[i] - input.value
   updater(i)
   atkUpdater(i)
-  inputArray[i] = parseInt(document.querySelector(`#unit_${i}`).value)
+  inputArray[i] = parseInt(input.value)
 }
 
 function clickEventListenerAnzahlUpdater(i) {
-  let inputValue = parseInt(document.querySelector(`#unit_${i}`).value)
+  let input = document.querySelector(`#unit_${i}`)
 
-  if (inputValue == 0) {
-    document.querySelector(`#unit_${i}`).value = anzahl[i]
+  if (input.value == 0) {
+    input.value = anzahl[i]
     anzahl[i] = 0
     updater(i)
     atkUpdater(i)
   } else {
-    let valueAnzahl = parseInt(document.querySelector(`#unit_${i}`).value)
     if (anzahl[i] !== 0) {
-      let value = parseInt(anzahl[i] + valueAnzahl)
-      document.querySelector(`#unit_${i}`).value = value
+      let value = anzahl[i] + parseInt(input.value)
+      input.value = value
       anzahl[i] = 0
       updater(i)
       atkUpdater(i)
     } else {
-      document.querySelector(`#unit_${i}`).value = 0
-      anzahl[i] = valueAnzahl
+      anzahl[i] = parseInt(input.value)
+      input.value = 0
       updater(i)
       atkUpdater(i)
     }
@@ -228,26 +230,25 @@ function clickEventListenerAnzahlUpdater(i) {
 
 function formSubmit(event) {
   event.preventDefault()
-  console.log(selectedAsteroidID)
 
+  // checkt ob Asteroid angeklickt
   if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
     return errorMessage('Bitte wähle einen Asteroiden aus')
   }
   if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
     return errorMessage('Bitte wähle einen Asteroiden aus')
   }
-  console.log('stage 2: ' + selectedAsteroidID)
-  console.log('stage 2: ' + atkVergleichWert)
 
   // holt sich werte aus input field
   const InputUnitAtkWerte = []
-  dbData.units.forEach((unit, i) => {
-    let value = parseInt(document.querySelector(`#unit_${i}`).value)
-    if (value <= 0 || isNaN(value) || value == null) {
-      value = 0
+  dbData.units.forEach((dbunit, i) => {
+    let unit = document.querySelector(`#unit_${i}`)
+    if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
+      unit.value = 0
     }
-    InputUnitAtkWerte[i] = value * unit.combat
+    InputUnitAtkWerte[i] = unit.value * dbunit.combat
   })
+
   // berechnet atk wert
   let atkGesamt = InputUnitAtkWerte.reduce(reducer)
   if (atkGesamt <= 0) {

@@ -1,10 +1,29 @@
 const timer = 2500
+function showText(element, message, cssClass) {
+  if (element.style.visibility === 'visible') {
+    return
+  } else {
+    element.style.visibility = 'visible'
+    element.style.opacity = 1
+    element.classList.add(cssClass)
+  }
+  element.innerText = message
+}
+function hideText(element, cssClass) {
+  element.style.visibility = 'hidden'
+  element.style.opacity = 0
+  element.classList.remove(cssClass)
+  element.innerText = ''
+}
+
 export function errorMessage(message) {
-  document.querySelector('#output').innerHTML = `<p class="alert"; >${message}</p>`
-  setTimeout(() => document.querySelector('.alert').remove(), timer)
+  let element = document.querySelector('.error')
+  showText(element, message, 'alert')
+  setTimeout(() => hideText(element), timer)
 }
 
 export function succesMessage(message) {
-  document.querySelector('#output').innerHTML = `<p class="succes"; >${message}</p>`
-  setTimeout(() => document.querySelector('.succes').remove(), timer)
+  let element = document.querySelector('.error')
+  showText(element, message, 'succes')
+  setTimeout(() => hideText(element), timer)
 }

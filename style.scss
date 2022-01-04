@@ -168,6 +168,7 @@ $statsBackgroundColor: hsla(230, 25%, 5%, 0.1);
 }
 .font {
   font-family: Castle-Queen;
+  font-weight: normal;
 }
 .color-light {
   color: $secondcolor;
@@ -183,7 +184,7 @@ input {
 body {
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
   font-size: 16px;
   line-height: 1.5;
@@ -267,23 +268,28 @@ nav {
   justify-content: center;
   margin: 0;
   padding: 0;
+  height: 24px;
 }
 .error {
   text-align: center;
   margin: 0;
   padding: 0;
-  width: 100%;
-
-  .alert {
-    background-color: darkred;
-  }
-  .succes {
-    background-color: green;
-  }
+  width: 75%;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.35s linear, opacity 0.35s linear;
 }
+
+.alert {
+  background-color: darkred;
+}
+.succes {
+  background-color: green;
+}
+
 /* general classes */
 .mainSection {
-  margin-top: 4rem;
+  margin-top: 3rem;
   flex: 1 0 auto;
 }
 .container {
@@ -385,7 +391,7 @@ nav {
 .tradeButtonDiv {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .tradeButton {
   width: 6rem;
@@ -405,6 +411,10 @@ nav {
     border-color: $secondcolor;
     background-color: hsla(192, 95%, 71%, 0.1);
     color: $secondcolor;
+  }
+
+  &:where(:first-child) {
+    margin-right: 2.9rem;
   }
 }
 
@@ -548,7 +558,7 @@ nav {
 
 .marktTable {
   input {
-    width: 55px;
+    width: 60px;
     height: 1.7rem;
     font-weight: bold;
     font-size: 1rem;
@@ -569,7 +579,6 @@ nav {
   }
 
   tr > :where(:nth-child(4)) {
-    min-width: fit-content !important;
     position: relative;
   }
 }

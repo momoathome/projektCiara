@@ -33,7 +33,7 @@ function unitLimitCheck() {
 function anzahlCheck() {
   dbData.units.forEach((unit, i) => {
     let count = parseInt(localStorage.getItem(`anzahl_${i}`))
-    document.querySelector(`#unit_${i}`).innerHTML = count
+    document.querySelector(`#unit_quantity_${i}`).innerHTML = count
   })
 }
 

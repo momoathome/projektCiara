@@ -3,32 +3,16 @@ import config from '../config.js'
 
 const createTable = data => {
   const tableBody = document.querySelector('.tradeTable')
-  // in marktUpdate verschieben
-  const value = []
-  let titanValue = (config.stock * config.titanFaktor) / config.varFaktor
-  let carbonValue = (config.stock * config.carbonFaktor) / config.varFaktor
-  let kristalValue = (config.stock * config.kristalFaktor) / config.varFaktor
-  let hydroValue = (config.stock * config.hydrogeniumFaktor) / config.varFaktor
-  value.push(titanValue, carbonValue, kristalValue, hydroValue)
-  // ---------------------------------------------------------
 
   data.ressources.forEach((roh, i) => {
     const row = document.createElement('tr')
-    // in marktUpdate verschieben
-    let stock = config.stock.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    let val = value[i]
-      .toFixed(2)
-      .toString()
-      .replace('.', ',')
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    // ---------------------------------------------------
 
     const tableData =
       /* html */
       `
     <td>${roh.name}</td>
-    <td>${stock}<span>t</span></td>
-    <td>${val}<span class="font">C</span></td>
+    <td class="stockTd"></td>
+    <td class="valueTd"></td>
     <td>
       <input
         type="number"
@@ -39,7 +23,7 @@ const createTable = data => {
       />
       <span id="maxValue_${i}" class="clickableValue">(0)</span>
         <span class="tradeInfoWrapper">
-        <span class="tradeInfoWarn"><i class="fas fa-info tradeInfoBlink"></i>
+        <span class="tradeInfoWarn"><span class="tradeInfoBlink">i</span>
         <span class="tradeInfoText">minimum: 100t</span>
         </span>
       </span>
@@ -48,6 +32,7 @@ const createTable = data => {
     row.innerHTML = tableData
     tableBody.appendChild(row)
   })
+  marktUpdate.maxRessource()
   addEventlistenerValueUpdater()
 }
 

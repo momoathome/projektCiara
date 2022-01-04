@@ -56,7 +56,7 @@
       "type": "consumer",
       "energie": 1000,
       "cost": {
-        "credits": 100000
+        "credits": 150000
       }
     },
     {
@@ -64,7 +64,7 @@
       "type": "consumer",
       "energie": 2000,
       "cost": {
-        "credits": 75000
+        "credits": 100000
       }
     },
     {
@@ -72,7 +72,7 @@
       "type": "consumer",
       "energie": 1000,
       "cost": {
-        "credits": 20000
+        "credits": 50000
       }
     },
     {
@@ -80,7 +80,7 @@
       "type": "consumer",
       "energie": 1500,
       "cost": {
-        "credits": 50000
+        "credits": 75000
       }
     },
     {
@@ -88,7 +88,7 @@
       "type": "consumer",
       "energie": 2500,
       "cost": {
-        "credits": 90000
+        "credits": 200000
       }
     },
     {

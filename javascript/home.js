@@ -15,7 +15,7 @@ const createUnitModule = data => {
       <td>${unit.name}</td>
       <td>${combat}</td>
       <td>${capacity}</td>
-      <td id="unit_${i}"></td>
+      <td id="unit_quantity_${i}"></td>
       `
     row.innerHTML = tableData
     tableBody.appendChild(row)

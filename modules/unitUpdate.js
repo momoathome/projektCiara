@@ -2,6 +2,7 @@ const unitTable = document.querySelector('.unitTable')
 import {geldCheck} from '../modules/money.js'
 import {combatCheck, unitLimitCheck, anzahlCheck} from '../modules/checkFunction.js'
 import dbData from './getData.js'
+import {errorMessage, succesMessage} from './alertMessage.js'
 
 let rekrKosten = [0]
 let inputArray = [0]
@@ -62,10 +63,10 @@ function maxUnit() {
 // listener für den Input
 function InputListenerValueUpdater(i) {
   let geld = parseInt(localStorage.getItem('credits'))
-  let inputField = document.querySelector(`#input_unit_${i}`)
+  let inputField = document.querySelector(`#unit_${i}`)
 
-  if (inputField.value < 0 || inputField.value == '00') {
-    inputField.value = 0
+  if (inputField.value <= 0 || inputField.value == '' || isNaN(inputField.value)) {
+    inputField.value = ''
   }
   if (inputField.value > geld / kosten[i]) {
     inputField.value = Math.floor(geld / kosten[i])
@@ -86,23 +87,21 @@ function InputListenerValueUpdater(i) {
 
 // klick auf max anzahl Units
 function clickEventListenerValueUpdater(i) {
-  let inputField = document.querySelector(`#input_unit_${i}`)
+  let inputField = document.querySelector(`#unit_${i}`)
 
   if (inputField.value == 0) {
     inputField.value = anzahl[i]
-    InputFieldUpdater(i)
   } else if (anzahl[i] == 0) {
     inputField.value = anzahl[i]
-    InputFieldUpdater(i)
   } else {
     anzahl[i] = parseInt(inputField.value) + parseInt(anzahl[i])
     inputField.value = anzahl[i]
-    InputFieldUpdater(i)
   }
+  InputFieldUpdater(i)
 }
-// updated das Inputfield nach click auf Max unit (clickEventListenerValueUpdater)
+// updated die nötigen Arrays nach click auf Max unit (clickEventListenerValueUpdater)
 function InputFieldUpdater(i) {
-  let inputField = document.querySelector(`#input_unit_${i}`)
+  let inputField = document.querySelector(`#unit_${i}`)
   rekrKosten[i] = anzahl[i] * kosten[i]
   inputArrayMaxKappa[i] = parseInt(anzahl[i])
   inputArray[i] = parseInt(inputField.value)
@@ -111,7 +110,7 @@ function InputFieldUpdater(i) {
 }
 function inputFieldClear() {
   dbData.units.forEach((unit, i) => {
-    document.querySelector(`#input_unit_${i}`).value = ''
+    document.querySelector(`#unit_${i}`).value = ''
   })
 }
 
@@ -125,24 +124,21 @@ function rKostenUpdate() {
   document.querySelector('#rekrutierungsKosten').innerHTML = rekrKostenInnerText
 }
 
-const input = document.querySelector('#form-unit').addEventListener('submit', e => {
-  // Prevent actual submit
-  e.preventDefault()
-  let inputUnitValue = []
+function formSubmit(event) {
+  event.preventDefault()
+  const inputUnitValue = []
   // holt sich werte aus input field
-  kosten.forEach((value, i) => {
-    let inputValue = parseInt(document.querySelector(`#input_unit_${i}`).value)
-    if (inputValue <= 0 || isNaN(inputValue) || inputValue == null) {
-      inputValue = 0
+  dbData.units.forEach((e, i) => {
+    let unit = document.querySelector(`#unit_${i}`)
+    if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
+      unit.value = 0
     }
-    inputUnitValue[i] = inputValue
+    inputUnitValue[i] = unit.value
   })
   const inputUnitValueEnd = inputUnitValue.reduce(reducer)
 
   if (inputUnitValueEnd <= 0) {
-    document.getElementById('output').innerHTML =
-      '<p style="background:darkred;" class="alert"; >' + 'Bitte wähle mindestens eine Einheit zum rekrutieren aus' + '</p>'
-    setTimeout(() => document.querySelector('.alert').remove(), 5000)
+    errorMessage('bitte wähle mindestens eine Einheit aus')
     // cleart die input felder
     inputFieldClear()
     return
@@ -158,12 +154,10 @@ const input = document.querySelector('#form-unit').addEventListener('submit', e 
     // check ob Geld reicht
     if (kostenGesamt > geld) {
       // wenn geld nicht reicht, fehlermeldung und function wird nicht ausgeführt
-      document.getElementById('output').innerHTML =
-        '<p style="background:darkred;" class="alert"; >' + 'du hast nicht genug Credits dafür' + '</p>'
-      setTimeout(() => document.querySelector('.alert').remove(), 5000)
+      errorMessage('du hast nicht genug Credits dafür')
       // cleart die input felder
       inputFieldClear()
-      document.querySelector('#rekrutierungsKosten').innerHTML = '0' + '<span class="font">C</span>'
+      document.querySelector('#rekrutierungsKosten').innerHTML = ''
       return
     } else {
       // wenn geld reicht
@@ -184,6 +178,7 @@ const input = document.querySelector('#form-unit').addEventListener('submit', e 
 
         // cleart die input felder
         inputFieldClear()
+        succesMessage('Great Success')
       })
 
       // speichert neuen kampfwert im localstorage
@@ -206,6 +201,6 @@ const input = document.querySelector('#form-unit').addEventListener('submit', e 
       document.querySelector('#rekrutierungsKosten').innerHTML = ''
     }
   }
-})
+}
 
-export {maxUnit, InputListenerValueUpdater, clickEventListenerValueUpdater}
+export {maxUnit, InputListenerValueUpdater, clickEventListenerValueUpdater, formSubmit}

@@ -16,11 +16,11 @@ const createTable = data => {
       <td>${combat}</td>
       <td>${credits}<span class="font">C</span></td>
       <td>${capacity}</td>
-      <td class="color-light" id="unit_${i}"></td>
+      <td class="color-light" id="unit_quantity_${i}"></td>
       <td>
         <input
           type="number"
-          id="input_unit_${i}"
+          id="unit_${i}"
           class="recrutUnit"
           min="0"
           max="100000"
@@ -33,6 +33,7 @@ const createTable = data => {
   })
 
   addEventlistenerValueUpdater()
+  addEventListenerUnitSubmit()
   anzahlCheck()
   unitUpdate.maxUnit()
 }
@@ -50,6 +51,13 @@ const addEventlistenerValueUpdater = () => {
     span.addEventListener('click', () => {
       unitUpdate.clickEventListenerValueUpdater(i)
     })
+  })
+}
+
+const addEventListenerUnitSubmit = () => {
+  const UnitForm = document.querySelector('#form-unit')
+  UnitForm.addEventListener('submit', event => {
+    unitUpdate.formSubmit(event)
   })
 }
 

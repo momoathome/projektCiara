@@ -19,12 +19,12 @@ function upgradeFunction(i) {
     let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
     creditUpdate(i)
     if (i !== 0) {
-      let newKost = Math.ceil((kosten[i] * 1.43) / 1000) * 1000
+      let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
       localStorage.setItem(`stufe_${i}`, stufeUpgraded)
       localStorage.setItem(`kosten_${i}`, newKost)
       writeValueToTable()
     } else {
-      let newKost = Math.ceil((kosten[i] * 1.43) / 1000) * 1000
+      let newKost = Math.ceil((kosten[i] * 1.677) / 1000) * 1000
       localStorage.setItem(`stufe_${i}`, stufeUpgraded)
       localStorage.setItem(`kosten_${i}`, newKost)
       localStorage.setItem('maxUnitLimit', maxKappa[stufeUpgraded - 1])
