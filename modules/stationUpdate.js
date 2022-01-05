@@ -9,6 +9,12 @@ dbData.maxKappa.forEach(cap => {
   maxKappa.push(cap)
 })
 
+function setNewCost() {
+  let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
+  localStorage.setItem(`stufe_${i}`, stufeUpgraded)
+  localStorage.setItem(`kosten_${i}`, newKost)
+}
+
 function upgradeFunction(i) {
   // nicht genug Geld
   if (!creditCheck(i)) {
@@ -16,17 +22,13 @@ function upgradeFunction(i) {
   } else {
     // Succesful Upgrade
     updater()
-    let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
     creditUpdate(i)
+    let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
     if (i !== 0) {
-      let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
-      localStorage.setItem(`stufe_${i}`, stufeUpgraded)
-      localStorage.setItem(`kosten_${i}`, newKost)
+      setNewCost()
       writeValueToTable()
     } else {
-      let newKost = Math.ceil((kosten[i] * 1.677) / 1000) * 1000
-      localStorage.setItem(`stufe_${i}`, stufeUpgraded)
-      localStorage.setItem(`kosten_${i}`, newKost)
+      setNewCost()
       localStorage.setItem('maxUnitLimit', maxKappa[stufeUpgraded - 1])
       writeValueToTable()
 

@@ -49,21 +49,23 @@
                       <th>trade</th>
                     </tr>
                   </thead>
-                  <tbody class="tradeTable"></tbody>
-                  <tfoot>
-                    <tr>
-                      <td class="marktKostenText" colspan="2">
-                        Total value:
-                        <span id="marktKosten" class="gesamt"></span>
-                      </td>
-                      <td colspan="2">
-                        <div class="tradeButtonDiv">
-                          <button class="tradeButton">buy</button>
-                          <button class="tradeButton">sell</button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tfoot>
+                  <form class="markt-form">
+                    <tbody class="tradeTable"></tbody>
+                    <tfoot>
+                      <tr>
+                        <td class="marktKostenText" colspan="2">
+                          Total value:
+                          <span id="marktKosten" class="gesamt"></span>
+                        </td>
+                        <td colspan="2">
+                          <div class="tradeButtonDiv">
+                            <button id="buyButton" class="tradeButton">buy</button>
+                            <button id="sellButton" class="tradeButton">sell</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </form>
                 </table>
               </div>
             </div>

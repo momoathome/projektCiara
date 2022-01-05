@@ -3,7 +3,6 @@ import config from '../config.js'
 
 const rohSave = []
 const classList = []
-let asteroidList = []
 
 const createTableAsteroiden = data => {
   const roh = []
@@ -152,6 +151,7 @@ const createTableAsteroiden = data => {
   addEventlistenerSelectAsteroid()
 }
 
+let asteroidList = []
 const addEventlistenerSelectAsteroid = () => {
   const asteroidListBody = document.querySelectorAll('#asteroid')
   asteroidList = asteroidListBody[0].childNodes

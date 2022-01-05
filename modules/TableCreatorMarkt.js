@@ -1,5 +1,4 @@
 import * as marktUpdate from './marktUpdate.js'
-import config from '../config.js'
 
 const createTable = data => {
   const tableBody = document.querySelector('.tradeTable')
@@ -17,7 +16,7 @@ const createTable = data => {
       <input
         type="number"
         id="input_value_${i}"
-        class="tradeUnit"
+        class="tradeInputField"
         min="0"
         max="100000"
       />
@@ -34,10 +33,11 @@ const createTable = data => {
   })
   marktUpdate.maxRessource()
   addEventlistenerValueUpdater()
+  addEventListenerMarktSubmit()
 }
 
 const addEventlistenerValueUpdater = () => {
-  const inputFields = document.querySelectorAll('.tradeUnit')
+  const inputFields = document.querySelectorAll('.tradeInputField')
   const clickAbleSpan = document.querySelectorAll('.clickableValue')
 
   inputFields.forEach((inputField, i) => {
@@ -52,4 +52,12 @@ const addEventlistenerValueUpdater = () => {
   })
 }
 
+const addEventListenerMarktSubmit = () => {
+  const marktForm = document.querySelector('.markt-form')
+  marktForm.addEventListener('submit', event => {
+    if (event.submitter.id === 'buyButton') {
+      marktUpdate.formSubmit(event, 'buy')
+    } else marktUpdate.formSubmit(event, 'sell')
+  })
+}
 export {createTable}

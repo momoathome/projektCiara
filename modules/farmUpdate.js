@@ -227,20 +227,12 @@ function clickEventListenerAnzahlUpdater(i) {
     }
   }
 }
+const InputUnitAtkWerte = []
+const rohstoffArray = [0, 0, 0, 0]
+const selectedAsteroidRoh = []
 
-function formSubmit(event) {
-  event.preventDefault()
-
-  // checkt ob Asteroid angeklickt
-  if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
-    return errorMessage('Bitte wähle einen Asteroiden aus')
-  }
-  if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
-    return errorMessage('Bitte wähle einen Asteroiden aus')
-  }
-
+function getInputUnitAtk() {
   // holt sich werte aus input field
-  const InputUnitAtkWerte = []
   dbData.units.forEach((dbunit, i) => {
     let unit = document.querySelector(`#unit_${i}`)
     if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
@@ -248,7 +240,44 @@ function formSubmit(event) {
     }
     InputUnitAtkWerte[i] = unit.value * dbunit.combat
   })
+}
 
+function rohEditFunction() {
+  getSelectedAsteroidRoh()
+  selectedAsteroidRoh.forEach((value, i) => {
+    let res = localStorage.getItem(`roh_${i}`)
+    res = parseInt(res) + parseInt(value)
+    localStorage.setItem(`roh_${i}`, res)
+    rohstoffArray[i] = res.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  })
+  rohInDom()
+}
+
+function getSelectedAsteroidRoh() {
+  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
+    selectedAsteroidRoh[index] = value
+  })
+}
+
+function rohInDom() {
+  const query = document.querySelectorAll('.rohValueSpan')
+  query.forEach((e, i) => {
+    e.innerText = rohstoffArray[i]
+  })
+}
+
+function formSubmit(event) {
+  event.preventDefault()
+
+  // checkt ob ein Asteroid angeklickt ist
+  if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
+    return errorMessage('Bitte wähle einen Asteroiden aus')
+  }
+  if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
+    return errorMessage('Bitte wähle einen Asteroiden aus')
+  }
+
+  getInputUnitAtk()
   // berechnet atk wert
   let atkGesamt = InputUnitAtkWerte.reduce(reducer)
   if (atkGesamt <= 0) {
@@ -261,39 +290,9 @@ function formSubmit(event) {
       return
     } else {
       // if succes
-      const rohstoffArray = [0, 0, 0, 0]
-      const selectedAsteroidRoh = []
-
-      function rohEditFunction() {
-        getSelectedAsteroidRoh()
-        dbData.ressources.forEach((value, i) => {
-          let res = localStorage.getItem(`roh_${i}`)
-          res = parseInt(res, 10) + parseInt(selectedAsteroidRoh[i], 10)
-          localStorage.setItem(`roh_${i}`, res)
-          rohstoffArray[i] = res.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-        })
-        rohInDom()
-      }
       rohEditFunction()
-
-      function getSelectedAsteroidRoh() {
-        Object.entries(selectedAsteroid).forEach(([key, value], index) => {
-          selectedAsteroidRoh[index] = value
-        })
-      }
-
-      function rohInDom() {
-        const query = document.querySelectorAll('.rohValueSpan')
-        query.forEach((e, i) => {
-          e.innerText = rohstoffArray[i]
-        })
-      }
-
       farmAbschliesen()
       succesMessage('Great Success')
-      selectedAsteroid = ''
-      selectedAsteroidID = ''
-      atkVergleichWert = 0
     }
   }
 }
@@ -308,6 +307,10 @@ function farmAbschliesen() {
     document.querySelector(`#unit_${i}`).value = ''
     atkUpdater(i)
   })
+  selectedAsteroid = ''
+  selectedAsteroidID = ''
+  atkVergleichWert = 0
+
   maxUnitFarm()
 }
 
