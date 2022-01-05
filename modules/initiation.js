@@ -49,6 +49,8 @@ function initFunction(data) {
 
     initRessource.forEach((e, i) => {
       localStorage.setItem(`roh_${i}`, 0)
+      localStorage.setItem(`stock_${i}`, config.stock)
+      localStorage.setItem(`varFaktor_${i}`, config.varFaktor)
     })
 
     localStorage.setItem('initialValues', true)

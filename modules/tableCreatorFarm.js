@@ -6,148 +6,136 @@ const classList = []
 let asteroidList = []
 
 const createTableAsteroiden = data => {
-  // erstellt einen array aus "asteroidenAnzahl" zahlen von 1 bis 100
+  const roh = []
+  let risk = 0
+
   function createAsteroiden() {
     const arr = []
-    const roh = []
 
-    // bereinigt alte Liste
-    arr.splice(0, arr.length)
-    rohSave.splice(0, rohSave.length)
-    let oldList = document.querySelector('#asteroid')
-    oldList.innerHTML = ''
-    // erstellt anzahl neuer Asteroiden
+    // erstellt einen array aus "asteroidenAnzahl" zahlen von 1 bis 100
     for (let i = 0; i < config.asteroidenAnzahl; i++) {
-      // erstellt "asteroidenAnzahl" mal eine random zahl zwischen 1 und 100
-      // zum erstellen der jeweiligen risiko Stufe
-      function randomIntFromInterval(min, max) {
-        // min and max included
-        let rand = Math.floor(Math.random() * (max - min + 1) + min)
-        arr.push(rand)
-      }
-      randomIntFromInterval(1, 99)
+      let rand = randomInt(1, 99)
+      arr.push(rand)
     }
 
-    let risk = 0
+    arr.forEach((number, i) => {
+      createRisikoStufe(number)
+      createMineralWerte()
+      createAsteroidRow(risk)
+    })
+  }
+
+  const randomInt = (min, max) => {
+    let value = Math.floor(Math.random() * (max - min + 1) + min)
+    return value
+  }
+
+  function createRisikoStufe(number) {
+    // die ausgelesene number wird verglichen
+    // ist sie größer wird ihr die entsprechende stufe zugewiesen
+    if (number >= 60) {
+      risk = 1
+    } else if (number >= 35) {
+      risk = 2
+    } else if (number >= 15) {
+      risk = 3
+    } else if (number >= 4) {
+      risk = 4
+    } else {
+      risk = 5
+    }
+  }
+
+  function mainRessource() {
+    let mainValue = randomInt(0, 3)
+    // if Titanium
+    if (mainValue == 0) {
+      roh[0] = Math.floor(roh[0] * 1.3)
+      roh[1] = Math.floor(roh[1] * 0.6)
+      roh[2] = Math.floor(roh[2] * 0.4)
+      roh[3] = Math.floor(roh[3] * 0.2)
+      // if Carbon
+    } else if (mainValue == 1) {
+      roh[0] = Math.floor(roh[0] * 0.6)
+      roh[1] = Math.floor(roh[1] * 1.3)
+      roh[2] = Math.floor(roh[2] * 0.4)
+      roh[3] = Math.floor(roh[3] * 0.2)
+      // if Kristall
+    } else if (mainValue == 2) {
+      roh[0] = Math.floor(roh[0] * 0.4)
+      roh[1] = Math.floor(roh[1] * 0.4)
+      roh[2] = Math.floor(roh[2] * 1.0)
+      roh[3] = Math.floor(roh[3] * 0.2)
+      // if Hydro
+    } else if (mainValue == 3) {
+      roh[0] = Math.floor(roh[0] * 0.4)
+      roh[1] = Math.floor(roh[1] * 0.4)
+      roh[2] = Math.floor(roh[2] * 0.2)
+      roh[3] = Math.floor(roh[3] * 1.3)
+    }
+  }
+
+  // push in rohSave array, zum weiterverarbeiten in "farmUpdate"
+  // zum ein und ausblenden der daten wichtig, beim wählen der Asteroiden zum farmen
+  function pushInRohSaveArray() {
+    rohSave.push({
+      Titanium: roh[0],
+      Carbon: roh[1],
+      Kyberkristall: roh[2],
+      Hydrogenium: roh[3],
+    })
+  }
+
+  // erstellt je nach risiko stufe die Werte für Rohstoffe.
+  function createMineralWerte() {
+    // min und max werte der Rohstoffe.
+    switch (risk) {
+      case 1: // no risk
+        randomMineralsForAsteroid(100, 160)
+        break
+      case 2: // low risk
+        randomMineralsForAsteroid(200, 280)
+        break
+      case 3: // med risk
+        randomMineralsForAsteroid(320, 400)
+        break
+      case 4: // high risk
+        randomMineralsForAsteroid(440, 520)
+        break
+      case 5: // extrem risk
+        randomMineralsForAsteroid(700, 900)
+        break
+    }
+    mainRessource()
+    pushInRohSaveArray()
+  }
+  function randomMineralsForAsteroid(min, max) {
+    data.ressources.forEach((value, i) => {
+      roh[i] = randomInt(min, max)
+    })
+  }
+
+  // erstellt die jeweiligen Asteroiden in einer Row
+  function createAsteroidRow(risk) {
     const list = document.querySelector('#asteroid')
-    // iteriert durch den "arr" array und gibt die zahlen aus
-    arr.forEach((zahl, i) => {
-      function createRisikoStufe(zahl, i) {
-        // die ausgelesene Zahl wird verglichen
-        // ist sie größer wird ihr die entsprechende stufe zugewiesen
-        if (zahl >= 60) {
-          risk = 1
-          createMineralWerte()
-          createAsteroidRow(risk)
-        } else if (zahl >= 35) {
-          risk = 2
-          createMineralWerte()
-          createAsteroidRow(risk)
-        } else if (zahl >= 15) {
-          risk = 3
-          createMineralWerte()
-          createAsteroidRow(risk)
-        } else if (zahl >= 4) {
-          risk = 4
-          createMineralWerte()
-          createAsteroidRow(risk)
-        } else {
-          risk = 5
-          createMineralWerte()
-          createAsteroidRow(risk)
-        }
-      }
-      createRisikoStufe(zahl, i)
 
-      // erstellt je nach risiko stufe die Werte für Rohstoffe.
-      function createMineralWerte() {
-        function randomIntFromInterval(min, max) {
-          data.ressources.forEach((value, i) => {
-            let roherz = rohMath(min, max)
-            roh[i] = roherz
-          })
-        }
-        const rohMath = (min, max) => {
-          let value = Math.floor(Math.random() * (max - min + 1) + min)
-          return value
-        }
-        // min und max werte für Werte der Rohstoffe.
-        switch (risk) {
-          case 1: // no risk
-            randomIntFromInterval(100, 160)
-            break
-          case 2: // low risk
-            randomIntFromInterval(200, 280)
-            break
-          case 3: // med risk
-            randomIntFromInterval(320, 400)
-            break
-          case 4: // high risk
-            randomIntFromInterval(440, 520)
-            break
-          case 5: // extrem risk
-            randomIntFromInterval(700, 900)
-            break
-        }
-        const mainRoh = () => {
-          let mainValue = rohMath(0, 3)
-          // if Titanium
-          if (mainValue == 0) {
-            roh[0] = Math.floor(roh[0] * 1.3)
-            roh[1] = Math.floor(roh[1] * 0.6)
-            roh[2] = Math.floor(roh[2] * 0.5)
-            roh[3] = Math.floor(roh[3] * 0.4)
-            // if Carbon
-          } else if (mainValue == 1) {
-            roh[0] = Math.floor(roh[0] * 0.6)
-            roh[1] = Math.floor(roh[1] * 1.3)
-            roh[2] = Math.floor(roh[2] * 0.5)
-            roh[3] = Math.floor(roh[3] * 0.4)
-            // if Kristall
-          } else if (mainValue == 2) {
-            roh[0] = Math.floor(roh[0] * 0.4)
-            roh[1] = Math.floor(roh[1] * 0.4)
-            roh[2] = Math.floor(roh[2] * 1.3)
-            roh[3] = Math.floor(roh[3] * 0.2)
-            // if Hydro
-          } else if (mainValue == 3) {
-            roh[0] = Math.floor(roh[0] * 0.5)
-            roh[1] = Math.floor(roh[1] * 0.5)
-            roh[2] = Math.floor(roh[2] * 0.2)
-            roh[3] = Math.floor(roh[3] * 1.5)
-          }
-        }
-        mainRoh()
+    if (risk == 1) {
+      risk = 'noRisk'
+    } else if (risk == 2) {
+      risk = 'lowRisk'
+    } else if (risk == 3) {
+      risk = 'medRisk'
+    } else if (risk == 4) {
+      risk = 'highRisk'
+    } else if (risk == 5) {
+      risk = 'exRisk'
+    }
 
-        // push in rohSave array, zum weiterverarbeiten in "farmUpdate"
-        // zum ein und ausblenden der daten wichtig, beim wählen der Asteroiden zum farmen
-        rohSave.push({
-          Titanium: roh[0],
-          Carbon: roh[1],
-          Kyberkristall: roh[2],
-          Hydrogenium: roh[3],
-        })
-      }
-
-      // erstellt die jeweiligen Asteroiden in einer Row
-      function createAsteroidRow(risk) {
-        if (risk == 1) {
-          risk = 'noRisk'
-        } else if (risk == 2) {
-          risk = 'lowRisk'
-        } else if (risk == 3) {
-          risk = 'medRisk'
-        } else if (risk == 4) {
-          risk = 'highRisk'
-        } else if (risk == 5) {
-          risk = 'exRisk'
-        }
-
-        const row = document.createElement('tr')
-        row.classList.add(risk)
-        row.innerHTML =
-          /* html */
-          `
+    const row = document.createElement('tr')
+    row.classList.add(risk)
+    row.innerHTML =
+      /* html */
+      `
         <td>Titanium:</td>
         <td class="roh">${roh[0]}</td>
         <td>Carbon:</td>
@@ -157,9 +145,7 @@ const createTableAsteroiden = data => {
         <td>Hydrogenium:</td>
         <td class="roh">${roh[3]}</td>
         `
-        list.appendChild(row)
-      }
-    })
+    list.appendChild(row)
   }
 
   createAsteroiden()

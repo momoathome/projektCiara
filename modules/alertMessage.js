@@ -19,11 +19,11 @@ function hideText(element, cssClass) {
 export function errorMessage(message) {
   let element = document.querySelector('.error')
   showText(element, message, 'alert')
-  setTimeout(() => hideText(element), timer)
+  setTimeout(() => hideText(element, 'alert'), timer)
 }
 
 export function succesMessage(message) {
   let element = document.querySelector('.error')
   showText(element, message, 'succes')
-  setTimeout(() => hideText(element), timer)
+  setTimeout(() => hideText(element, 'succes'), timer)
 }
