@@ -1,7 +1,7 @@
 import dbData from './getData.js'
 import config from '../config.js'
 import {geldCheck} from './money.js'
-import {errorMessage} from './alertMessage.js'
+import {errorMessage, succesMessage} from './alertMessage.js'
 
 const maxRoh = []
 const totalValues = []
@@ -12,10 +12,10 @@ const price = []
 function getMarketData() {
   dbData.ressources.forEach((res, i) => {
     currentStock[i] = parseInt(localStorage.getItem(`stock_${i}`))
-    varFaktor[i] = parseInt(localStorage.getItem(`varFaktor_${i}`))
-    price[i] = Math.round((currentStock[i] * config.baseFaktors[i]) / varFaktor[i])
+    varFaktor[i] = parseFloat(localStorage.getItem(`varFaktor_${i}`))
+    price[i] = Math.round((config.stock * config.baseFaktors[i]) / varFaktor[i])
   })
-  console.log(currentStock, varFaktor, price)
+  console.log(varFaktor)
 }
 
 function setMarketData(boolean) {
@@ -25,7 +25,7 @@ function setMarketData(boolean) {
       value = 0
     }
     currentStock[i] = boolean ? currentStock[i] - value : currentStock[i] + value
-    value = Math.round(value / 1000)
+    value = value.toFixed(2) / 100
     varFaktor[i] = boolean ? varFaktor[i] - value : varFaktor[i] + value
     localStorage.setItem(`stock_${i}`, currentStock[i])
     localStorage.setItem(`varFaktor_${i}`, varFaktor[i])
@@ -68,8 +68,6 @@ function InputListenerValueUpdater(i) {
 
   if (inputField.value <= 0 || inputField.value == '' || isNaN(inputField.value)) {
     inputField.value = ''
-  } else if (inputField.value * price[i] > geld) {
-    inputField.value = Math.floor(geld / price[i])
   }
 
   let roh = maxRoh[i] - inputField.value
@@ -169,29 +167,26 @@ function setCredits(boolean) {
 }
 
 function setRessource(boolean) {
-  let tradeValues = getInputValues()
   if (boolean) {
-    tradeValues.forEach((value, i) => {
-      let currentRoh = parseInt(localStorage.getItem(`roh_${i}`))
-      if (isNaN(value) || value == '' || value == undefined) {
-        value = 0
-      }
-      value = currentRoh + value
-
-      localStorage.setItem(`roh_${i}`, value)
-    })
+    ressourceMath(true)
   } else {
-    tradeValues.forEach((value, i) => {
-      let currentRoh = parseInt(localStorage.getItem(`roh_${i}`))
-      if (isNaN(value) || value == '' || value == undefined) {
-        value = 0
-      }
-      value = currentRoh - value
-      localStorage.setItem(`roh_${i}`, value)
-    })
+    ressourceMath(false)
   }
 }
-
+function ressourceMath(type) {
+  let newVal
+  let tradeValues = getInputValues()
+  tradeValues.forEach((value, i) => {
+    let currentRoh = parseInt(localStorage.getItem(`roh_${i}`))
+    if (isNaN(value) || value == '' || value == undefined) {
+      value = 0
+    }
+    if (type) {
+      newVal = currentRoh + value
+    } else newVal = currentRoh - value
+    localStorage.setItem(`roh_${i}`, newVal)
+  })
+}
 function clearInputFields() {
   let inputFields = document.querySelectorAll(`.tradeInputField`)
   inputFields.forEach(inputField => {
