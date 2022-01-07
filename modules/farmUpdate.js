@@ -1,20 +1,22 @@
-import {rohSave, classList, asteroidList} from './tableCreatorFarm.js'
+import {
+  asteroidList,
+  classList,
+  asteroidDomList,
+  createAsteroidListInDom,
+  addEventlistenerSelectAsteroid,
+} from './tableCreatorFarm.js'
 import {errorMessage, succesMessage} from './alertMessage.js'
-import config from '../config.js'
+import {RohstoffCheck} from './checkFunction.js'
 import dbData from './getData.js'
 
 let selectedAsteroid
 let selectedAsteroidID
 let atkVergleichWert
-const inputArray = []
 let state = false
-
-const atkWertGesamtSpan = document.querySelector('#atkUnitfarmGesamt')
-const riskInfoText = document.querySelector('.riskInfoText')
 
 function asteroidSelectionUpdater(asteroid, ID) {
   state = true
-  if (asteroid.className == classList[ID] + ' gewählt') {
+  if (asteroid.className == classList[ID] + ' gewählt' || asteroid.className == 'closed') {
     state = false
     unselectAsteroid()
   } else {
@@ -23,7 +25,7 @@ function asteroidSelectionUpdater(asteroid, ID) {
 }
 
 function selectAsteroid(asteroid, ID) {
-  asteroidList.forEach(target => {
+  asteroidDomList.forEach(target => {
     if (target.className == 'closed') {
       target.className = 'closed'
     } else {
@@ -32,16 +34,15 @@ function selectAsteroid(asteroid, ID) {
   })
   asteroid.className = classList[ID] + ' gewählt'
   state = true
-  selectedAsteroid = rohSave[ID]
+  selectedAsteroid = asteroidList[ID]
   selectedAsteroidID = ID
-
-  gesamtAtkUpdater(classList[ID])
+  //gesamtAtkUpdater(classList[ID])
   mouseOverFunction()
 }
 
 function unselectAsteroid() {
   classReset()
-  hideText(riskInfoText)
+  //hideText(riskInfoText)
   // unselect asteroid
   selectedAsteroid = ''
   selectedAsteroidID = ''
@@ -49,13 +50,13 @@ function unselectAsteroid() {
 }
 
 function classReset() {
-  asteroidList.forEach((target, index) => {
+  asteroidDomList.forEach((target, index) => {
     target.className = classList[index]
   })
 }
 
 function mouseOverFunction() {
-  asteroidList.forEach((target, index) => {
+  asteroidDomList.forEach((target, index) => {
     target.addEventListener(
       'mouseover',
       () => {
@@ -77,13 +78,13 @@ function mouseOverFunction() {
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 
-const anzahl = []
-const storageAnzahl = []
-const schiffAtkWert = [0]
-
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 
-function gesamtAtkUpdater(risk) {
+/*
+const atkWertGesamtSpan = document.querySelector('#atkUnitfarmGesamt')
+const riskInfoText = document.querySelector('.riskInfoText')
+
+ function gesamtAtkUpdater(risk) {
   targetAtkWert(risk)
   let prozent
   if (atkVergleichWert == undefined || atkVergleichWert == 0 || isNaN(atkVergleichWert)) {
@@ -114,7 +115,7 @@ function gesamtAtkUpdater(risk) {
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   atkWertGesamtSpan.innerHTML = atkUnitfarmInnerHtml
-}
+} 
 
 function showText(element) {
   if (element.style.visibility === 'visible') {
@@ -155,7 +156,22 @@ function targetAtkWert(risk) {
       atkVergleichWert = config.asteroidenAtkWerte[4]
       break
   }
-}
+} 
+
+const InputUnitAtkWerte = []
+function getInputUnitAtk() {
+  // holt sich werte aus input field
+  dbData.units.forEach((dbunit, i) => {
+    let unit = document.querySelector(`#unit_${i}`)
+    if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
+      unit.value = 0
+    }
+    InputUnitAtkWerte[i] = unit.value * dbunit.combat
+  })
+} */
+const anzahl = []
+const storageAnzahl = []
+const unitCap = [0]
 
 function maxUnitFarm() {
   anzahl.splice(0, anzahl.length)
@@ -174,22 +190,32 @@ function updater(i) {
   document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${anzahlString})`
 }
 
-function atkUpdater(i) {
-  // Attack werte der Schiffe
-  const atkWert = []
-  dbData.units.forEach((unit, i) => {
-    atkWert[i] = unit.combat
-  })
-  let input = document.querySelector(`#unit_${i}`)
-  let zwischenAtkWert = parseInt(input.value) * atkWert[i]
-  if (isNaN(zwischenAtkWert)) {
-    zwischenAtkWert = 0
-  }
-  document.querySelector(`.atkUnitfarm_${i}`).innerText = zwischenAtkWert.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  schiffAtkWert[i] = zwischenAtkWert
-  gesamtAtkUpdater()
+function gesamtCapUpdater() {
+  const totalUnitCapSpan = document.querySelector('.totalUnitCap')
+  let totalUnitCapInnerText = unitCap
+    .reduce(reducer)
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  totalUnitCapSpan.innerText = totalUnitCapInnerText
 }
 
+function capUpdater(i) {
+  // capacity der Schiffe
+  const capWert = []
+  dbData.units.forEach((unit, i) => {
+    capWert[i] = unit.capacity
+  })
+  let input = document.querySelector(`#unit_${i}`)
+  let cap = parseInt(input.value) * capWert[i]
+  if (isNaN(cap)) {
+    cap = 0
+  }
+  document.querySelector(`.unitCapa_${i}`).innerText = cap.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  unitCap[i] = cap
+  gesamtCapUpdater()
+}
+
+const inputArray = []
 function InputListenerValueUpdater(i) {
   let input = document.querySelector(`#unit_${i}`)
   if (parseInt(input.value) < 0 || input.value == '') {
@@ -199,9 +225,9 @@ function InputListenerValueUpdater(i) {
   }
 
   anzahl[i] = storageAnzahl[i] - input.value
-  updater(i)
-  atkUpdater(i)
   inputArray[i] = parseInt(input.value)
+  updater(i)
+  capUpdater(i)
 }
 
 function clickEventListenerAnzahlUpdater(i) {
@@ -211,101 +237,172 @@ function clickEventListenerAnzahlUpdater(i) {
     input.value = anzahl[i]
     anzahl[i] = 0
     updater(i)
-    atkUpdater(i)
+    capUpdater(i)
   } else {
     if (anzahl[i] !== 0) {
       let value = anzahl[i] + parseInt(input.value)
       input.value = value
       anzahl[i] = 0
       updater(i)
-      atkUpdater(i)
+      capUpdater(i)
     } else {
       anzahl[i] = parseInt(input.value)
       input.value = 0
       updater(i)
-      atkUpdater(i)
+      capUpdater(i)
     }
   }
 }
-const InputUnitAtkWerte = []
-const rohstoffArray = [0, 0, 0, 0]
-const selectedAsteroidRoh = []
 
-function getInputUnitAtk() {
-  // holt sich werte aus input field
-  dbData.units.forEach((dbunit, i) => {
-    let unit = document.querySelector(`#unit_${i}`)
-    if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
-      unit.value = 0
-    }
-    InputUnitAtkWerte[i] = unit.value * dbunit.combat
+const selectedAsteroidRoh = []
+const myRessources = []
+
+function calcNewAsteroidRoh(enoughUnits) {
+  const rohstoffArray = []
+
+  if (enoughUnits) {
+    rohstoffArray.push(0, 0, 0, 0)
+  } else {
+    let cap = unitCap.reduce(reducer)
+    let subtract = Math.floor(cap / 4)
+    let rest = cap % 4
+    let val = selectedAsteroidRoh.map(value => value - subtract)
+    val.forEach((element, i) => {
+      if (element < 0) {
+        val[i] = 0
+        rest += 0 - element
+      }
+    })
+    let largest = Math.max(...val)
+
+    val.forEach((element, i) => {
+      if (element == largest) {
+        val[i] = val[i] - rest
+      }
+    })
+    rohstoffArray.push(...val)
+
+    rohstoffArray.forEach((element, i) => {
+      myRessources[i] = selectedAsteroidRoh[i] - element
+    })
+  }
+  console.log(myRessources)
+  setNewAsteroidRoh(rohstoffArray)
+}
+
+function setNewAsteroidRoh(array) {
+  let asteroid = asteroidList[selectedAsteroidID]
+  asteroidList.splice(selectedAsteroidID, 1, {
+    Titanium: array[0],
+    Carbon: array[1],
+    Kyberkristall: array[2],
+    Hydrogenium: array[3],
+    mainRohIndex: asteroid.mainRohIndex,
+    size: asteroid.size,
   })
+
+  const list = document.querySelector('#asteroid')
+  list.innerHTML = ''
+  createAsteroidListInDom()
+}
+
+function getSelectedAsteroidRoh() {
+  const arr = []
+  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
+    arr[index] = value
+  })
+  arr.splice(4, 2)
+  arr.forEach((value, i) => {
+    selectedAsteroidRoh[i] = value
+  })
+}
+
+function setRohLocalstorage(array) {
+  array.forEach((value, i) => {
+    let res = localStorage.getItem(`roh_${i}`)
+    res = parseInt(res) + parseInt(value)
+    localStorage.setItem(`roh_${i}`, res)
+  })
+}
+
+function unitCheck() {
+  let cap = unitCap.reduce(reducer)
+  if (cap <= 0) {
+    return errorMessage('bitte wähle mindestens eine Einheit aus')
+  }
 }
 
 function rohEditFunction() {
   getSelectedAsteroidRoh()
-  selectedAsteroidRoh.forEach((value, i) => {
-    let res = localStorage.getItem(`roh_${i}`)
-    res = parseInt(res) + parseInt(value)
-    localStorage.setItem(`roh_${i}`, res)
-    rohstoffArray[i] = res.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  })
-  rohInDom()
-}
+  let cap = unitCap.reduce(reducer)
+  let asteroidRoh = selectedAsteroidRoh.reduce(reducer)
+  let enoughUnits
 
-function getSelectedAsteroidRoh() {
-  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
-    selectedAsteroidRoh[index] = value
-  })
-}
+  if (asteroidRoh < cap) {
+    // alle Rohstoffe aufs Konto
+    enoughUnits = true
+    setRohLocalstorage(selectedAsteroidRoh)
+  } else {
+    // nur ein teil der Rohstoffe aufs Konto
+    enoughUnits = false
+    setRohLocalstorage(myRessources)
+  }
 
-function rohInDom() {
-  const query = document.querySelectorAll('.rohValueSpan')
-  query.forEach((e, i) => {
-    e.innerText = rohstoffArray[i]
-  })
+  calcNewAsteroidRoh(enoughUnits)
+  farmAbschliesen(enoughUnits)
+  RohstoffCheck()
 }
 
 function formSubmit(event) {
   event.preventDefault()
-
   // checkt ob ein Asteroid angeklickt ist
   if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
     return errorMessage('Bitte wähle einen Asteroiden aus')
   }
-  if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
+  /*  if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
     return errorMessage('Bitte wähle einen Asteroiden aus')
+  }  */
+
+  let cap = unitCap.reduce(reducer)
+  if (cap <= 0) {
+    return errorMessage('bitte wähle mindestens eine Einheit aus')
+  } else {
+    rohEditFunction()
+    succesMessage('Great Success')
   }
 
-  getInputUnitAtk()
   // berechnet atk wert
-  let atkGesamt = InputUnitAtkWerte.reduce(reducer)
-  if (atkGesamt <= 0) {
+  //getInputUnitAtk()
+  //let atkGesamt = InputUnitAtkWerte.reduce(reducer)
+  /* if (atkGesamt <= 0) {
     return errorMessage('bitte wähle mindestens eine Einheit aus')
   } else {
     // vergleicht ob atk für Asteroid reicht
     if (atkGesamt < atkVergleichWert) {
       // wird entfernt und für verlust rechnung verwendet
       errorMessage('du hast nicht genug Einheiten dafür')
-      return
-    } else {
-      // if succes
-      rohEditFunction()
-      farmAbschliesen()
-      succesMessage('Great Success')
-    }
-  }
+      return 
+    } */
+  //else {
+  // if succes
+  //rohEditFunction()
+  //farmAbschliesen()
+  //succesMessage('Great Success')
+  //}
+  //}
 }
 
-function farmAbschliesen() {
-  classList.splice(selectedAsteroidID, 1, 'closed')
+function farmAbschliesen(enoughUnits) {
+  if (enoughUnits) {
+    classList.splice(selectedAsteroidID, 1, 'closed')
+  }
   classReset()
   state = false
 
   // cleart die inputfelder
   dbData.units.forEach((value, i) => {
     document.querySelector(`#unit_${i}`).value = ''
-    atkUpdater(i)
+    capUpdater(i)
   })
   selectedAsteroid = ''
   selectedAsteroidID = ''

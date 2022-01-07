@@ -4,43 +4,43 @@
       "name": "Spacecruiser",
       "credits": 10000,
       "combat": 50,
-      "capacity": 50
+      "capacity": 10
     },
     {
       "name": "Fighter",
       "credits": 25000,
       "combat": 150,
-      "capacity": 100
+      "capacity": 20
     },
     {
       "name": "Guardian",
       "credits": 50000,
       "combat": 300,
-      "capacity": 250
+      "capacity": 20
     },
     {
       "name": "Destroyer",
       "credits": 150000,
       "combat": 1000,
-      "capacity": 500
+      "capacity": 30
     },
     {
       "name": "Nova",
       "credits": 350000,
       "combat": 2500,
-      "capacity": 1000
+      "capacity": 35
     },
     {
       "name": "Horus",
       "credits": 750000,
       "combat": 6000,
-      "capacity": 1500
+      "capacity": 40
     },
     {
       "name": "Reaper",
       "credits": 1000000,
       "combat": 8000,
-      "capacity": 2500
+      "capacity": 30
     },
     {
       "name": "Deathstar",

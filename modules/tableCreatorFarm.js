@@ -1,27 +1,41 @@
 import * as farmUpdate from './farmUpdate.js'
 import config from '../config.js'
 
-const rohSave = []
+const asteroidList = []
 const classList = []
 
 const createTableAsteroiden = data => {
   const roh = []
-  let risk = 0
+  let asteroidSize
+  let mainRohClass
 
   function createAsteroiden() {
-    const arr = []
-
-    // erstellt einen array aus "asteroidenAnzahl" zahlen von 1 bis 100
+    // erstellt die asteroiden und führt für jeden einzelnen die funktionen aus
     for (let i = 0; i < config.asteroidenAnzahl; i++) {
       let rand = randomInt(1, 99)
-      arr.push(rand)
-    }
 
-    arr.forEach((number, i) => {
-      createRisikoStufe(number)
       createMineralWerte()
-      createAsteroidRow(risk)
+      mainRessource()
+      pushAsteroidInList()
+    }
+  }
+
+  function createMineralWerte() {
+    // min und max werte der Rohstoffe.
+    MineralsForAsteroid(config.asteroidenBaseValue[0], config.asteroidenBaseValue[1])
+  }
+
+  function MineralsForAsteroid(min, max) {
+    let size = createAsteroidSize()
+    data.ressources.forEach((value, i) => {
+      roh[i] = randomInt(min, max) * size
     })
+  }
+
+  function createAsteroidSize() {
+    let randSize = Math.random() + 1 * randomInt(config.asteroidenMinMaxSize[0], config.asteroidenMinMaxSize[1])
+    asteroidSize = randSize.toFixed(2)
+    return asteroidSize
   }
 
   const randomInt = (min, max) => {
@@ -29,134 +43,94 @@ const createTableAsteroiden = data => {
     return value
   }
 
-  function createRisikoStufe(number) {
-    // die ausgelesene number wird verglichen
-    // ist sie größer wird ihr die entsprechende stufe zugewiesen
-    if (number >= 60) {
-      risk = 1
-    } else if (number >= 35) {
-      risk = 2
-    } else if (number >= 15) {
-      risk = 3
-    } else if (number >= 4) {
-      risk = 4
-    } else {
-      risk = 5
-    }
-  }
-
   function mainRessource() {
-    let mainValue = randomInt(0, 3)
+    let mainValue = randomInt(1, 99)
     // if Titanium
-    if (mainValue == 0) {
-      roh[0] = Math.floor(roh[0] * 1.3)
-      roh[1] = Math.floor(roh[1] * 0.6)
-      roh[2] = Math.floor(roh[2] * 0.4)
-      roh[3] = Math.floor(roh[3] * 0.2)
+    if (mainValue >= 60) {
+      mainRohClass = 0
+      roh[0] = Math.floor(roh[0] * 1.0)
+      roh[1] = Math.floor(roh[1] * 0.4)
+      roh[2] = Math.floor(roh[2] * 0.1)
+      roh[3] = Math.floor(roh[3] * 0.15)
       // if Carbon
-    } else if (mainValue == 1) {
-      roh[0] = Math.floor(roh[0] * 0.6)
-      roh[1] = Math.floor(roh[1] * 1.3)
-      roh[2] = Math.floor(roh[2] * 0.4)
-      roh[3] = Math.floor(roh[3] * 0.2)
+    } else if (mainValue >= 10) {
+      mainRohClass = 1
+      roh[0] = Math.floor(roh[0] * 0.3)
+      roh[1] = Math.floor(roh[1] * 1.0)
+      roh[2] = Math.floor(roh[2] * 0.1)
+      roh[3] = Math.floor(roh[3] * 0.15)
       // if Kristall
-    } else if (mainValue == 2) {
-      roh[0] = Math.floor(roh[0] * 0.4)
-      roh[1] = Math.floor(roh[1] * 0.4)
+    } else if (mainValue >= 6) {
+      mainRohClass = 2
+      roh[0] = Math.floor(roh[0] * 0.25)
+      roh[1] = Math.floor(roh[1] * 0.25)
       roh[2] = Math.floor(roh[2] * 1.0)
-      roh[3] = Math.floor(roh[3] * 0.2)
+      roh[3] = Math.floor(roh[3] * 0.1)
       // if Hydro
-    } else if (mainValue == 3) {
-      roh[0] = Math.floor(roh[0] * 0.4)
-      roh[1] = Math.floor(roh[1] * 0.4)
-      roh[2] = Math.floor(roh[2] * 0.2)
-      roh[3] = Math.floor(roh[3] * 1.3)
+    } else {
+      mainRohClass = 3
+      roh[0] = Math.floor(roh[0] * 0.2)
+      roh[1] = Math.floor(roh[1] * 0.2)
+      roh[2] = Math.floor(roh[2] * 0.05)
+      roh[3] = Math.floor(roh[3] * 1.0)
     }
   }
 
   // push in rohSave array, zum weiterverarbeiten in "farmUpdate"
   // zum ein und ausblenden der daten wichtig, beim wählen der Asteroiden zum farmen
-  function pushInRohSaveArray() {
-    rohSave.push({
+  function pushAsteroidInList() {
+    asteroidList.push({
       Titanium: roh[0],
       Carbon: roh[1],
       Kyberkristall: roh[2],
       Hydrogenium: roh[3],
+      mainRohIndex: mainRohClass,
+      size: asteroidSize,
     })
-  }
-
-  // erstellt je nach risiko stufe die Werte für Rohstoffe.
-  function createMineralWerte() {
-    // min und max werte der Rohstoffe.
-    switch (risk) {
-      case 1: // no risk
-        randomMineralsForAsteroid(100, 160)
-        break
-      case 2: // low risk
-        randomMineralsForAsteroid(200, 280)
-        break
-      case 3: // med risk
-        randomMineralsForAsteroid(320, 400)
-        break
-      case 4: // high risk
-        randomMineralsForAsteroid(440, 520)
-        break
-      case 5: // extrem risk
-        randomMineralsForAsteroid(700, 900)
-        break
-    }
-    mainRessource()
-    pushInRohSaveArray()
-  }
-  function randomMineralsForAsteroid(min, max) {
-    data.ressources.forEach((value, i) => {
-      roh[i] = randomInt(min, max)
-    })
-  }
-
-  // erstellt die jeweiligen Asteroiden in einer Row
-  function createAsteroidRow(risk) {
-    const list = document.querySelector('#asteroid')
-
-    if (risk == 1) {
-      risk = 'noRisk'
-    } else if (risk == 2) {
-      risk = 'lowRisk'
-    } else if (risk == 3) {
-      risk = 'medRisk'
-    } else if (risk == 4) {
-      risk = 'highRisk'
-    } else if (risk == 5) {
-      risk = 'exRisk'
-    }
-
-    const row = document.createElement('tr')
-    row.classList.add(risk)
-    row.innerHTML =
-      /* html */
-      `
-        <td>Titanium:</td>
-        <td class="roh">${roh[0]}</td>
-        <td>Carbon:</td>
-        <td class="roh">${roh[1]}</td>
-        <td>Kyberkristall:</td>
-        <td class="roh">${roh[2]}</td>
-        <td>Hydrogenium:</td>
-        <td class="roh">${roh[3]}</td>
-        `
-    list.appendChild(row)
   }
 
   createAsteroiden()
+  createAsteroidListInDom()
+}
+
+// erstellt die jeweiligen Asteroiden in einer Row
+function createAsteroidListInDom() {
+  asteroidList.forEach((e, i) => {
+    let rohClass = setMainRohClass(asteroidList[i].mainRohIndex)
+    const list = document.querySelector('#asteroid')
+    const row = document.createElement('tr')
+    row.classList.add('asteroid')
+    row.innerHTML =
+      /* html */
+      `
+      <td>Titanium:</td>
+      <td class=${rohClass[0]}>${asteroidList[i].Titanium}</td>
+      <td>Carbon:</td>
+      <td class=${rohClass[1]}>${asteroidList[i].Carbon}</td>
+      <td>Kyberkristall:</td>
+      <td class=${rohClass[2]}>${asteroidList[i].Kyberkristall}</td>
+      <td>Hydrogenium:</td>
+      <td class=${rohClass[3]}>${asteroidList[i].Hydrogenium}</td>
+      <td>size:</td>
+      <td class="roh">${asteroidList[i].size}</td>
+      `
+    list.appendChild(row)
+  })
+
+  function setMainRohClass(i) {
+    const mainRohClasses = ['roh', 'roh', 'roh', 'roh']
+    mainRohClasses[i] = 'rohMain'
+    return mainRohClasses
+  }
   addEventlistenerSelectAsteroid()
 }
 
-let asteroidList = []
+let asteroidDomList = []
 const addEventlistenerSelectAsteroid = () => {
   const asteroidListBody = document.querySelectorAll('#asteroid')
-  asteroidList = asteroidListBody[0].childNodes
+  asteroidDomList = asteroidListBody[0].childNodes
 
-  asteroidList.forEach((asteroid, index) => {
+  asteroidDomList.forEach((asteroid, index) => {
     classList.push(asteroid.classList.value)
     asteroid.addEventListener('click', () => {
       farmUpdate.asteroidSelectionUpdater(asteroid, index)
@@ -198,8 +172,8 @@ const createTableFlotten = data => {
       `
       <p class="farm-para">
         <span class="clickableValue maxUnitfarm_${i}"></span>
-        Atk:
-        <span class="atkUnitfarm_${i}">0</span>
+        cap:
+        <span class="unitCapa_${i}">0</span>
       </p>
       `
     row.innerHTML = tableData
@@ -233,4 +207,12 @@ const addEventListenerFarmSubmit = () => {
   })
 }
 
-export {rohSave, classList, asteroidList, createTableFlotten, createTableAsteroiden}
+export {
+  asteroidList,
+  classList,
+  asteroidDomList,
+  createAsteroidListInDom,
+  createTableFlotten,
+  createTableAsteroiden,
+  addEventlistenerSelectAsteroid,
+}

@@ -155,8 +155,9 @@ $shadows-big: multiple-box-shadow(100);
 }
 // -----------------------------------------------------------------------------------------
 $maincolor: hsl(0, 0%, 85%);
+$maincolorDark: hsl(0, 0%, 60%);
 $secondcolor: hsl(192, 95%, 71%);
-$farmgrey: rgba(0, 0, 0, 0.5);
+$farmgrey: hsla(0, 0%, 0%, 0.7);
 //$tableBackgroundColor: hsla(230, 35%, 7%, 0.6);
 $mainBackgroundColor: hsla(230, 25%, 5%, 0.2);
 $secondBackgroundColor: hsla(230, 25%, 5%, 0.4);
@@ -325,7 +326,6 @@ nav {
     font-weight: lighter;
   }
   tr > td {
-    font-weight: bold;
     font-size: 1.15rem;
     padding: 0.2rem;
   }
@@ -431,7 +431,6 @@ nav {
   transition: all 0.35s;
   outline: none;
   text-align: center;
-  font-weight: bold;
 
   &:hover {
     border-color: $secondcolor;
@@ -598,7 +597,6 @@ nav {
 }
 .tradeInfoText {
   font-size: 1rem;
-  font-weight: normal;
   visibility: hidden;
   width: max-content;
   background-color: $mainBackgroundColor;
@@ -646,7 +644,6 @@ nav {
   width: 100%;
   text-align: center;
   border-spacing: 0 8px;
-  font-weight: bold;
 
   // Set border-radius on the top-left and bottom-left of the first table data on the table row
   td:first-child,
@@ -661,7 +658,6 @@ nav {
   }
 
   tr {
-    cursor: pointer;
     font-size: 1.15rem;
   }
 
@@ -672,18 +668,19 @@ nav {
   td:nth-child(even) {
     text-align: left;
   }
-
-  .roh {
-    color: $maincolor;
-  }
 }
-
+.rohMain {
+  color: $secondcolor;
+}
+.roh {
+  color: $maincolor;
+}
 .notElected {
-  border: solid black 1px;
-  background-color: #27272a;
+  background-color: $mainBackgroundColor;
   color: $farmgrey;
 
-  .roh {
+  .roh,
+  .rohMain {
     color: $farmgrey;
   }
 }
@@ -692,52 +689,20 @@ nav {
   background-color: #27272a;
   color: $farmgrey;
   opacity: 25%;
+  cursor: default;
 
-  .roh {
+  .roh,
+  .rohMain {
     color: $farmgrey;
   }
 }
-.noRisk {
-  color: #000;
-  border: 1px solid hsla(120, 100%, 25%, 0.7);
-  background-color: hsla(120, 100%, 25%, 0.7);
+.asteroid {
+  color: $maincolorDark;
+  background-color: $secondBackgroundColor;
+  cursor: pointer;
 
   &:hover {
-    background-color: hsla(120, 100%, 45%, 0.7);
-  }
-}
-.lowRisk {
-  color: #000;
-  border: 1px solid hsla(47, 95%, 36%, 1);
-  background-color: hsla(47, 95%, 36%, 1);
-
-  &:hover {
-    background-color: hsla(47, 95%, 45%, 1);
-  }
-}
-.medRisk {
-  color: #000;
-  border: 1px solid hsla(28, 80%, 37%, 1);
-  background-color: hsla(28, 80%, 37%, 1);
-
-  &:hover {
-    background-color: hsla(28, 80%, 50%, 1);
-  }
-}
-.highRisk {
-  color: #000;
-  border: 1px solid hsla(0, 100%, 20%, 1);
-  background-color: hsla(0, 100%, 20%, 1);
-  &:hover {
-    background-color: hsla(0, 100%, 35%, 1);
-  }
-}
-.exRisk {
-  color: #000;
-  border: 1px solid hsla(260, 68%, 33%, 1);
-  background-color: hsla(260, 68%, 33%, 1);
-  &:hover {
-    background-color: hsla(260, 68%, 50%, 1);
+    background-color: lighten($secondBackgroundColor, 5%);
   }
 }
 

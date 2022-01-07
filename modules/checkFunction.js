@@ -10,9 +10,9 @@ function combatCheck() {
 function RohstoffCheck() {
   const rohSpan = document.querySelectorAll('.rohValueSpan')
 
-  dbData.ressources.forEach((roh, i) => {
+  rohSpan.forEach((e, i) => {
     let rohstoff = localStorage.getItem(`roh_${i}`)
-    rohSpan[i].innerText = rohstoff.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    e.innerText = rohstoff.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   })
 }
 
