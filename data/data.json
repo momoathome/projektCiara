@@ -2,51 +2,51 @@
   "units": [
     {
       "name": "Spacecruiser",
-      "credits": 10000,
+      "credits": 100000,
       "combat": 50,
-      "capacity": 10
+      "cargo": 10
     },
     {
       "name": "Fighter",
-      "credits": 25000,
+      "credits": 250000,
       "combat": 150,
-      "capacity": 20
+      "cargo": 20
     },
     {
       "name": "Guardian",
-      "credits": 50000,
+      "credits": 500000,
       "combat": 300,
-      "capacity": 20
+      "cargo": 50
     },
     {
       "name": "Destroyer",
-      "credits": 150000,
+      "credits": 1500000,
       "combat": 1000,
-      "capacity": 30
+      "cargo": 150
     },
     {
       "name": "Nova",
-      "credits": 350000,
+      "credits": 3200000,
       "combat": 2500,
-      "capacity": 35
+      "cargo": 250
     },
     {
       "name": "Horus",
-      "credits": 750000,
+      "credits": 7500000,
       "combat": 6000,
-      "capacity": 40
+      "cargo": 400
     },
     {
       "name": "Reaper",
-      "credits": 1000000,
+      "credits": 10000000,
       "combat": 8000,
-      "capacity": 30
+      "cargo": 800
     },
     {
       "name": "Deathstar",
-      "credits": 60000000,
+      "credits": 600000000,
       "combat": 400000,
-      "capacity": 0
+      "cargo": 0
     }
   ],
 
@@ -56,7 +56,7 @@
       "type": "consumer",
       "energie": 1000,
       "cost": {
-        "credits": 150000
+        "credits": 500000
       }
     },
     {
@@ -64,7 +64,7 @@
       "type": "consumer",
       "energie": 2000,
       "cost": {
-        "credits": 100000
+        "credits": 350000
       }
     },
     {
@@ -72,7 +72,7 @@
       "type": "consumer",
       "energie": 1000,
       "cost": {
-        "credits": 50000
+        "credits": 250000
       }
     },
     {
@@ -80,7 +80,7 @@
       "type": "consumer",
       "energie": 1500,
       "cost": {
-        "credits": 75000
+        "credits": 150000
       }
     },
     {
@@ -88,7 +88,7 @@
       "type": "consumer",
       "energie": 2500,
       "cost": {
-        "credits": 200000
+        "credits": 400000
       }
     },
     {
@@ -96,7 +96,7 @@
       "type": "producer",
       "energie": 36,
       "cost": {
-        "credits": 10000
+        "credits": 100000
       }
     },
     {
@@ -104,7 +104,7 @@
       "type": "producer",
       "energie": 250,
       "cost": {
-        "credits": 150000
+        "credits": 1500000
       }
     },
     {
@@ -112,7 +112,7 @@
       "type": "producer",
       "energie": 1100,
       "cost": {
-        "credits": 2500000
+        "credits": 25000000
       }
     },
     {
@@ -120,7 +120,7 @@
       "type": "producer",
       "energie": 12000,
       "cost": {
-        "credits": 15000000
+        "credits": 150000000
       }
     },
     {

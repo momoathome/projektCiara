@@ -1,5 +1,5 @@
 const config = {
-  startMoney: 300_000,
+  startMoney: 1_000_000,
   grundwert: 200,
   ticks: 5,
   faktor: 1,
@@ -8,7 +8,7 @@ const config = {
   asteroidenBaseValue: [55, 100],
   asteroidenMinMaxSize: [1, 11],
   stock: 700_000,
-  baseFaktors: [10.3, 8.7, 16, 13.4],
+  basePrice: [350, 140, 1400, 900],
   varFaktor: 10_000,
 }
 

@@ -8,14 +8,14 @@ const createUnitModule = data => {
   data.units.forEach((unit, i) => {
     const row = document.createElement('tr')
     const combat = unit.combat.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    const capacity = unit.capacity.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const cargo = unit.cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     const tableData =
       /* html */
       `
       <td>${unit.name}</td>
       <td>${combat}</td>
-      <td>${capacity}</td>
-      <td id="unit_quantity_${i}"></td>
+      <td>${cargo}</td>
+      <td id="unit_cargo_${i}"></td>
       `
     row.innerHTML = tableData
     tableBody.appendChild(row)

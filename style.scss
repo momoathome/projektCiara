@@ -581,20 +581,7 @@ nav {
     position: relative;
   }
 }
-.tradeInfoWrapper {
-  position: absolute;
-  left: 135%;
-}
-.tradeInfoWarn {
-  position: relative;
-  visibility: hidden;
-  cursor: pointer;
 
-  &:hover .tradeInfoText {
-    visibility: visible;
-    opacity: 1;
-  }
-}
 .tradeInfoText {
   font-size: 1rem;
   visibility: hidden;
@@ -615,14 +602,8 @@ nav {
 .tradeInfoBlink {
   color: darkred;
   animation: blink-animation 2.5s linear infinite;
-  -webkit-animation: blink-animation 2.5s linear infinite;
 }
 @keyframes blink-animation {
-  50% {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes blink-animation {
   50% {
     opacity: 0;
   }

@@ -1,6 +1,7 @@
 import dbData from '../modules/getData.js'
 import {geldCheck} from './money.js'
 import {errorMessage, succesMessage} from './alertMessage.js'
+import {unitLimitCheck} from './checkFunction.js'
 const kosten = []
 const stufe = []
 const maxKappa = []
@@ -9,13 +10,8 @@ dbData.maxKappa.forEach(cap => {
   maxKappa.push(cap)
 })
 
-function setNewCost() {
-  let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
-  localStorage.setItem(`stufe_${i}`, stufeUpgraded)
-  localStorage.setItem(`kosten_${i}`, newKost)
-}
-
 function upgradeFunction(i) {
+  let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
   // nicht genug Geld
   if (!creditCheck(i)) {
     return
@@ -23,20 +19,22 @@ function upgradeFunction(i) {
     // Succesful Upgrade
     updater()
     creditUpdate(i)
-    let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
     if (i !== 0) {
-      setNewCost()
+      setNewCost(i)
       writeValueToTable()
     } else {
-      setNewCost()
+      setNewCost(i)
       localStorage.setItem('maxUnitLimit', maxKappa[stufeUpgraded - 1])
       writeValueToTable()
-
-      let MaxKappaString = maxKappa[stufeUpgraded - 1]
-      let x = MaxKappaString.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      document.getElementById('unitLimit').innerText = x
+      unitLimitCheck()
     }
     succesMessage('succesful upgrade!')
+  }
+
+  function setNewCost(i) {
+    let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
+    localStorage.setItem(`stufe_${i}`, stufeUpgraded)
+    localStorage.setItem(`kosten_${i}`, newKost)
   }
 }
 

@@ -21,11 +21,6 @@ const createTable = data => {
         max="100000"
       />
       <span id="maxValue_${i}" class="clickableValue">(0)</span>
-        <span class="tradeInfoWrapper">
-        <span class="tradeInfoWarn"><span class="tradeInfoBlink">i</span>
-        <span class="tradeInfoText">minimum: 100t</span>
-        </span>
-      </span>
     </td>
     `
     row.innerHTML = tableData

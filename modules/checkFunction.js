@@ -7,7 +7,7 @@ function combatCheck() {
   document.querySelector('#combat').innerHTML = b
 }
 
-function RohstoffCheck() {
+function rohstoffCheck() {
   const rohSpan = document.querySelectorAll('.rohValueSpan')
 
   rohSpan.forEach((e, i) => {
@@ -33,8 +33,8 @@ function unitLimitCheck() {
 function anzahlCheck() {
   dbData.units.forEach((unit, i) => {
     let count = parseInt(localStorage.getItem(`anzahl_${i}`))
-    document.querySelector(`#unit_quantity_${i}`).innerHTML = count
+    document.querySelector(`#unit_cargo_${i}`).innerHTML = count
   })
 }
 
-export {combatCheck, RohstoffCheck, unitLimitCheck, anzahlCheck}
+export {combatCheck, rohstoffCheck, unitLimitCheck, anzahlCheck}

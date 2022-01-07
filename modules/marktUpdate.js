@@ -1,6 +1,7 @@
 import dbData from './getData.js'
 import config from '../config.js'
 import {geldCheck} from './money.js'
+import {rohstoffCheck} from './checkFunction.js'
 import {errorMessage, succesMessage} from './alertMessage.js'
 
 const maxRoh = []
@@ -13,9 +14,8 @@ function getMarketData() {
   dbData.ressources.forEach((res, i) => {
     currentStock[i] = parseInt(localStorage.getItem(`stock_${i}`))
     varFaktor[i] = parseFloat(localStorage.getItem(`varFaktor_${i}`))
-    price[i] = Math.round((config.stock * config.baseFaktors[i]) / varFaktor[i])
+    price[i] = Math.round(config.basePrice[i] + (varFaktor[i] - config.varFaktor))
   })
-  console.log(varFaktor)
 }
 
 function setMarketData(boolean) {
@@ -25,8 +25,9 @@ function setMarketData(boolean) {
       value = 0
     }
     currentStock[i] = boolean ? currentStock[i] - value : currentStock[i] + value
-    value = value.toFixed(2) / 100
-    varFaktor[i] = boolean ? varFaktor[i] - value : varFaktor[i] + value
+    value = value / 2000
+
+    varFaktor[i] = boolean ? varFaktor[i] + value : varFaktor[i] - value
     localStorage.setItem(`stock_${i}`, currentStock[i])
     localStorage.setItem(`varFaktor_${i}`, varFaktor[i])
   })
@@ -62,24 +63,24 @@ function updateValue() {
 
 function InputListenerValueUpdater(i) {
   let geld = parseInt(localStorage.getItem('credits'))
+  let cap = Math.round(geld / price[i])
+  if (cap < maxRoh[i]) {
+    cap = parseInt(maxRoh[i])
+  }
   let inputField = document.querySelector(`#input_value_${i}`)
   let maxValueSpan = document.querySelector(`#maxValue_${i}`)
-  const tradeInfoText = document.querySelectorAll('.tradeInfoWarn')
 
+  inputField.value = Math.round(parseInt(inputField.value))
   if (inputField.value <= 0 || inputField.value == '' || isNaN(inputField.value)) {
     inputField.value = ''
+  } else if (parseInt(inputField.value) > cap) {
+    inputField.value = cap
   }
 
   let roh = maxRoh[i] - inputField.value
   if (roh <= 0) {
     maxValueSpan.innerText = `(${maxRoh[i]})`
   } else maxValueSpan.innerText = `(${roh})`
-
-  if (inputField.value == 0) {
-    hideText(tradeInfoText[i])
-  } else if (inputField.value < 100) {
-    showText(tradeInfoText[i])
-  } else hideText(tradeInfoText[i])
 
   totalAmountUpdate(i)
 }
@@ -112,24 +113,6 @@ function getTotalValue(i) {
   totalValues[i] = Math.round(inputField.value * price[i])
   let totalValue = totalValues.reduce(reducer)
   return totalValue
-}
-
-function showText(element) {
-  if (element.style.visibility === 'visible') {
-    return
-  } else {
-    element.style.visibility = 'visible'
-    element.style.opacity = 1
-  }
-}
-
-function hideText(element) {
-  if (element.style.visibility === 'hidden') {
-    return
-  } else {
-    element.style.visibility = 'hidden'
-    element.style.opacity = 0
-  }
 }
 
 function getInputValues() {
@@ -189,9 +172,12 @@ function ressourceMath(type) {
 }
 function clearInputFields() {
   let inputFields = document.querySelectorAll(`.tradeInputField`)
+  let totalSpan = document.querySelector(`#marktKosten`)
+
   inputFields.forEach(inputField => {
     inputField.value = ''
   })
+  totalSpan.innerText = ''
 }
 
 function sellRohstoffCheck() {
@@ -231,6 +217,7 @@ function endForm(type) {
   setMarketData(type)
   setCredits(type)
   clearInputFields()
+  rohstoffCheck()
   geldCheck()
   succesMessage('Great Success')
 }

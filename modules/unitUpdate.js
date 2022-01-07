@@ -17,8 +17,8 @@ dbData.units.forEach(unit => {
   kosten.push(unit.credits)
   atk.push(unit.combat)
 })
-dbData.maxKappa.forEach(cap => {
-  maxKappa.push(cap)
+dbData.maxKappa.forEach(cargo => {
+  maxKappa.push(cargo)
 })
 // checks how many Units can be max build and shows them in the table
 function maxUnit() {
@@ -65,6 +65,7 @@ function InputListenerValueUpdater(i) {
   let geld = parseInt(localStorage.getItem('credits'))
   let inputField = document.querySelector(`#unit_${i}`)
 
+  inputField.value = Math.round(parseInt(inputField.value))
   if (inputField.value <= 0 || inputField.value == '' || isNaN(inputField.value)) {
     inputField.value = ''
   }
@@ -104,7 +105,7 @@ function InputFieldUpdater(i) {
   let inputField = document.querySelector(`#unit_${i}`)
   rekrKosten[i] = anzahl[i] * kosten[i]
   inputArrayMaxKappa[i] = parseInt(anzahl[i])
-  inputArray[i] = parseInt(inputField.value)
+  inputArray[i] = inputField.value
   rKostenUpdate()
   maxUnit()
 }

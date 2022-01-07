@@ -45,25 +45,33 @@ const createTableAsteroiden = data => {
 
   function mainRessource() {
     let mainValue = randomInt(1, 99)
-    // if Titanium
+
+    // if None
     if (mainValue >= 60) {
-      mainRohClass = 0
-      roh[0] = Math.floor(roh[0] * 1.0)
+      mainRohClass = -1
+      roh[0] = Math.floor(roh[0] * 0.3)
       roh[1] = Math.floor(roh[1] * 0.4)
+      roh[2] = Math.floor(roh[2] * 0.2)
+      roh[3] = Math.floor(roh[3] * 0.25)
+      // if Titanium
+    } else if (mainValue >= 40) {
+      mainRohClass = 0
+      roh[0] = Math.floor(roh[0] * 1.2)
+      roh[1] = Math.floor(roh[1] * 0.3)
       roh[2] = Math.floor(roh[2] * 0.1)
       roh[3] = Math.floor(roh[3] * 0.15)
       // if Carbon
     } else if (mainValue >= 10) {
       mainRohClass = 1
       roh[0] = Math.floor(roh[0] * 0.3)
-      roh[1] = Math.floor(roh[1] * 1.0)
+      roh[1] = Math.floor(roh[1] * 1.1)
       roh[2] = Math.floor(roh[2] * 0.1)
       roh[3] = Math.floor(roh[3] * 0.15)
       // if Kristall
     } else if (mainValue >= 6) {
       mainRohClass = 2
-      roh[0] = Math.floor(roh[0] * 0.25)
-      roh[1] = Math.floor(roh[1] * 0.25)
+      roh[0] = Math.floor(roh[0] * 0.2)
+      roh[1] = Math.floor(roh[1] * 0.2)
       roh[2] = Math.floor(roh[2] * 1.0)
       roh[3] = Math.floor(roh[3] * 0.1)
       // if Hydro
@@ -172,7 +180,7 @@ const createTableFlotten = data => {
       `
       <p class="farm-para">
         <span class="clickableValue maxUnitfarm_${i}"></span>
-        cap:
+        cargo:
         <span class="unitCapa_${i}">0</span>
       </p>
       `

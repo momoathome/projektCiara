@@ -8,15 +8,15 @@ const createTable = data => {
     const row = document.createElement('tr')
     const credits = unit.credits.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     const combat = unit.combat.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    const capacity = unit.capacity.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const cargo = unit.cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     const tableData =
       /* html */
       `
       <td>${unit.name}</td>
       <td>${combat}</td>
       <td>${credits}<span class="font">C</span></td>
-      <td>${capacity}</td>
-      <td class="color-light" id="unit_quantity_${i}"></td>
+      <td>${cargo}</td>
+      <td class="color-light" id="unit_cargo_${i}"></td>
       <td>
         <input
           type="number"

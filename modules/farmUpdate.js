@@ -6,7 +6,7 @@ import {
   addEventlistenerSelectAsteroid,
 } from './tableCreatorFarm.js'
 import {errorMessage, succesMessage} from './alertMessage.js'
-import {RohstoffCheck} from './checkFunction.js'
+import {rohstoffCheck} from './checkFunction.js'
 import dbData from './getData.js'
 
 let selectedAsteroid
@@ -57,18 +57,14 @@ function classReset() {
 
 function mouseOverFunction() {
   asteroidDomList.forEach((target, index) => {
-    target.addEventListener(
-      'mouseover',
-      () => {
-        if (target.className == 'notElected') {
-          target.className = classList[index]
-        }
-      },
-      false
-    )
+    target.addEventListener('mouseover', () => {
+      if (target.className == 'notElected') {
+        target.className = classList[index]
+      }
+    })
     target.addEventListener('mouseout', () => {
       if (state === true) {
-        if (target.className == classList[index] && target.className !== 'abgeschlossen') {
+        if (target.className == classList[index] && target.className !== 'abgeschlossen' && target.className !== 'closed') {
           target.className = 'notElected'
         }
       }
@@ -203,7 +199,7 @@ function capUpdater(i) {
   // capacity der Schiffe
   const capWert = []
   dbData.units.forEach((unit, i) => {
-    capWert[i] = unit.capacity
+    capWert[i] = unit.cargo
   })
   let input = document.querySelector(`#unit_${i}`)
   let cap = parseInt(input.value) * capWert[i]
@@ -217,15 +213,16 @@ function capUpdater(i) {
 
 const inputArray = []
 function InputListenerValueUpdater(i) {
-  let input = document.querySelector(`#unit_${i}`)
-  if (parseInt(input.value) < 0 || input.value == '') {
-    input.value = ''
-  } else if (input.value > parseInt(anzahl[i] + inputArray[i])) {
-    input.value = parseInt(anzahl[i] + inputArray[i])
+  let inputField = document.querySelector(`#unit_${i}`)
+  inputField.value = Math.round(parseInt(inputField.value))
+  if (parseInt(inputField.value) < 0 || inputField.value == '') {
+    inputField.value = ''
+  } else if (inputField.value > parseInt(anzahl[i] + inputArray[i])) {
+    inputField.value = parseInt(anzahl[i] + inputArray[i])
   }
 
-  anzahl[i] = storageAnzahl[i] - input.value
-  inputArray[i] = parseInt(input.value)
+  anzahl[i] = storageAnzahl[i] - inputField.value
+  inputArray[i] = parseInt(inputField.value)
   updater(i)
   capUpdater(i)
 }
@@ -286,7 +283,6 @@ function calcNewAsteroidRoh(enoughUnits) {
       myRessources[i] = selectedAsteroidRoh[i] - element
     })
   }
-  console.log(myRessources)
   setNewAsteroidRoh(rohstoffArray)
 }
 
@@ -341,16 +337,17 @@ function rohEditFunction() {
   if (asteroidRoh < cap) {
     // alle Rohstoffe aufs Konto
     enoughUnits = true
+    calcNewAsteroidRoh(enoughUnits)
     setRohLocalstorage(selectedAsteroidRoh)
   } else {
     // nur ein teil der Rohstoffe aufs Konto
     enoughUnits = false
+    calcNewAsteroidRoh(enoughUnits)
     setRohLocalstorage(myRessources)
   }
 
-  calcNewAsteroidRoh(enoughUnits)
   farmAbschliesen(enoughUnits)
-  RohstoffCheck()
+  rohstoffCheck()
 }
 
 function formSubmit(event) {
