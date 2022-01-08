@@ -11,3 +11,13 @@ It is not completed, because you had to rapidly leave the Station, where your we
 
 Your Mission is now, to complete your Spaceship and build your own Spacestation. 
 Build the needed Spaceships, farm Asteroids and sell the Minerals and Metalls at the market 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+I highly recommend to open it in VsCode and start it with the "live Server extension" because its super easy
+
+click on explore and there you are, your spacestation!
+From here you can build units, upgrade your Hangar farm asteroids to get some Ressources.
+You can sell the Ressources at the market to get your first credits.
+
+From there you can upgrade your Modules and get more units to farm more asteroids.
