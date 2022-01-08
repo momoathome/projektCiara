@@ -21,3 +21,5 @@ From here you can build units, upgrade your Hangar farm asteroids to get some Re
 You can sell the Ressources at the market to get your first credits.
 
 From there you can upgrade your Modules and get more units to farm more asteroids.
+
+https://i.imgur.com/dAP98eb.gif
