@@ -1,6 +1,7 @@
 import dbData from '../helper/getData.js'
 import {anzahlCheck} from '../helper/checkFunction.js'
 import {writeValueToTable} from '../structures/structureUpdate.js'
+import config from '../config.js'
 
 const createUnitModule = data => {
   const tableBody = document.querySelector('.unitTable')
@@ -61,5 +62,66 @@ function createStationTableHome(data, index, table) {
   } else producerTable.appendChild(row)
 }
 
+function createMarketModule(data) {
+  const tableBody = document.querySelector('.tradeTable')
+
+  data.ressources.forEach((roh, i) => {
+    const row = document.createElement('tr')
+
+    const tableData =
+      /* html */
+      `
+    <td>${roh.name}</td>
+    <td class="stockTd"></td>
+    <td class="valueTd"></td>
+    <td class="maxValue_${i}"></td>
+    `
+    row.innerHTML = tableData
+    tableBody.appendChild(row)
+  })
+  updateMarketModuleData(data)
+}
+
+function updateMarketModuleData(data) {
+  const maxRoh = []
+  const currentStock = []
+  const varFaktor = []
+  const price = []
+
+  function maxRessource() {
+    data.ressources.forEach((res, i) => {
+      maxRoh[i] = localStorage.getItem(`roh_${i}`)
+      let maxValueSpan = document.querySelector(`.maxValue_${i}`)
+      maxValueSpan.innerText = maxRoh[i]
+    })
+    getMarketData()
+    updateStock()
+    updateValue()
+  }
+  function getMarketData() {
+    data.ressources.forEach((res, i) => {
+      currentStock[i] = parseInt(localStorage.getItem(`stock_${i}`))
+      varFaktor[i] = parseFloat(localStorage.getItem(`varFaktor_${i}`))
+      price[i] = Math.round(config.basePrice[i] + (varFaktor[i] - config.varFaktor))
+    })
+  }
+  function updateStock() {
+    const stockTd = document.querySelectorAll('.stockTd')
+    stockTd.forEach((element, i) => {
+      let stock = currentStock[i].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      element.innerText = stock + 't'
+    })
+  }
+
+  function updateValue() {
+    const valueTd = document.querySelectorAll('.valueTd')
+    valueTd.forEach((element, i) => {
+      let value = price[i].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      element.innerHTML = `${value}<span class="font">C</span>`
+    })
+  }
+  maxRessource()
+}
+createMarketModule(dbData)
 createUnitModule(dbData)
 createStationModule(dbData)

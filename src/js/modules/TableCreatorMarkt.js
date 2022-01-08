@@ -20,7 +20,7 @@ const createTable = data => {
         min="0"
         max="100000"
       />
-      <span id="maxValue_${i}" class="clickableValue">(0)</span>
+      <span class="maxValue_${i} clickableValue">(0)</span>
     </td>
     `
     row.innerHTML = tableData

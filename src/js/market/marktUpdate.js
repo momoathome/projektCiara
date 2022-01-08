@@ -37,7 +37,7 @@ function setMarketData(boolean) {
 function maxRessource() {
   dbData.ressources.forEach((res, i) => {
     maxRoh[i] = localStorage.getItem(`roh_${i}`)
-    let maxValueSpan = document.querySelector(`#maxValue_${i}`)
+    let maxValueSpan = document.querySelector(`.maxValue_${i}`)
     maxValueSpan.innerText = `(${maxRoh[i]})`
   })
   getMarketData()
@@ -68,7 +68,7 @@ function InputListenerValueUpdater(i) {
     cap = parseInt(maxRoh[i])
   }
   let inputField = document.querySelector(`#input_value_${i}`)
-  let maxValueSpan = document.querySelector(`#maxValue_${i}`)
+  let maxValueSpan = document.querySelector(`.maxValue_${i}`)
 
   inputField.value = Math.round(parseInt(inputField.value))
   if (inputField.value <= 0 || inputField.value == '' || isNaN(inputField.value)) {
@@ -88,7 +88,7 @@ function InputListenerValueUpdater(i) {
 // klick auf max anzahl Units
 function clickEventListenerValueUpdater(i) {
   let inputField = document.querySelector(`#input_value_${i}`)
-  let maxValueSpan = document.querySelector(`#maxValue_${i}`)
+  let maxValueSpan = document.querySelector(`.maxValue_${i}`)
 
   if (maxValueSpan.innerText == '(0)') {
     inputField.value = ''
