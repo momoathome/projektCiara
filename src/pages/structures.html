@@ -10,59 +10,36 @@
     <script type="module" src="../js/structures/structure.js"></script>
   </head>
 
-  <body class="backgroundContainerStars">
+  <body class="container__star-background">
     <header>
-      <nav>
-        <div>
-          <h1 id="game-name"></h1>
-        </div>
-
-        <div id="navigation"></div>
-      </nav>
+      <nav class="nav"></nav>
     </header>
 
-    <section id="playerStats"></section>
+    <section class="secion__player-stats"></section>
 
-    <section>
-      <div class="statusParent">
-        <div class="error" id="output"></div>
-      </div>
+    <section class="section__status">
+      <div class="output"></div>
     </section>
+
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
-    <main class="mainSection">
+    <main class="main">
       <div class="container">
-        <div class="tableContainer">
+        <div class="container__table">
           <div>
-            <div class="mainTableDiv stationTableDiv">
+            <div class="div__table">
               <h3>Consumer</h3>
-              <table class="maintable stationTable">
-                <thead>
-                  <tr>
-                    <th>Module</th>
-                    <th>Energy</th>
-                    <th>Cost</th>
-                    <th>Tier</th>
-                  </tr>
-                </thead>
-                <tbody class="consumerTable"></tbody>
+              <table class="table__main table__structures">
+                <tbody class="table__body--consumer"></tbody>
               </table>
             </div>
 
-            <div class="mainTableDiv stationTableDiv">
+            <div class="div__table">
               <h3>Producer</h3>
-              <table class="maintable stationTable">
-                <thead>
-                  <tr>
-                    <th>Module</th>
-                    <th>Energy</th>
-                    <th>Cost</th>
-                    <th>Tier</th>
-                  </tr>
-                </thead>
-                <tbody class="producerTable"></tbody>
+              <table class="table__main table__structures">
+                <tbody class="table__body--producer"></tbody>
               </table>
             </div>
           </div>

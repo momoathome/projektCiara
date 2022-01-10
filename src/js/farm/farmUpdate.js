@@ -1,175 +1,77 @@
-import {
-  asteroidList,
-  classList,
-  asteroidDomList,
-  createAsteroidListInDom,
-  addEventlistenerSelectAsteroid,
-} from '../modules/tableCreatorFarm.js'
+import {asteroidList, asteroidDomList, createAsteroidListInDom} from '../modules/tableCreatorFarmAsteroid.js'
 import {errorMessage, succesMessage} from '../helper/alertMessage.js'
 import {rohstoffCheck} from '../helper/checkFunction.js'
 import dbData from '../helper/getData.js'
+const reducer = (accumulator, currentValue) => accumulator + currentValue
 
 let selectedAsteroid
 let selectedAsteroidID
-let atkVergleichWert
-let state = false
-
-function asteroidSelectionUpdater(asteroid, ID) {
-  state = true
-  if (asteroid.className == classList[ID] + ' gewählt' || asteroid.className == 'closed') {
-    state = false
-    unselectAsteroid()
-  } else {
-    selectAsteroid(asteroid, ID)
-  }
-}
-
-function selectAsteroid(asteroid, ID) {
-  asteroidDomList.forEach(target => {
-    if (target.className == 'closed') {
-      target.className = 'closed'
-    } else {
-      target.className = 'notElected'
-    }
-  })
-  asteroid.className = classList[ID] + ' gewählt'
-  state = true
-  selectedAsteroid = asteroidList[ID]
-  selectedAsteroidID = ID
-  //gesamtAtkUpdater(classList[ID])
-  mouseOverFunction()
-}
-
-function unselectAsteroid() {
-  classReset()
-  //hideText(riskInfoText)
-  // unselect asteroid
-  selectedAsteroid = ''
-  selectedAsteroidID = ''
-  atkVergleichWert = 0
-}
-
-function classReset() {
-  asteroidDomList.forEach((target, index) => {
-    target.className = classList[index]
-  })
-}
-
-function mouseOverFunction() {
-  asteroidDomList.forEach((target, index) => {
-    target.addEventListener('mouseover', () => {
-      if (target.className == 'notElected') {
-        target.className = classList[index]
-      }
-    })
-    target.addEventListener('mouseout', () => {
-      if (state === true) {
-        if (target.className == classList[index] && target.className !== 'abgeschlossen' && target.className !== 'closed') {
-          target.className = 'notElected'
-        }
-      }
-    })
-  })
-}
-
-// ------------------------------------------------------------------------------------------------------------------------------------
-
-const reducer = (accumulator, currentValue) => accumulator + currentValue
-
-/*
-const atkWertGesamtSpan = document.querySelector('#atkUnitfarmGesamt')
-const riskInfoText = document.querySelector('.riskInfoText')
-
- function gesamtAtkUpdater(risk) {
-  targetAtkWert(risk)
-  let prozent
-  if (atkVergleichWert == undefined || atkVergleichWert == 0 || isNaN(atkVergleichWert)) {
-    prozent = 0
-  } else {
-    prozent = (schiffAtkWert.reduce(reducer) / atkVergleichWert) * 100
-  }
-  if (prozent >= 100) {
-    hideText(riskInfoText)
-  } else if (prozent >= 90) {
-    // gelb
-    showText(riskInfoText)
-    colorText(riskInfoText, '#f9c406')
-  } else if (prozent >= 75) {
-    // orange
-    showText(riskInfoText)
-    colorText(riskInfoText, '#e67919')
-  } else if (prozent > 0) {
-    // rot
-    showText(riskInfoText)
-    colorText(riskInfoText, '#b30000')
-  } else {
-    hideText(riskInfoText)
-  }
-
-  let atkUnitfarmInnerHtml = schiffAtkWert
-    .reduce(reducer)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  atkWertGesamtSpan.innerHTML = atkUnitfarmInnerHtml
-} 
-
-function showText(element) {
-  if (element.style.visibility === 'visible') {
-    return
-  } else {
-    element.style.visibility = 'visible'
-    element.style.opacity = 1
-  }
-}
-function hideText(element) {
-  if (element.style.visibility === 'hidden') {
-    return
-  } else {
-    element.style.visibility = 'hidden'
-    element.style.opacity = 0
-  }
-}
-function colorText(element, color) {
-  element.style.color = color
-}
-
-function targetAtkWert(risk) {
-  // holt sich Typ des Asteroid
-  switch (risk) {
-    case 'noRisk': // no risk
-      atkVergleichWert = config.asteroidenAtkWerte[0]
-      break
-    case 'lowRisk': // low risk
-      atkVergleichWert = config.asteroidenAtkWerte[1]
-      break
-    case 'medRisk': // med risk
-      atkVergleichWert = config.asteroidenAtkWerte[2]
-      break
-    case 'highRisk': // high risk
-      atkVergleichWert = config.asteroidenAtkWerte[3]
-      break
-    case 'exRisk': // extrem risk
-      atkVergleichWert = config.asteroidenAtkWerte[4]
-      break
-  }
-} 
-
-const InputUnitAtkWerte = []
-function getInputUnitAtk() {
-  // holt sich werte aus input field
-  dbData.units.forEach((dbunit, i) => {
-    let unit = document.querySelector(`#unit_${i}`)
-    if (unit.value <= 0 || isNaN(unit.value) || unit.value == null) {
-      unit.value = 0
-    }
-    InputUnitAtkWerte[i] = unit.value * dbunit.combat
-  })
-} */
+let mouseOverState = false
 const anzahl = []
 const storageAnzahl = []
 const unitCargo = [0]
 
-function maxUnitFarm() {
+function asteroidSelectionUpdater(asteroid, ID) {
+  mouseOverState = true
+  if (asteroid.className == asteroidList[ID].class + ' gewählt' || asteroid.className == 'closed') {
+    mouseOverState = false
+    unselectAsteroid()
+  } else {
+    selectAsteroid(asteroid, ID)
+  }
+
+  function selectAsteroid(asteroid, ID) {
+    asteroidDomList.forEach(target => {
+      if (target.className == 'closed') {
+        target.className = 'closed'
+      } else {
+        target.className = 'notElected'
+      }
+    })
+    mouseOverState = true
+    asteroid.className = asteroidList[ID].class + ' gewählt'
+    selectedAsteroid = asteroidList[ID]
+    selectedAsteroidID = ID
+    mouseOverFunction()
+  }
+
+  function unselectAsteroid() {
+    classReset()
+    // unselect asteroid
+    selectedAsteroid = ''
+    selectedAsteroidID = ''
+  }
+
+  function mouseOverFunction() {
+    asteroidDomList.forEach((target, index) => {
+      target.addEventListener('mouseover', () => {
+        if (target.className == 'notElected') {
+          target.className = asteroidList[index].class
+        }
+      })
+      target.addEventListener('mouseout', () => {
+        if (mouseOverState === true) {
+          if (
+            target.className == asteroidList[index].class &&
+            target.className !== 'abgeschlossen' &&
+            target.className !== 'closed'
+          ) {
+            target.className = 'notElected'
+          }
+        }
+      })
+    })
+  }
+}
+
+function classReset() {
+  asteroidDomList.forEach((target, index) => {
+    target.className = asteroidList[index].class
+  })
+  mouseOverState = false
+}
+
+function maxUnitCalc() {
   anzahl.splice(0, anzahl.length)
   storageAnzahl.splice(0, anzahl.length)
 
@@ -179,6 +81,22 @@ function maxUnitFarm() {
     storageAnzahl.push(maxAnzahl)
     updater(i)
   })
+
+  function maxCargoCalc() {
+    const totalMaxUnitCargoSpan = document.querySelector('.span__total-cargo--max')
+    const maxCargo = []
+    dbData.units.forEach((unit, i) => {
+      let singleMaxCargo = storageAnzahl[i] * unit.cargo
+      maxCargo.push(singleMaxCargo)
+    })
+
+    let maxCargoInnerText = maxCargo
+      .reduce(reducer)
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    totalMaxUnitCargoSpan.innerText = maxCargoInnerText
+  }
+
   maxCargoCalc()
 }
 
@@ -187,45 +105,32 @@ function updater(i) {
   document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${anzahlString})`
 }
 
-function maxCargoCalc() {
-  const totalMaxUnitCargoSpan = document.querySelector('.totalMaxUnitCargo')
-  const maxCargo = []
-  dbData.units.forEach((unit, i) => {
-    let singleMaxCargo = storageAnzahl[i] * unit.cargo
-    maxCargo.push(singleMaxCargo)
-  })
-  let maxCargoInnerText = maxCargo
-    .reduce(reducer)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  totalMaxUnitCargoSpan.innerText = maxCargoInnerText
-}
-
-function totalCargoUpdater() {
-  const totalUnitCargoSpan = document.querySelector('.totalUnitCargo')
-  let totalUnitCargoInnerText = unitCargo
-    .reduce(reducer)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  totalUnitCargoSpan.innerText = totalUnitCargoInnerText
-}
-
 function cargoUpdater(i) {
   // capacity der Schiffe
   const cargoWert = []
   dbData.units.forEach((unit, i) => {
     cargoWert[i] = unit.cargo
   })
-  let input = document.querySelector(`#unit_${i}`)
-  let cargo = parseInt(input.value) * cargoWert[i]
+  let inputField = document.querySelector(`#unit_${i}`)
+  let cargo = parseInt(inputField.value) * cargoWert[i]
   if (isNaN(cargo)) {
     cargo = 0
   }
-  document.querySelector(`.unitCargo_${i}`).innerText = cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   unitCargo[i] = cargo
+  document.querySelector(`.unitCargo_${i}`).innerText = cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+
+  function totalCargoUpdater() {
+    const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
+    let totalUnitCargoInnerText = unitCargo
+      .reduce(reducer)
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    totalUnitCargoSpan.innerText = totalUnitCargoInnerText
+  }
+
   totalCargoUpdater()
 }
-
+// needs to be outside to store the value till reload
 const inputArray = []
 function InputListenerValueUpdater(i) {
   let inputField = document.querySelector(`#unit_${i}`)
@@ -243,38 +148,84 @@ function InputListenerValueUpdater(i) {
 }
 
 function clickEventListenerAnzahlUpdater(i) {
-  let input = document.querySelector(`#unit_${i}`)
+  let inputField = document.querySelector(`#unit_${i}`)
 
-  if (input.value == 0) {
-    input.value = anzahl[i]
+  if (inputField.value == 0) {
+    inputField.value = anzahl[i]
     anzahl[i] = 0
-    updater(i)
-    cargoUpdater(i)
   } else {
     if (anzahl[i] !== 0) {
-      let value = anzahl[i] + parseInt(input.value)
-      input.value = value
+      let value = anzahl[i] + parseInt(inputField.value)
+      inputField.value = value
       anzahl[i] = 0
-      updater(i)
-      cargoUpdater(i)
     } else {
-      anzahl[i] = parseInt(input.value)
-      input.value = 0
-      updater(i)
-      cargoUpdater(i)
+      anzahl[i] = parseInt(inputField.value)
+      inputField.value = 0
     }
   }
+  updater(i)
+  cargoUpdater(i)
 }
 
 const selectedAsteroidRoh = []
 const myRessources = []
 
-function calcNewAsteroidRoh(enoughUnits) {
+function formSubmit(event) {
+  event.preventDefault()
+  // checkt ob ein Asteroid angeklickt ist
+  if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
+    return errorMessage('Bitte wähle einen Asteroiden aus')
+  } else {
+    // checkt ob eine Einheit ausgewählt wurde
+    let cargo = unitCargo.reduce(reducer)
+    if (cargo <= 0) {
+      return errorMessage('bitte wähle mindestens eine Einheit aus')
+    } else {
+      // erfolgreich einen Asteroid gefarmt
+      rohEditFunction()
+      succesMessage('Great Success')
+    }
+  }
+}
+
+function rohEditFunction() {
+  getSelectedAsteroidRoh()
+  let cargo = unitCargo.reduce(reducer)
+  let asteroidRoh = selectedAsteroidRoh.reduce(reducer)
+
+  if (asteroidRoh < cargo) {
+    // alle Rohstoffe aufs Konto
+    calcNewAsteroidRoh(true)
+    farmAbschliesen(true)
+  } else {
+    // nur ein teil der Rohstoffe aufs Konto
+    calcNewAsteroidRoh(false)
+    farmAbschliesen(false)
+  }
+}
+
+function getSelectedAsteroidRoh() {
+  const arr = []
+  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
+    arr[index] = value
+  })
+  arr.splice(4, 3)
+  arr.forEach((value, i) => {
+    selectedAsteroidRoh[i] = value
+  })
+}
+
+function calcNewAsteroidRoh(boolean) {
   const rohstoffArray = []
 
-  if (enoughUnits) {
+  // asteroid wird komplett verbraucht und alle Rohstoffe an spieler übertragen
+  if (boolean) {
     rohstoffArray.push(0, 0, 0, 0)
   } else {
+    // berechnet wie viele Rohstoffe der Spieler, mit der eingesetzten cargo anzahl der Schiffe erhalten kann
+    // und zieht diese Anzahl dann gleichmäßig dem Asteroiden ab
+    // bei ungeraden zahlen wir ein Rest berechnet, dieser wird am ende dem höchsten wert abgezogen
+
     let cargo = unitCargo.reduce(reducer)
     let subtract = Math.floor(cargo / 4)
     let rest = cargo % 4
@@ -310,22 +261,14 @@ function setNewAsteroidRoh(array) {
     Hydrogenium: array[3],
     mainRohIndex: asteroid.mainRohIndex,
     size: asteroid.size,
+    class: asteroid.class,
   })
-
-  const list = document.querySelector('#asteroid')
-  list.innerHTML = ''
-  createAsteroidListInDom()
 }
 
-function getSelectedAsteroidRoh() {
-  const arr = []
-  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
-    arr[index] = value
-  })
-  arr.splice(4, 2)
-  arr.forEach((value, i) => {
-    selectedAsteroidRoh[i] = value
-  })
+function updateAsteroidDom() {
+  const list = document.querySelector('.table__body--asteroid')
+  list.innerHTML = ''
+  createAsteroidListInDom()
 }
 
 function setRohLocalstorage(array) {
@@ -336,80 +279,13 @@ function setRohLocalstorage(array) {
   })
 }
 
-function unitCheck() {
-  let cargo = unitCargo.reduce(reducer)
-  if (cargo <= 0) {
-    return errorMessage('bitte wähle mindestens eine Einheit aus')
-  }
-}
-
-function rohEditFunction() {
-  getSelectedAsteroidRoh()
-  let cargo = unitCargo.reduce(reducer)
-  let asteroidRoh = selectedAsteroidRoh.reduce(reducer)
-  let enoughUnits
-
-  if (asteroidRoh < cargo) {
-    // alle Rohstoffe aufs Konto
-    enoughUnits = true
-    calcNewAsteroidRoh(enoughUnits)
+function farmAbschliesen(boolean) {
+  if (boolean) {
+    asteroidList[selectedAsteroidID].class = 'closed'
     setRohLocalstorage(selectedAsteroidRoh)
   } else {
-    // nur ein teil der Rohstoffe aufs Konto
-    enoughUnits = false
-    calcNewAsteroidRoh(enoughUnits)
     setRohLocalstorage(myRessources)
   }
-
-  farmAbschliesen(enoughUnits)
-  rohstoffCheck()
-}
-
-function formSubmit(event) {
-  event.preventDefault()
-  // checkt ob ein Asteroid angeklickt ist
-  if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
-    return errorMessage('Bitte wähle einen Asteroiden aus')
-  }
-  /*  if (atkVergleichWert === 0 || atkVergleichWert === '' || isNaN(atkVergleichWert)) {
-    return errorMessage('Bitte wähle einen Asteroiden aus')
-  }  */
-
-  let cargo = unitCargo.reduce(reducer)
-  if (cargo <= 0) {
-    return errorMessage('bitte wähle mindestens eine Einheit aus')
-  } else {
-    rohEditFunction()
-    succesMessage('Great Success')
-  }
-
-  // berechnet atk wert
-  //getInputUnitAtk()
-  //let atkGesamt = InputUnitAtkWerte.reduce(reducer)
-  /* if (atkGesamt <= 0) {
-    return errorMessage('bitte wähle mindestens eine Einheit aus')
-  } else {
-    // vergleicht ob atk für Asteroid reicht
-    if (atkGesamt < atkVergleichWert) {
-      // wird entfernt und für verlust rechnung verwendet
-      errorMessage('du hast nicht genug Einheiten dafür')
-      return 
-    } */
-  //else {
-  // if succes
-  //rohEditFunction()
-  //farmAbschliesen()
-  //succesMessage('Great Success')
-  //}
-  //}
-}
-
-function farmAbschliesen(enoughUnits) {
-  if (enoughUnits) {
-    classList.splice(selectedAsteroidID, 1, 'closed')
-  }
-  classReset()
-  state = false
 
   // cleart die inputfelder
   dbData.units.forEach((value, i) => {
@@ -418,9 +294,11 @@ function farmAbschliesen(enoughUnits) {
   })
   selectedAsteroid = ''
   selectedAsteroidID = ''
-  atkVergleichWert = 0
 
-  maxUnitFarm()
+  //classReset()
+  updateAsteroidDom()
+  maxUnitCalc()
+  rohstoffCheck()
 }
 
-export {asteroidSelectionUpdater, maxUnitFarm, formSubmit, InputListenerValueUpdater, clickEventListenerAnzahlUpdater}
+export {maxUnitCalc, formSubmit, InputListenerValueUpdater, clickEventListenerAnzahlUpdater, asteroidSelectionUpdater}

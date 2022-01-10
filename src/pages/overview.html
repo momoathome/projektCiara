@@ -7,99 +7,27 @@
     <link rel="icon" type="image/png" sizes="64x64" href="../img/galaxy-11098.jpg" />
     <link rel="stylesheet" href="../css/style.css" />
     <script type="module" src="../main.js"></script>
-    <script type="module" src="../js/home/home.js"></script>
+    <script type="module" src="../js/overview/overview.js"></script>
   </head>
 
-  <body class="backgroundContainerStars">
+  <body class="container__star-background">
     <header>
-      <nav>
-        <div>
-          <h1 id="game-name"></h1>
-        </div>
-
-        <div id="navigation"></div>
-      </nav>
+      <nav class="nav"></nav>
     </header>
 
-    <section id="playerStats"></section>
+    <section class="secion__player-stats"></section>
 
-    <section>
-      <div class="statusParent">
-        <div class="error" id="output"></div>
-      </div>
+    <section class="section__status">
+      <div class="output"></div>
     </section>
 
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
-    <main class="mainSection">
+    <main class="main">
       <div class="container">
-        <div class="homeOverview">
-          <div class="unitCluster">
-            <a href="./units.html">
-              <h3>Hangar</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Unit</th>
-                    <th>Combat</th>
-                    <th>Capacity</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody class="unitTable"></tbody>
-              </table>
-            </a>
-          </div>
-          <div class="stationCluster">
-            <a href="./station.html">
-              <h3>Module</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Module</th>
-                    <th>Energy</th>
-                    <th>Cost</th>
-                    <th>Tier</th>
-                  </tr>
-                </thead>
-                <tbody class="consumerTableHome"></tbody>
-                <tbody class="producerTableHome"></tbody>
-              </table>
-            </a>
-          </div>
-          <div class="tradeCluster">
-            <a href="./markt.html">
-              <h3>Market</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Ressource</th>
-                    <th>Stock</th>
-                    <th>Value</th>
-                    <th>Available</th>
-                  </tr>
-                </thead>
-                <tbody class="tradeTable"></tbody>
-              </table>
-            </a>
-          </div>
-          <div class="researchCluster">
-            //
-            <h3>Research Module</h3>
-            <!--  <div class="tooltip">
-              Hover over me
-              <span class="tooltiptext">
-                <p>Asteroid</p>
-                <p>Titanium: 150</p>
-                <p>Carbon: 120</p>
-                <p>Kyberkristall: 80</p>
-                <p>Hydrogenium: 40</p>
-              </span>
-            </div> -->
-          </div>
-        </div>
+        <div class="container__overview"></div>
       </div>
     </main>
   </body>

@@ -1,5 +1,5 @@
 const createPlayerStats = () => {
-  const statSection = document.querySelector('#playerStats')
+  const statSection = document.querySelector('.secion__player-stats')
   const uList = document.createElement('ul')
 
   const statOverview =

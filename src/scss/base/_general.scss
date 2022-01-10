@@ -1,0 +1,76 @@
+input {
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px $secondcolor;
+    border: 1px solid $secondcolor;
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 0;
+  color: $maincolor;
+  //  background-color: #111827;
+}
+
+/* general classes */
+/* container */
+.main {
+  margin-top: 2rem;
+  flex: 1 0 auto;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+.container__table {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+/* tables / table-container */
+.div__table {
+  padding: 2rem;
+  border-radius: 2rem;
+  color: $maincolor;
+  background-color: $mainBackgroundColor;
+
+  h3 {
+    text-align: center;
+    border-bottom: 1px solid $maincolor;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+}
+.table__main {
+  margin: 0;
+  padding: 1rem;
+
+  th {
+    letter-spacing: 1px;
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: lighter;
+  }
+  tr > td {
+    font-size: 1.15rem;
+    padding: 0.2rem;
+  }
+}
+
+.clickableValue {
+  cursor: pointer;
+  color: $secondcolor;
+}
+.color-light {
+  color: $secondcolor;
+}
+.form {
+  margin: 0;
+  padding: 0;
+}

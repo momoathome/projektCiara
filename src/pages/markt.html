@@ -9,69 +9,32 @@
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/market/markt.js"></script>
   </head>
-  <body class="backgroundContainerStars">
+  <body class="container__star-background">
     <header>
-      <nav>
-        <div>
-          <h1 id="game-name"></h1>
-        </div>
-
-        <div id="navigation"></div>
-      </nav>
+      <nav class="nav"></nav>
     </header>
 
-    <section id="playerStats"></section>
+    <section class="secion__player-stats"></section>
 
-    <section>
-      <div class="statusParent">
-        <div class="error" id="output"></div>
-      </div>
+    <section class="section__status">
+      <div class="output"></div>
     </section>
+
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
-    <section class="mainSection">
+    <main class="main">
       <div class="container">
-        <div id="markt">
-          <div class="tableContainer">
-            <div id="form-markt">
-              <div class="mainTableDiv marktTableDiv">
-                <table class="maintable marktTable">
-                  <thead>
-                    <tr>
-                      <th colspan="4" class="marktHeader">Intergalactic Marketplace</th>
-                    </tr>
-                    <tr>
-                      <th>Ressource</th>
-                      <th>Stock</th>
-                      <th>Value</th>
-                      <th>trade</th>
-                    </tr>
-                  </thead>
-                  <form class="markt-form">
-                    <tbody class="tradeTable"></tbody>
-                    <tfoot>
-                      <tr>
-                        <td class="marktKostenText" colspan="2">
-                          Total value:
-                          <span id="marktKosten" class="gesamt"></span>
-                        </td>
-                        <td colspan="2">
-                          <div class="tradeButtonDiv">
-                            <button id="buyButton" class="tradeButton">buy</button>
-                            <button id="sellButton" class="tradeButton">sell</button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </form>
-                </table>
-              </div>
+        <div class="container__table">
+          <form class="form form__market">
+            <div class="div__table">
+              <h3>Intergalactic Marketplace</h3>
+              <table class="table__main table__market"></table>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </section>
+    </main>
   </body>
 </html>

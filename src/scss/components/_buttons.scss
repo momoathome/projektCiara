@@ -1,0 +1,63 @@
+.div__btn--trade {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.btn__trade {
+  width: 6rem;
+  height: 3rem;
+  line-height: 1;
+  border: 3px solid $maincolor;
+  background: hsla(0, 0%, 0%, 0.01);
+  color: $maincolor;
+  border-radius: 2rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s;
+  outline: none;
+  text-align: center;
+
+  &:hover {
+    border-color: $secondcolor;
+    background-color: hsla(192, 95%, 71%, 0.1);
+    color: $secondcolor;
+  }
+
+  &:where(:first-child) {
+    margin-right: 1rem;
+  }
+}
+
+.btn__submit {
+  width: 8rem;
+  height: 3rem;
+  border: 3px solid $maincolor;
+  background: hsla(0, 0%, 0%, 0.01);
+  color: $maincolor;
+  border-radius: 2rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s;
+  outline: none;
+  text-align: center;
+
+  &:hover {
+    border-color: $secondcolor;
+    background-color: hsla(192, 95%, 71%, 0.1);
+    color: $secondcolor;
+  }
+}
+
+.btn__upgrade {
+  width: fit-content;
+  border: none;
+  background: none;
+  color: $maincolor;
+  cursor: pointer;
+  transition: all 0.35s;
+  text-align: center;
+
+  &:hover {
+    color: $secondcolor;
+  }
+}

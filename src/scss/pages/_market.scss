@@ -1,0 +1,60 @@
+.form__market {
+  h3 {
+    font-size: 2rem;
+  }
+}
+
+.table__market {
+  input {
+    width: 60px;
+    height: 1.7rem;
+    font-weight: bold;
+    font-size: 1rem;
+    &::placeholder {
+      font-size: 0.7rem !important;
+      color: hsl(212, 33%, 23%);
+    }
+  }
+
+  tfoot > tr > td {
+    padding-top: 1rem;
+  }
+
+  td {
+    min-width: 14ch;
+  }
+
+  td:where(:nth-child(2)) {
+    min-width: 10ch !important;
+  }
+  td:where(:nth-child(3)) {
+    min-width: 9ch !important;
+  }
+}
+
+.tradeInfoText {
+  font-size: 1rem;
+  visibility: hidden;
+  width: max-content;
+  background-color: $mainBackgroundColor;
+  color: $maincolor;
+  text-align: left;
+  padding: 0.7rem;
+  margin-left: 13px;
+  position: absolute;
+  z-index: 1;
+  bottom: -70%;
+  left: 100%;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.tradeInfoBlink {
+  color: darkred;
+  animation: blink-animation 2.5s linear infinite;
+}
+@keyframes blink-animation {
+  50% {
+    opacity: 0;
+  }
+}

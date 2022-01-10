@@ -9,57 +9,27 @@
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/units/unit.js"></script>
   </head>
-  <body class="backgroundContainerStars">
+  <body class="container__star-background">
     <header>
-      <nav>
-        <div>
-          <h1 id="game-name"></h1>
-        </div>
-
-        <div id="navigation"></div>
-      </nav>
+      <nav class="nav"></nav>
     </header>
 
-    <section id="playerStats"></section>
+    <section class="secion__player-stats"></section>
 
-    <section>
-      <div class="statusParent">
-        <div class="error" id="output"></div>
-      </div>
+    <section class="section__status">
+      <div class="output"></div>
     </section>
+
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
-    <main class="mainSection">
+    <main class="main">
       <div class="container">
-        <div class="tableContainer">
-          <form id="form-unit">
-            <div class="mainTableDiv unitTableDiv">
-              <table class="maintable hangarTable">
-                <thead>
-                  <tr>
-                    <th>Unit</th>
-                    <th>Combat</th>
-                    <th>Cost</th>
-                    <th>Cargo</th>
-                    <th>Quantity</th>
-                    <th>Recruit</th>
-                  </tr>
-                </thead>
-                <tbody class="unitTable"></tbody>
-                <tfoot>
-                  <tr>
-                    <td class="rekrutierungsKostenText" colspan="5">
-                      Total cost:
-                      <span id="rekrutierungsKosten" class="color-light"></span>
-                    </td>
-                    <td>
-                      <button class="submitButton" id="rekrutieren">submit</button>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+        <div class="container__table">
+          <form class="form form__unit">
+            <div class="div__table">
+              <table class="table__main table__units"></table>
             </div>
           </form>
         </div>

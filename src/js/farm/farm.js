@@ -1,5 +1,6 @@
-import * as tableCreatorFarm from '../modules/tableCreatorFarm.js'
+import {createTableAsteroiden} from '../modules/tableCreatorFarmAsteroid.js'
+import {createTableFleet} from '../modules/tableCreatorFarmFleet.js'
 import dbData from '../helper/getData.js'
 
-tableCreatorFarm.createTableFlotten(dbData)
-tableCreatorFarm.createTableAsteroiden(dbData)
+createTableAsteroiden(dbData)
+createTableFleet(dbData)

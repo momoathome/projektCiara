@@ -9,66 +9,59 @@
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/farm/farm.js"></script>
   </head>
-  <body class="backgroundContainerStars">
+  <body class="container__star-background">
     <header>
-      <nav>
-        <div>
-          <h1 id="game-name"></h1>
-        </div>
-
-        <div id="navigation"></div>
-      </nav>
+      <nav class="nav"></nav>
     </header>
 
-    <section id="playerStats"></section>
+    <section class="secion__player-stats"></section>
 
-    <section>
-      <div class="statusParent">
-        <div class="error" id="output"></div>
-      </div>
+    <section class="section__status">
+      <div class="output"></div>
     </section>
+
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
-    <section class="mainSection">
-      <div class="container-farm">
-        <div class="farmTable">
-          <div class="mainTableDiv">
+    <main class="main">
+      <div class="container">
+        <div class="container__grid--farm">
+          <div class="div__table">
             <h3>Asteroid Map</h3>
-            <table class="asteroidTable">
-              <thead></thead>
-              <tbody id="asteroid"></tbody>
+            <table class="table__main table__farm">
+              <tbody class="table__body--asteroid"></tbody>
             </table>
           </div>
-          <div class="farm-div">
+
+          <div class="div__table div__Fleet">
             <h3>Fleet Overview</h3>
-            <div class="flotten-div">
-            <form class="farm-form">
-              <div class="innerFarmForm"></div>
-            <div class="farm-werte">
-              <div class="innerFarmWerte"></div>
-            </div>
-        </div>
-        <div class="flotten-footer">
-          <div class="totalCargoArea">
-            <span>Total:</span>
-              <span class="totalUnitCargo">0</span>
-              <span class="backslash-big"> | </span>
-              <span class="totalMaxUnitCargo">0</span>
-              <span class="totalUnitCargoMaxText">max</span>
-            </div>
-          <!-- <div class="riskInfoTextDiv">
+            <form class="form form__farm">
+              <section class="form__grid">
+                <div class="form__div--left"></div>
+                <div class="form__div--right"></div>
+              </section>
+
+              <div class="form__footer">
+                <div class="block__total-cargo">
+                  <span>Total:</span>
+                  <span class="span__total-cargo">0</span>
+                  <span class="span__spacer--slash"> | </span>
+                  <span class="span__total-cargo--max">0</span>
+                  <span class="span__text--max">max</span>
+                </div>
+                <!-- <div class="riskInfoTextDiv">
             <p class="riskInfoText">i: your commander suggests, <br> strengthening your fleet!</p>
           </div> -->
-  
-          <div class="submitButtonDiv">
-            <button class="submitButton">explore</button>
+
+                <div class="block__submit">
+                  <button class="btn__submit">explore</button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
       </div>
-    </section>
-
+    </main>
   </body>
 </html>

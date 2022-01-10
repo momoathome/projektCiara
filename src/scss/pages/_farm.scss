@@ -1,0 +1,144 @@
+/* Farm Area */
+.container-farm {
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.container__grid--farm {
+  display: grid;
+  grid-template-columns: 65% 1fr;
+  gap: 0 4rem;
+}
+
+.table__farm {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  border-spacing: 0 8px;
+
+  // Set border-radius on the top-left and bottom-left of the first table data on the table row
+  td:first-child,
+  th:first-child {
+    border-radius: 30px 0 0 30px;
+  }
+
+  // Set border-radius on the top-right and bottom-right of the last table data on the table row
+  td:last-child,
+  th:last-child {
+    border-radius: 0 30px 30px 0;
+  }
+
+  tr {
+    font-size: 1.15rem;
+  }
+
+  td {
+    padding: 0.2rem;
+  }
+
+  td:nth-child(even) {
+    text-align: left;
+  }
+}
+.rohMain {
+  color: $secondcolor;
+}
+.roh {
+  color: $maincolor;
+}
+.notElected {
+  background-color: $mainBackgroundColor;
+  color: $farmgrey;
+
+  .roh,
+  .rohMain {
+    color: $farmgrey;
+  }
+}
+.closed {
+  color: #000;
+  background-color: #27272a;
+  color: $farmgrey;
+  opacity: 25%;
+  cursor: default;
+
+  .roh,
+  .rohMain {
+    color: $farmgrey;
+  }
+}
+.asteroid {
+  color: $maincolorDark;
+  background-color: $secondBackgroundColor;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($secondBackgroundColor, 5%);
+  }
+}
+
+.div__Fleet {
+  height: fit-content;
+  line-height: 1.5;
+
+  .form__grid {
+    display: grid;
+    grid-template-columns: 55% 1fr;
+    gap: 0 1rem;
+    font-size: 1.15rem;
+
+    input {
+      width: 55px;
+      height: 1.7rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .form__div--left {
+      .form__input-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      span:where(:first-child) {
+        cursor: pointer;
+        color: $secondcolor;
+      }
+    }
+    .form__div--right {
+    }
+  }
+
+  .form__footer {
+    display: grid;
+    grid-template-columns: 55% 1fr;
+    gap: 0 1rem;
+    margin-top: 1rem;
+
+    .block__total-cargo {
+      margin-top: 0.3rem;
+      font-size: 1.15rem;
+    }
+
+    .span__spacer--slash {
+      font-size: 1.5rem;
+      font-weight: lighter;
+      color: hsla(0, 0%, 60%, 0.3);
+      vertical-align: baseline;
+    }
+    .span__text--max {
+      margin-left: -4px;
+      cursor: pointer;
+      &:hover {
+        color: $secondcolor;
+      }
+    }
+
+    .riskInfoText {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.35s linear, opacity 0.35s linear, color 0.35s linear;
+    }
+  }
+}

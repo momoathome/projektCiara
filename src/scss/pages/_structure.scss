@@ -1,0 +1,15 @@
+/* Station Area */
+.div__table {
+  margin-bottom: 2rem;
+}
+
+.table__structures {
+  tr > td {
+    min-width: 12ch;
+  }
+
+  tr > :where(:nth-child(4)),
+  :where(:nth-child(5)) {
+    min-width: fit-content !important;
+  }
+}

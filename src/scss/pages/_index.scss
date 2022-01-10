@@ -1,0 +1,31 @@
+/* index */
+.indexMain {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .gameTitle {
+    margin-top: 12%;
+    font-size: 4rem;
+    letter-spacing: 1px;
+    color: $secondcolor;
+  }
+
+  .subheader {
+    font-size: 1.2rem;
+    color: hsla(0, 0%, 85%, 0.7);
+    word-spacing: 0.5rem;
+    margin-top: -8px;
+  }
+  a {
+    margin-top: 10%;
+  }
+  .initButton {
+    width: 12rem;
+    height: 4rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+}

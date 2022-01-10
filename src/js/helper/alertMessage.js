@@ -17,13 +17,13 @@ function hideText(element, cssClass) {
 }
 
 export function errorMessage(message) {
-  let element = document.querySelector('.error')
+  let element = document.querySelector('.output')
   showText(element, message, 'alert')
   setTimeout(() => hideText(element, 'alert'), timer)
 }
 
 export function succesMessage(message) {
-  let element = document.querySelector('.error')
+  let element = document.querySelector('.output')
   showText(element, message, 'succes')
   setTimeout(() => hideText(element, 'succes'), timer)
 }

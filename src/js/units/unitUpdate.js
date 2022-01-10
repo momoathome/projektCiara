@@ -1,8 +1,7 @@
-const unitTable = document.querySelector('.unitTable')
 import {geldCheck} from '../helper/money.js'
 import {combatCheck, unitLimitCheck, anzahlCheck} from '../helper/checkFunction.js'
-import dbData from '../helper/getData.js'
 import {errorMessage, succesMessage} from '../helper/alertMessage.js'
+import dbData from '../helper/getData.js'
 
 let rekrKosten = [0]
 let inputArray = [0]
@@ -36,6 +35,7 @@ function maxUnit() {
     let anzahlKappa = localStorage.getItem(`anzahl_${i}`)
     maxAnzahlKappa.push(parseInt(anzahlKappa))
   })
+
   const maxAnzahlKappaReduced = maxAnzahlKappa.reduce(reducer)
   kosten.forEach((e, i) => {
     if (maxAnzahlKappaReduced >= maxKappa[s]) {
@@ -55,7 +55,7 @@ function maxUnit() {
       }
     }
     let anzahlString = anzahl[i].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    const maxUnit = unitTable.querySelector(`#maxUnit_${i}`)
+    const maxUnit = document.querySelector(`#maxUnit_${i}`)
     maxUnit.innerHTML = `(${anzahlString})`
   })
 }
@@ -122,7 +122,7 @@ function rKostenUpdate() {
       .reduce(reducer)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '<span class="font">C</span>'
-  document.querySelector('#rekrutierungsKosten').innerHTML = rekrKostenInnerText
+  document.querySelector('.span__total-cost').innerHTML = rekrKostenInnerText
 }
 
 function formSubmit(event) {
@@ -158,7 +158,7 @@ function formSubmit(event) {
       errorMessage('du hast nicht genug Credits dafür')
       // cleart die input felder
       inputFieldClear()
-      document.querySelector('#rekrutierungsKosten').innerHTML = ''
+      document.querySelector('.span__total-cost').innerHTML = ''
       return
     } else {
       // wenn geld reicht
@@ -199,7 +199,7 @@ function formSubmit(event) {
       geldCheck()
       combatCheck()
       unitLimitCheck()
-      document.querySelector('#rekrutierungsKosten').innerHTML = ''
+      document.querySelector('.span__total-cost').innerHTML = ''
     }
   }
 }

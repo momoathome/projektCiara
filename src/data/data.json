@@ -122,14 +122,6 @@
       "cost": {
         "credits": 150000000
       }
-    },
-    {
-      "name": "Energiekern",
-      "type": "none",
-      "energie": 8000,
-      "cost": {
-        "credits": 30000
-      }
     }
   ],
   "ressources": [

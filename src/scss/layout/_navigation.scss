@@ -1,0 +1,35 @@
+.nav {
+  background-color: $mainBackgroundColor;
+  font-weight: bold;
+
+  .nav__flex-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .nav__logo {
+    margin: 0;
+    font-size: 1.7rem;
+    cursor: default;
+    color: $secondcolor;
+  }
+
+  .nav__list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+
+    a {
+      text-decoration: none;
+      text-transform: uppercase;
+      margin: 0 1rem;
+      color: $maincolor;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $secondcolor;
+      }
+    }
+  }
+}

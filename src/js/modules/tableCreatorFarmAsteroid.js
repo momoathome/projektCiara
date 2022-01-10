@@ -1,4 +1,4 @@
-import * as farmUpdate from '../farm/farmUpdate.js'
+import {asteroidSelectionUpdater} from '../farm/farmUpdate.js'
 import config from '../config.js'
 
 const asteroidList = []
@@ -23,19 +23,19 @@ const createTableAsteroiden = data => {
   function createMineralWerte() {
     // min und max werte der Rohstoffe.
     MineralsForAsteroid(config.asteroidenBaseValue[0], config.asteroidenBaseValue[1])
-  }
 
-  function MineralsForAsteroid(min, max) {
-    let size = createAsteroidSize()
-    data.ressources.forEach((value, i) => {
-      roh[i] = randomInt(min, max) * size
-    })
-  }
+    function MineralsForAsteroid(min, max) {
+      let size = createAsteroidSize()
+      data.ressources.forEach((value, i) => {
+        roh[i] = randomInt(min, max) * size
+      })
+    }
 
-  function createAsteroidSize() {
-    let randSize = Math.random() + 1 * randomInt(config.asteroidenMinMaxSize[0], config.asteroidenMinMaxSize[1])
-    asteroidSize = randSize.toFixed(2)
-    return asteroidSize
+    function createAsteroidSize() {
+      let randSize = Math.random() + 1 * randomInt(config.asteroidenMinMaxSize[0], config.asteroidenMinMaxSize[1])
+      asteroidSize = randSize.toFixed(2)
+      return asteroidSize
+    }
   }
 
   const randomInt = (min, max) => {
@@ -94,6 +94,7 @@ const createTableAsteroiden = data => {
       Hydrogenium: roh[3],
       mainRohIndex: mainRohClass,
       size: asteroidSize,
+      class: 'asteroid',
     })
   }
 
@@ -105,9 +106,9 @@ const createTableAsteroiden = data => {
 function createAsteroidListInDom() {
   asteroidList.forEach((e, i) => {
     let rohClass = setMainRohClass(asteroidList[i].mainRohIndex)
-    const list = document.querySelector('#asteroid')
+    const list = document.querySelector('.table__body--asteroid')
     const row = document.createElement('tr')
-    row.classList.add('asteroid')
+    row.classList.add(asteroidList[i].class)
     row.innerHTML =
       /* html */
       `
@@ -133,94 +134,18 @@ function createAsteroidListInDom() {
   addEventlistenerSelectAsteroid()
 }
 
-let asteroidDomList = []
+let asteroidDomList
 const addEventlistenerSelectAsteroid = () => {
-  const asteroidListBody = document.querySelectorAll('#asteroid')
+  const asteroidListBody = document.querySelectorAll('.table__body--asteroid')
   asteroidDomList = asteroidListBody[0].childNodes
 
   asteroidDomList.forEach((asteroid, index) => {
-    classList.push(asteroid.classList.value)
     asteroid.addEventListener('click', () => {
-      farmUpdate.asteroidSelectionUpdater(asteroid, index)
+      asteroidSelectionUpdater(asteroid, index)
     })
   })
 }
 
 // --------------------------------------------------------------------
-const createTableFlotten = data => {
-  const farmForm = document.querySelector('.innerFarmForm')
-  const FarmWerte = document.querySelector('.innerFarmWerte')
 
-  data.units.forEach((unit, i) => {
-    const row = document.createElement('div')
-
-    const tableData =
-      /* html */
-      `
-      <div class="form-group">
-      <label for="unit_${i}">${unit.name}</label>
-      <input
-        type="number"
-        min="0"
-        max="100000"
-        id="unit_${i}"
-        class="form-control"
-      />
-    </div>
-`
-    row.innerHTML = tableData
-    farmForm.appendChild(row)
-  })
-
-  data.units.forEach((unit, i) => {
-    const row = document.createElement('div')
-
-    const tableData =
-      /* html */
-      `
-      <p class="farm-para">
-        <span class="clickableValue maxUnitfarm_${i}"></span>
-        cargo:
-        <span class="unitCargo_${i}">0</span>
-      </p>
-      `
-    row.innerHTML = tableData
-    FarmWerte.appendChild(row)
-  })
-  farmUpdate.maxUnitFarm()
-  addEventlistenerInputFieldUpdater()
-  addEventListenerFarmSubmit()
-}
-
-const addEventlistenerInputFieldUpdater = () => {
-  const inputFields = document.querySelectorAll('.form-control')
-  const clickAbleSpan = document.querySelectorAll('.clickableValue')
-
-  inputFields.forEach((inputField, i) => {
-    inputField.addEventListener('input', () => {
-      farmUpdate.InputListenerValueUpdater(i)
-    })
-  })
-  clickAbleSpan.forEach((span, i) => {
-    span.addEventListener('click', () => {
-      farmUpdate.clickEventListenerAnzahlUpdater(i)
-    })
-  })
-}
-
-const addEventListenerFarmSubmit = () => {
-  const flottenForm = document.querySelector('.farm-form')
-  flottenForm.addEventListener('submit', event => {
-    farmUpdate.formSubmit(event)
-  })
-}
-
-export {
-  asteroidList,
-  classList,
-  asteroidDomList,
-  createAsteroidListInDom,
-  createTableFlotten,
-  createTableAsteroiden,
-  addEventlistenerSelectAsteroid,
-}
+export {asteroidList, asteroidDomList, createAsteroidListInDom, createTableAsteroiden}

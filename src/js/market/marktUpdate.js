@@ -38,7 +38,6 @@ function maxRessource() {
     let maxValueSpan = document.querySelector(`.maxValue_${i}`)
     maxValueSpan.innerText = `(${maxRoh[i]})`
   })
-  console.log(maxRoh)
   getMarketData()
   updateStock()
   updateValue()
@@ -101,7 +100,7 @@ function clickEventListenerValueUpdater(i) {
 
 function totalAmountUpdate(i) {
   let totalValue = getTotalValue(i)
-  document.querySelector('#marktKosten').innerHTML =
+  document.querySelector('.span__total-cost').innerHTML =
     totalValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '<span class="font">C</span>'
 }
 
@@ -150,7 +149,6 @@ function setRessource(boolean) {
 
 function ressourceMath(boolean) {
   let tradeValues = getInputValues()
-  /*   let res = boolean ? value + maxRoh[i] : value - maxRoh[i]   */
   const newRoh = tradeValues.map((value, i) => resInner(value, i, boolean))
 
   function resInner(value, i, boolean) {
@@ -162,7 +160,7 @@ function ressourceMath(boolean) {
 
 function clearInputFields() {
   let inputFields = document.querySelectorAll(`.tradeInputField`)
-  let totalSpan = document.querySelector(`#marktKosten`)
+  let totalSpan = document.querySelector(`.span__total-cost`)
 
   inputFields.forEach(inputField => {
     inputField.value = ''
