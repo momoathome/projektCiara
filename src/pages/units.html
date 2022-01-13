@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projekt Ciara | Einheiten</title>
-    <link rel="icon" type="image/png" sizes="64x64" href="../img/galaxy-11098.jpg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="64x64"
+      href="../img/galaxy-11098.jpg"
+    />
     <link rel="stylesheet" href="../css/style.css" />
     <script type="module" src="../main.js"></script>
-    <script type="module" src="../js/units/unit.js"></script>
+    <script type="module" src="../js/pages/units/unit.js"></script>
   </head>
   <body class="container__star-background">
     <header>
@@ -29,7 +34,32 @@
         <div class="container__table">
           <form class="form form__unit">
             <div class="div__table">
-              <table class="table__main table__units"></table>
+              <table class="table__main table__units">
+                <thead>
+                  <tr>
+                    <th>Unit</th>
+                    <th>Combat</th>
+                    <th>Cost</th>
+                    <th>Cargo</th>
+                    <th>Quantity</th>
+                    <th>Recruit</th>
+                  </tr>
+                </thead>
+                <tbody class="table__body--unit"></tbody>
+                <tfoot>
+                  <tr>
+                    <td class="tfoot__td--total-cost" colspan="4">
+                      Total cost:
+                      <span class="span__total-cost color-light"></span>
+                    </td>
+                    <td class="tfoot__td--btn-submit" colspan="2">
+                      <button class="btn__submit" id="rekrutieren">
+                        submit
+                      </button>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </form>
         </div>

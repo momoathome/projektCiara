@@ -3,7 +3,7 @@ const consumerTable = document.querySelector('.table__body--consumer')
 const table = document.querySelectorAll('.table__structures')
 import * as stationUpdate from '../structures/structureUpdate.js'
 
-const createTableMain = data => {
+const createTableMain = (data) => {
   const tableHead =
     /* html */
     `
@@ -22,7 +22,7 @@ const createTableMain = data => {
   table[1].append(tableHeadElement2)
 
   // Table creation
-  data.structure.forEach((value, index) => {
+  data.structures.forEach((value, index) => {
     if (value.type === 'consumer') {
       createTable(value, index, 'cons')
     } else if (value.type === 'producer') {
@@ -36,7 +36,9 @@ const createTableMain = data => {
 
 const createTable = (data, index, table) => {
   const row = document.createElement('tr')
-  const energie = data.energie.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  const energie = data.energie
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   const tableData =
     /* html */
     `

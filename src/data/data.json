@@ -2,59 +2,68 @@
   "units": [
     {
       "name": "Spacecruiser",
-      "credits": 100000,
+      "cost": 100000,
       "combat": 50,
-      "cargo": 10
+      "cargo": 10,
+      "quantity": 0
     },
     {
       "name": "Fighter",
-      "credits": 250000,
+      "cost": 250000,
       "combat": 150,
-      "cargo": 20
+      "cargo": 20,
+      "quantity": 0
     },
     {
       "name": "Guardian",
-      "credits": 500000,
+      "cost": 500000,
       "combat": 300,
-      "cargo": 50
+      "cargo": 50,
+      "quantity": 0
     },
     {
       "name": "Destroyer",
-      "credits": 1500000,
+      "cost": 1500000,
       "combat": 1000,
-      "cargo": 150
+      "cargo": 150,
+      "quantity": 0
     },
     {
       "name": "Nova",
-      "credits": 3200000,
+      "cost": 3200000,
       "combat": 2500,
-      "cargo": 250
+      "cargo": 250,
+      "quantity": 0
     },
     {
       "name": "Horus",
-      "credits": 7500000,
+      "cost": 7500000,
       "combat": 6000,
-      "cargo": 400
+      "cargo": 400,
+      "quantity": 0
     },
     {
       "name": "Reaper",
-      "credits": 10000000,
+      "cost": 10000000,
       "combat": 8000,
-      "cargo": 800
+      "cargo": 800,
+      "quantity": 0
     },
     {
       "name": "Deathstar",
-      "credits": 600000000,
+      "cost": 600000000,
       "combat": 400000,
-      "cargo": 0
+      "cargo": 0,
+      "quantity": 0
     }
   ],
 
-  "structure": [
+  "structures": [
     {
       "name": "Hangar",
       "type": "consumer",
       "energie": 1000,
+      "level": 0,
       "cost": {
         "credits": 500000
       }
@@ -63,6 +72,7 @@
       "name": "Research",
       "type": "consumer",
       "energie": 2000,
+      "level": 0,
       "cost": {
         "credits": 350000
       }
@@ -79,6 +89,7 @@
       "name": "Supply",
       "type": "consumer",
       "energie": 1500,
+      "level": 0,
       "cost": {
         "credits": 150000
       }
@@ -87,6 +98,7 @@
       "name": "Shield",
       "type": "consumer",
       "energie": 2500,
+      "level": 0,
       "cost": {
         "credits": 400000
       }
@@ -95,6 +107,7 @@
       "name": "Solar",
       "type": "producer",
       "energie": 36,
+      "level": 0,
       "cost": {
         "credits": 100000
       }
@@ -103,6 +116,7 @@
       "name": "Ignition",
       "type": "producer",
       "energie": 250,
+      "level": 0,
       "cost": {
         "credits": 1500000
       }
@@ -111,6 +125,7 @@
       "name": "Fission",
       "type": "producer",
       "energie": 1100,
+      "level": 0,
       "cost": {
         "credits": 25000000
       }
@@ -119,6 +134,7 @@
       "name": "Fusion",
       "type": "producer",
       "energie": 12000,
+      "level": 0,
       "cost": {
         "credits": 150000000
       }
@@ -126,20 +142,32 @@
   ],
   "ressources": [
     {
-      "name": "Titanium"
+      "name": "Titanium",
+      "stock": 700000,
+      "price": 350,
+      "faktor": 10000,
+      "quantity": 0
     },
     {
-      "name": "Carbon"
+      "name": "Carbon",
+      "stock": 700000,
+      "price": 140,
+      "faktor": 10000,
+      "quantity": 0
     },
     {
-      "name": "Kyberkristall"
+      "name": "Kyberkristall",
+      "stock": 700000,
+      "price": 1400,
+      "faktor": 10000,
+      "quantity": 0
     },
     {
-      "name": "Hydrogenium"
+      "name": "Hydrogenium",
+      "stock": 700000,
+      "price": 900,
+      "faktor": 10000,
+      "quantity": 0
     }
-  ],
-  "maxKappa": [
-    50, 100, 150, 250, 350, 500, 700, 950, 1200, 1500, 1850, 2300, 2800, 3400, 4100, 5000, 6000, 7200, 8500, 10000, 12000, 15000,
-    20000, 27500, 35000, 45000, 60000, 80000, 110000, 150000
   ]
 }

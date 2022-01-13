@@ -1,1 +1,2 @@
-prettierignore.*
+.prettierignore
+**/node_modules

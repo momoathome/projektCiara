@@ -1,7 +1,11 @@
-import {asteroidList, asteroidDomList, createAsteroidListInDom} from '../modules/tableCreatorFarmAsteroid.js'
-import {errorMessage, succesMessage} from '../helper/alertMessage.js'
-import {rohstoffCheck} from '../helper/checkFunction.js'
-import dbData from '../helper/getData.js'
+import {
+  asteroidList,
+  asteroidDomList,
+  createAsteroidListInDom,
+} from '../../modules/tableCreatorFarmAsteroid.js'
+import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
+import {rohstoffCheck} from '../../helper/checkFunction.js'
+import dbData from '../../helper/getData.js'
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 
 let selectedAsteroid
@@ -13,7 +17,10 @@ const unitCargo = [0]
 
 function asteroidSelectionUpdater(asteroid, ID) {
   mouseOverState = true
-  if (asteroid.className == asteroidList[ID].class + ' gewählt' || asteroid.className == 'closed') {
+  if (
+    asteroid.className == asteroidList[ID].class + ' gewählt' ||
+    asteroid.className == 'closed'
+  ) {
     mouseOverState = false
     unselectAsteroid()
   } else {
@@ -21,7 +28,7 @@ function asteroidSelectionUpdater(asteroid, ID) {
   }
 
   function selectAsteroid(asteroid, ID) {
-    asteroidDomList.forEach(target => {
+    asteroidDomList.forEach((target) => {
       if (target.className == 'closed') {
         target.className = 'closed'
       } else {
@@ -76,21 +83,23 @@ function maxUnitCalc() {
   storageAnzahl.splice(0, anzahl.length)
 
   dbData.units.forEach((unit, i) => {
-    let maxAnzahl = parseInt(localStorage.getItem(`anzahl_${i}`))
+    const maxAnzahl = parseInt(localStorage.getItem(`anzahl_${i}`))
     anzahl.push(maxAnzahl)
     storageAnzahl.push(maxAnzahl)
     updater(i)
   })
 
   function maxCargoCalc() {
-    const totalMaxUnitCargoSpan = document.querySelector('.span__total-cargo--max')
+    const totalMaxUnitCargoSpan = document.querySelector(
+      '.span__total-cargo--max'
+    )
     const maxCargo = []
     dbData.units.forEach((unit, i) => {
-      let singleMaxCargo = storageAnzahl[i] * unit.cargo
+      const singleMaxCargo = storageAnzahl[i] * unit.cargo
       maxCargo.push(singleMaxCargo)
     })
 
-    let maxCargoInnerText = maxCargo
+    const maxCargoInnerText = maxCargo
       .reduce(reducer)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
@@ -101,7 +110,9 @@ function maxUnitCalc() {
 }
 
 function updater(i) {
-  let anzahlString = anzahl[i].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  const anzahlString = anzahl[i]
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${anzahlString})`
 }
 
@@ -111,17 +122,19 @@ function cargoUpdater(i) {
   dbData.units.forEach((unit, i) => {
     cargoWert[i] = unit.cargo
   })
-  let inputField = document.querySelector(`#unit_${i}`)
+  const inputField = document.querySelector(`#unit_${i}`)
   let cargo = parseInt(inputField.value) * cargoWert[i]
   if (isNaN(cargo)) {
     cargo = 0
   }
   unitCargo[i] = cargo
-  document.querySelector(`.unitCargo_${i}`).innerText = cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  document.querySelector(`.unitCargo_${i}`).innerText = cargo
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 
   function totalCargoUpdater() {
     const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
-    let totalUnitCargoInnerText = unitCargo
+    const totalUnitCargoInnerText = unitCargo
       .reduce(reducer)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
@@ -133,7 +146,7 @@ function cargoUpdater(i) {
 // needs to be outside to store the value till reload
 const inputArray = []
 function InputListenerValueUpdater(i) {
-  let inputField = document.querySelector(`#unit_${i}`)
+  const inputField = document.querySelector(`#unit_${i}`)
   inputField.value = Math.round(parseInt(inputField.value))
   if (parseInt(inputField.value) < 0 || inputField.value == '') {
     inputField.value = ''
@@ -148,14 +161,14 @@ function InputListenerValueUpdater(i) {
 }
 
 function clickEventListenerAnzahlUpdater(i) {
-  let inputField = document.querySelector(`#unit_${i}`)
+  const inputField = document.querySelector(`#unit_${i}`)
 
   if (inputField.value == 0) {
     inputField.value = anzahl[i]
     anzahl[i] = 0
   } else {
     if (anzahl[i] !== 0) {
-      let value = anzahl[i] + parseInt(inputField.value)
+      const value = anzahl[i] + parseInt(inputField.value)
       inputField.value = value
       anzahl[i] = 0
     } else {
@@ -173,11 +186,15 @@ const myRessources = []
 function formSubmit(event) {
   event.preventDefault()
   // checkt ob ein Asteroid angeklickt ist
-  if (selectedAsteroidID === '' || selectedAsteroidID === undefined || isNaN(selectedAsteroidID)) {
+  if (
+    selectedAsteroidID === '' ||
+    selectedAsteroidID === undefined ||
+    isNaN(selectedAsteroidID)
+  ) {
     return errorMessage('Bitte wähle einen Asteroiden aus')
   } else {
     // checkt ob eine Einheit ausgewählt wurde
-    let cargo = unitCargo.reduce(reducer)
+    const cargo = unitCargo.reduce(reducer)
     if (cargo <= 0) {
       return errorMessage('bitte wähle mindestens eine Einheit aus')
     } else {
@@ -190,8 +207,8 @@ function formSubmit(event) {
 
 function rohEditFunction() {
   getSelectedAsteroidRoh()
-  let cargo = unitCargo.reduce(reducer)
-  let asteroidRoh = selectedAsteroidRoh.reduce(reducer)
+  const cargo = unitCargo.reduce(reducer)
+  const asteroidRoh = selectedAsteroidRoh.reduce(reducer)
 
   if (asteroidRoh < cargo) {
     // alle Rohstoffe aufs Konto
@@ -226,17 +243,17 @@ function calcNewAsteroidRoh(boolean) {
     // und zieht diese Anzahl dann gleichmäßig dem Asteroiden ab
     // bei ungeraden zahlen wir ein Rest berechnet, dieser wird am ende dem höchsten wert abgezogen
 
-    let cargo = unitCargo.reduce(reducer)
-    let subtract = Math.floor(cargo / 4)
+    const cargo = unitCargo.reduce(reducer)
+    const subtract = Math.floor(cargo / 4)
     let rest = cargo % 4
-    let val = selectedAsteroidRoh.map(value => value - subtract)
+    const val = selectedAsteroidRoh.map((value) => value - subtract)
     val.forEach((element, i) => {
       if (element < 0) {
         val[i] = 0
         rest += 0 - element
       }
     })
-    let largest = Math.max(...val)
+    const largest = Math.max(...val)
 
     val.forEach((element, i) => {
       if (element == largest) {
@@ -253,7 +270,7 @@ function calcNewAsteroidRoh(boolean) {
 }
 
 function setNewAsteroidRoh(array) {
-  let asteroid = asteroidList[selectedAsteroidID]
+  const asteroid = asteroidList[selectedAsteroidID]
   asteroidList.splice(selectedAsteroidID, 1, {
     Titanium: array[0],
     Carbon: array[1],
@@ -295,10 +312,16 @@ function farmAbschliesen(boolean) {
   selectedAsteroid = ''
   selectedAsteroidID = ''
 
-  //classReset()
+  // classReset()
   updateAsteroidDom()
   maxUnitCalc()
   rohstoffCheck()
 }
 
-export {maxUnitCalc, formSubmit, InputListenerValueUpdater, clickEventListenerAnzahlUpdater, asteroidSelectionUpdater}
+export {
+  maxUnitCalc,
+  formSubmit,
+  InputListenerValueUpdater,
+  clickEventListenerAnzahlUpdater,
+  asteroidSelectionUpdater,
+}

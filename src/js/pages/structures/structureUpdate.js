@@ -6,12 +6,12 @@ const kosten = []
 const stufe = []
 const maxKappa = []
 
-dbData.maxKappa.forEach(cap => {
+dbData.maxKappa.forEach((cap) => {
   maxKappa.push(cap)
 })
 
 function upgradeFunction(i) {
-  let stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
+  const stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
   // nicht genug Geld
   if (!creditCheck(i)) {
     return
@@ -32,7 +32,7 @@ function upgradeFunction(i) {
   }
 
   function setNewCost(i) {
-    let newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
+    const newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
     localStorage.setItem(`stufe_${i}`, stufeUpgraded)
     localStorage.setItem(`kosten_${i}`, newKost)
   }
@@ -40,7 +40,7 @@ function upgradeFunction(i) {
 
 function creditCheck(kostenIndex) {
   // holt sich anzahl an credits
-  let geld = parseInt(localStorage.getItem('credits'))
+  const geld = parseInt(localStorage.getItem('credits'))
   // checkt ob Geld reicht
   if (kosten[kostenIndex] > geld) {
     errorMessage('Du hast nicht genug Credits dafür')
@@ -52,17 +52,17 @@ function creditCheck(kostenIndex) {
 
 function creditUpdate(kostenIndex) {
   let geld = parseInt(localStorage.getItem('credits'))
-  geld = geld - kosten[kostenIndex]
+  geld -= kosten[kostenIndex]
   localStorage.setItem('credits', geld)
 
   geldCheck()
 }
 
 function updater() {
-  dbData.structure.forEach((value, i) => {
+  dbData.structures.forEach((value, i) => {
     if (value.type == 'consumer' || value.type == 'producer') {
-      let cost = localStorage.getItem(`kosten_${i}`)
-      let stage = localStorage.getItem(`stufe_${i}`)
+      const cost = localStorage.getItem(`kosten_${i}`)
+      const stage = localStorage.getItem(`stufe_${i}`)
       kosten[i] = cost
       stufe[i] = stage
     }
@@ -76,7 +76,7 @@ const writeValueToTable = () => {
 
   kosten.forEach((cost, i) => {
     cost = cost.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    kostenValueClass[i].innerHTML = cost + '<span class="font">C</span>'
+    kostenValueClass[i].innerHTML = `${cost}<span class="font">C</span>`
   })
   stufe.forEach((stage, i) => {
     stage = stage.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
