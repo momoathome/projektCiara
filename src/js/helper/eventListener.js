@@ -3,6 +3,7 @@ import {
   clickEventListener,
   formSubmit,
 } from '../pages/units/unitUpdate.js'
+import {upgradeFunction} from '../pages/structures/structureUpdate.js'
 
 function addEventlistenerUnits() {
   const inputFields = document.querySelectorAll('.recrutUnit')
@@ -23,4 +24,13 @@ function addEventlistenerUnits() {
     formSubmit(event)
   })
 }
-export {addEventlistenerUnits}
+
+function addEventlistenerStructure() {
+  const upgradeButton = document.querySelectorAll('.btn__upgrade')
+  upgradeButton.forEach((button, i) => {
+    button.addEventListener('click', () => {
+      upgradeFunction(i)
+    })
+  })
+}
+export {addEventlistenerUnits, addEventlistenerStructure}

@@ -1,87 +1,64 @@
-import dbData from '../helper/getData.js'
-import {geldCheck} from '../helper/money.js'
-import {errorMessage, succesMessage} from '../helper/alertMessage.js'
-import {unitLimitCheck} from '../helper/checkFunction.js'
-const kosten = []
-const stufe = []
-const maxKappa = []
-
-dbData.maxKappa.forEach((cap) => {
-  maxKappa.push(cap)
-})
+import {creditCheck} from '../../helper/money.js'
+import {unitLimitCheck} from '../../helper/checkFunction.js'
+import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
+import config from '../../config.js'
+const data = JSON.parse(localStorage.getItem('structures'))
 
 function upgradeFunction(i) {
-  const stufeUpgraded = parseInt(localStorage.getItem(`stufe_${i}`)) + 1
   // nicht genug Geld
-  if (!creditCheck(i)) {
+  if (!credCheck(i)) {
     return
-  } else {
-    // Succesful Upgrade
-    updater()
-    creditUpdate(i)
-    if (i !== 0) {
-      setNewCost(i)
-      writeValueToTable()
-    } else {
-      setNewCost(i)
-      localStorage.setItem('maxUnitLimit', maxKappa[stufeUpgraded - 1])
-      writeValueToTable()
-      unitLimitCheck()
-    }
-    succesMessage('succesful upgrade!')
   }
-
-  function setNewCost(i) {
-    const newKost = Math.ceil((kosten[i] * 1.67) / 1000) * 1000
-    localStorage.setItem(`stufe_${i}`, stufeUpgraded)
-    localStorage.setItem(`kosten_${i}`, newKost)
+  // Succesful Upgrade
+  creditUpdate(i)
+  if (i === 0) {
+    localStorage.setItem('unitLimit', config.unitLimit[data[i].level])
+    unitLimitCheck()
   }
+  setNewCost(i)
+  structureUpdate()
+  succesMessage('succesful upgrade!')
 }
 
-function creditCheck(kostenIndex) {
+function setNewCost(i) {
+  data[i].cost.credits = Math.ceil((data[i].cost.credits * 1.67) / 1000) * 1000
+  data[i].level = data[i].level + 1
+  localStorage.setItem('structures', JSON.stringify(data))
+}
+
+function credCheck(index) {
   // holt sich anzahl an credits
-  const geld = parseInt(localStorage.getItem('credits'))
+  const credits = parseInt(localStorage.getItem('credits'))
   // checkt ob Geld reicht
-  if (kosten[kostenIndex] > geld) {
+  if (data[index].cost.credits > credits) {
     errorMessage('Du hast nicht genug Credits dafür')
     return false
-  } else {
-    return true
   }
+  return true
 }
 
-function creditUpdate(kostenIndex) {
-  let geld = parseInt(localStorage.getItem('credits'))
-  geld -= kosten[kostenIndex]
-  localStorage.setItem('credits', geld)
+function creditUpdate(index) {
+  let credits = parseInt(localStorage.getItem('credits'))
+  credits -= data[index].cost.credits
+  localStorage.setItem('credits', credits)
 
-  geldCheck()
+  creditCheck()
 }
 
-function updater() {
-  dbData.structures.forEach((value, i) => {
-    if (value.type == 'consumer' || value.type == 'producer') {
-      const cost = localStorage.getItem(`kosten_${i}`)
-      const stage = localStorage.getItem(`stufe_${i}`)
-      kosten[i] = cost
-      stufe[i] = stage
-    }
+const structureUpdate = () => {
+  const costNodes = document.querySelectorAll('.structure__cost')
+  const levelNodes = document.querySelectorAll('.structure__level')
+
+  data.forEach((modul, i) => {
+    const cost = modul.cost.credits
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    costNodes[i].innerHTML = `${cost}<span class="font">C</span>`
+    const level = modul.level
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    levelNodes[i].innerHTML = level
   })
 }
 
-const writeValueToTable = () => {
-  updater()
-  const kostenValueClass = document.querySelectorAll('.kostenValue')
-  const stufenValueClass = document.querySelectorAll('.stufenValue')
-
-  kosten.forEach((cost, i) => {
-    cost = cost.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    kostenValueClass[i].innerHTML = `${cost}<span class="font">C</span>`
-  })
-  stufe.forEach((stage, i) => {
-    stage = stage.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    stufenValueClass[i].innerText = stage
-  })
-}
-
-export {upgradeFunction, writeValueToTable}
+export {upgradeFunction, structureUpdate}

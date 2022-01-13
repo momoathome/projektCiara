@@ -1,4 +1,4 @@
-import {geldCheck} from '../../helper/money.js'
+import {creditCheck} from '../../helper/money.js'
 import {combatCheck, unitLimitCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 const data = JSON.parse(localStorage.getItem('units'))
@@ -127,7 +127,6 @@ function formSubmit(event) {
   event.preventDefault()
   const inputUnits = inputUnitArray().reduce(reducer)
   // wenn keine Einheit ausgewählt ist
-
   if (inputUnits <= 0) {
     errorMessage('bitte wähle mindestens eine Einheit aus')
     inputFieldClear()
@@ -140,6 +139,7 @@ function formSubmit(event) {
     errorMessage('du hast nicht genug Credits dafür')
     return
   }
+  // SUCCESS
   const newCredits = credits - unitCost
   data.map((unit, i) => {
     unit.quantity += inputUnitArray()[i]
@@ -150,14 +150,13 @@ function formSubmit(event) {
 
   inputFieldClear()
   succesMessage('Great Success')
-  // neues Guthaben berechnen und in den Localstorage schreiben
   localStorage.setItem('credits', newCredits)
   localStorage.setItem('combat', combat)
   localStorage.setItem('units', JSON.stringify(data))
   maxUnit()
   unitLimitCheck()
   combatCheck()
-  geldCheck()
+  creditCheck()
   unitLimitCheck()
   document.querySelector('.span__total-cost').innerHTML = ''
 }

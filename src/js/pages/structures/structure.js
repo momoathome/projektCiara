@@ -1,3 +1,6 @@
-import * as tableCreatorStructures from '../../modules/TableCreatorStructur.js'
-import dbData from '../../helper/getData.js'
-tableCreatorStructures.createTableMain(dbData)
+import {createTable} from '../../modules/TableCreatorStructur.js'
+import {structureUpdate} from '../structures/structureUpdate.js'
+const data = JSON.parse(localStorage.getItem('structures'))
+
+createTable(data)
+structureUpdate(data)

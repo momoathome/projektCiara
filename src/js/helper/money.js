@@ -1,4 +1,6 @@
 import config from '../config.js'
+const data = JSON.parse(localStorage.getItem('structures'))
+
 // aktuelle sekunden
 function ticken() {
   const today = new Date()
@@ -26,40 +28,39 @@ function geldBerechnung() {
   const ticks = tick - parseInt(storagedate)
 
   if (ticks < config.ticks) {
-    geldCheck()
+    creditCheck()
     window.setTimeout(() => {
       geldBerechnung()
     }, 5000)
     return
   }
   let credits = parseInt(localStorage.getItem('credits'))
-  const zeitMultiplikator = Math.floor(ticks / config.ticks)
-  const gehaltMultiplikator = parseInt(localStorage.getItem('stufe_2'))
+  const timeMultiplier = Math.floor(ticks / config.ticks)
+  const wageMultiplier = data[2].level
 
   // marktstufe(aus der Datenbank) * credits pro sekunde (multipliziert mit dem level der Kampferfahrung) * ticks (weil alle ticks sekunden aktualisiert wird)
-  const gehalt =
-    zeitMultiplikator *
-    (gehaltMultiplikator *
+  const wage =
+    timeMultiplier *
+    (wageMultiplier *
       Math.round(config.baseWage * config.ticks * config.faktor))
 
-  credits += gehalt
+  credits += wage
   localStorage.setItem('date', tick)
   localStorage.setItem('credits', credits)
-  localStorage.setItem('gehalt', gehalt)
-  geldCheck()
+  localStorage.setItem('wage', wage)
+  creditCheck()
   window.setTimeout(() => {
     geldBerechnung()
   }, 30_000)
 }
 
-function geldCheck() {
-  let gehalt = localStorage.getItem('gehalt')
-  gehalt = gehalt.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+function creditCheck() {
+  let wage = localStorage.getItem('wage')
+  wage = wage.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   let credits = localStorage.getItem('credits')
   credits = credits.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.getElementById('credits').innerHTML =
-    credits +
-    '<span class="font">C</span>' +
-    `<span style="color:#00ff00;">  (+${gehalt})</span>`
+  document.getElementById(
+    'credits'
+  ).innerHTML = `${credits}<span class="font">C </span><span style="color:#00ff00;">  (+${wage})</span> `
 }
-export {geldCheck, geldBerechnung}
+export {creditCheck, geldBerechnung}

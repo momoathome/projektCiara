@@ -63,7 +63,7 @@
       "name": "Hangar",
       "type": "consumer",
       "energie": 1000,
-      "level": 0,
+      "level": 1,
       "cost": {
         "credits": 500000
       }
@@ -81,6 +81,7 @@
       "name": "Market",
       "type": "consumer",
       "energie": 1000,
+      "level": 1,
       "cost": {
         "credits": 250000
       }
@@ -107,7 +108,7 @@
       "name": "Solar",
       "type": "producer",
       "energie": 36,
-      "level": 0,
+      "level": 1,
       "cost": {
         "credits": 100000
       }

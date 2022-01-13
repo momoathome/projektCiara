@@ -1,6 +1,6 @@
 import dbData from '../../helper/getData.js'
 import config from '../../config.js'
-import {geldCheck} from '../../helper/money.js'
+import {creditCheck} from '../../helper/money.js'
 import {rohstoffCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 
@@ -232,7 +232,7 @@ function endForm(type) {
   setCredits(type)
   clearInputFields()
   rohstoffCheck()
-  geldCheck()
+  creditCheck()
   succesMessage('Great Success')
 }
 
