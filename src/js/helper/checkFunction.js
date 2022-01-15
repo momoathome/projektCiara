@@ -1,4 +1,5 @@
-const data = JSON.parse(localStorage.getItem('units'))
+const units = JSON.parse(localStorage.getItem('units'))
+const res = JSON.parse(localStorage.getItem('ressources'))
 
 function combatCheck() {
   const a = localStorage.getItem('combat')
@@ -9,14 +10,15 @@ function combatCheck() {
 function rohstoffCheck() {
   const rohSpan = document.querySelectorAll('.rohValueSpan')
 
-  rohSpan.forEach((e, i) => {
-    const rohstoff = localStorage.getItem(`roh_${i}`)
-    e.innerText = rohstoff.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  rohSpan.forEach((span, i) => {
+    span.innerText = res[i].quantity
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   })
 }
 
 function unitLimitCheck() {
-  const currentUnits = data.reduce((acc, unit) => acc + unit.quantity, 0)
+  const currentUnits = units.reduce((acc, unit) => acc + unit.quantity, 0)
   document.querySelector('#currentUnits').innerText = currentUnits
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')

@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projekt Ciara | markt</title>
-    <link rel="icon" type="image/png" sizes="64x64" href="../img/galaxy-11098.jpg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="64x64"
+      href="../img/galaxy-11098.jpg"
+    />
     <link rel="stylesheet" href="../css/style.css" />
     <script type="module" src="../main.js"></script>
-    <script type="module" src="../js/market/markt.js"></script>
+    <script type="module" src="../js/pages/market/markt.js"></script>
   </head>
   <body class="container__star-background">
     <header>
@@ -30,7 +35,31 @@
           <form class="form form__market">
             <div class="div__table">
               <h3>Intergalactic Marketplace</h3>
-              <table class="table__main table__market"></table>
+              <table class="table__main table__market">
+                <thead>
+                  <tr>
+                    <th>Ressource</th>
+                    <th>Stock</th>
+                    <th>Value</th>
+                    <th>trade</th>
+                  </tr>
+                </thead>
+                <tbody class="table__body--market"></tbody>
+                <tfoot>
+                  <tr>
+                    <td class="tfoot__td--total-cost" colspan="2">
+                      Total value:
+                      <span class="span__total-cost color-light"></span>
+                    </td>
+                    <td colspan="2">
+                      <div class="div__trade-button">
+                        <button id="buyButton" class="btn__trade">buy</button>
+                        <button id="sellButton" class="btn__trade">sell</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </form>
         </div>

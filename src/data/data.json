@@ -146,29 +146,29 @@
       "name": "Titanium",
       "stock": 700000,
       "price": 350,
-      "faktor": 10000,
-      "quantity": 0
+      "quantity": 0,
+      "faktor": 10000
     },
     {
       "name": "Carbon",
       "stock": 700000,
       "price": 140,
-      "faktor": 10000,
-      "quantity": 0
+      "quantity": 0,
+      "faktor": 10000
     },
     {
       "name": "Kyberkristall",
       "stock": 700000,
       "price": 1400,
-      "faktor": 10000,
-      "quantity": 0
+      "quantity": 0,
+      "faktor": 10000
     },
     {
       "name": "Hydrogenium",
       "stock": 700000,
       "price": 900,
-      "faktor": 10000,
-      "quantity": 0
+      "quantity": 0,
+      "faktor": 10000
     }
   ]
 }

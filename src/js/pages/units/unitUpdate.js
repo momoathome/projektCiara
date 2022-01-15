@@ -6,55 +6,6 @@ const credits = parseInt(localStorage.getItem('credits'))
 const unitLimit = parseInt(localStorage.getItem('unitLimit'))
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 const MAX__UNIT = []
-// checks how many Units can be max build and shows them in the table
-
-const getPlayerUnits = () => {
-  const currentTotalUnits = data.reduce((acc, unit) => acc + unit.quantity, 0)
-  return currentTotalUnits
-}
-
-function showMaxUnit() {
-  const clickableValue = document.querySelectorAll('.clickableValue')
-
-  clickableValue.forEach((node, i) => {
-    const unitString = MAX__UNIT[i]
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    node.innerHTML = `(${unitString})`
-  })
-}
-function showQuantity() {
-  data.forEach((unit, i) => {
-    document.querySelector(`#unit_cargo_${i}`).innerHTML = unit.quantity
-  })
-}
-function inputUnitCost() {
-  const cost = inputUnitArray()
-    .map((unit, i) => unit * data[i].cost)
-    .reduce(reducer)
-  return cost
-}
-
-function inputUnitArray() {
-  const inputFields = document.querySelectorAll('.recrutUnit')
-  const inputArray = []
-  inputFields.forEach((input) => {
-    input = input.valueAsNumber
-    if (isNaN(input)) {
-      input = 0
-    }
-    inputArray.push(input)
-  })
-  return inputArray
-}
-
-function showCost(kosten) {
-  // text update für Rekrutierungskosten Text
-  const kostenText =
-    kosten.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-    '<span class="font">C</span>'
-  document.querySelector('.span__total-cost').innerHTML = kostenText
-}
 
 function maxUnit() {
   // const inputFields = document.querySelectorAll('.recrutUnit')
@@ -76,8 +27,58 @@ function maxUnit() {
     }
   })
   showQuantity()
-  showMaxUnit()
+  displayMaxUnit()
   showCost(inputUnitCost())
+}
+
+function getPlayerUnits() {
+  const currentTotalUnits = data.reduce((acc, unit) => acc + unit.quantity, 0)
+  return currentTotalUnits
+}
+
+function inputUnitArray() {
+  const inputFields = document.querySelectorAll('.recrutUnit')
+  const inputArray = []
+  inputFields.forEach((input) => {
+    input = input.valueAsNumber
+    if (isNaN(input)) {
+      input = 0
+    }
+    inputArray.push(input)
+  })
+  return inputArray
+}
+
+function inputUnitCost() {
+  const cost = inputUnitArray()
+    .map((unit, i) => unit * data[i].cost)
+    .reduce(reducer)
+  return cost
+}
+
+function showQuantity() {
+  data.forEach((unit, i) => {
+    document.querySelector(`#unit_cargo_${i}`).innerHTML = unit.quantity
+  })
+}
+
+function displayMaxUnit() {
+  const clickableValue = document.querySelectorAll('.clickableValue')
+
+  clickableValue.forEach((node, i) => {
+    const unitString = MAX__UNIT[i]
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    node.innerHTML = `(${unitString})`
+  })
+}
+
+function showCost(costs) {
+  // text update für Rekrutierungskosten Text
+  const costString =
+    costs.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
+    '<span class="font">C</span>'
+  document.querySelector('.span__total-cost').innerHTML = costString
 }
 
 // listener für den Input
@@ -97,10 +98,7 @@ function inputFieldListener(inputField, i) {
   }
   maxUnit()
 }
-/* if (inputField.value > parseInt(MAX__UNIT[i] + inputField.value)) {
-    console.log(`${MAX__UNIT} inputField: ${inputField.value}`)
-    inputField.value = MAX__UNIT[i] + inputField.value
-  } */
+
 // klick auf max MAX__UNIT Units
 function clickEventListener(i) {
   const inputFields = document.querySelectorAll('.recrutUnit')
@@ -116,6 +114,7 @@ function clickEventListener(i) {
   }
   maxUnit()
 }
+
 function inputFieldClear() {
   const inputFields = document.querySelectorAll('.recrutUnit')
   inputFields.forEach((input) => {
@@ -123,24 +122,29 @@ function inputFieldClear() {
   })
 }
 
-function formSubmit(event) {
-  event.preventDefault()
+function formCheck() {
   const inputUnits = inputUnitArray().reduce(reducer)
-  // wenn keine Einheit ausgewählt ist
+  const unitCost = inputUnitCost()
+
   if (inputUnits <= 0) {
     errorMessage('bitte wähle mindestens eine Einheit aus')
     inputFieldClear()
-    return
+    return false
   }
-  // errechnet gesamt Kosten für Units
-  const unitCost = inputUnitCost()
   if (unitCost > credits) {
     // wenn geld nicht reicht, fehlermeldung und function wird nicht ausgeführt
     errorMessage('du hast nicht genug Credits dafür')
-    return
+    return false
   }
+  return true
+}
+
+function formSubmit(event) {
+  event.preventDefault()
+  if (!formCheck()) return
+
   // SUCCESS
-  const newCredits = credits - unitCost
+  const newCredits = credits - inputUnitCost()
   data.map((unit, i) => {
     unit.quantity += inputUnitArray()[i]
   })
@@ -154,7 +158,6 @@ function formSubmit(event) {
   localStorage.setItem('combat', combat)
   localStorage.setItem('units', JSON.stringify(data))
   maxUnit()
-  unitLimitCheck()
   combatCheck()
   creditCheck()
   unitLimitCheck()

@@ -1,7 +1,8 @@
 import {addEventlistenerUnits} from '../helper/eventListener.js'
 
+const tableBody = document.querySelector('.table__body--unit')
+
 const createTable = (data) => {
-  const tableBody = document.querySelector('.table__body--unit')
   // Table creation
   data.forEach((unit, i) => {
     const row = document.createElement('tr')

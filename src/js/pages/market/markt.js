@@ -1,4 +1,6 @@
-import * as tableCreatorMarkt from '../modules/TableCreatorMarkt.js'
-import dbData from '../helper/getData.js'
+import {createTable} from '../../modules/TableCreatorMarkt.js'
+import {displayMarketValues} from '../market/marktUpdate.js'
+const data = JSON.parse(localStorage.getItem('ressources'))
 
-tableCreatorMarkt.createTable(dbData)
+createTable(data)
+displayMarketValues(data)
