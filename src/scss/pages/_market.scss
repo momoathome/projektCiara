@@ -25,11 +25,16 @@
   }
 
   td:where(:nth-child(2)) {
-    min-width: 10ch !important;
+    min-width: 11ch !important;
   }
   td:where(:nth-child(3)) {
-    min-width: 9ch !important;
+    min-width: 11ch !important;
   }
+}
+
+.div__trade-button {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .tradeInfoText {

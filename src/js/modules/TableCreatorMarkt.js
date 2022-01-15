@@ -15,7 +15,7 @@ const createTable = (data) => {
         <input
           type="number"
           id="input_value_${i}"
-          class="tradeInputField"
+          class="inputField"
           min="0"
           max="100000"
         />

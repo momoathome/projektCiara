@@ -2,7 +2,7 @@ import config from '../../config.js'
 import {creditCheck} from '../../helper/money.js'
 import {rohstoffCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
-
+import * as helper from '../../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('ressources'))
 const credits = parseInt(localStorage.getItem('credits'))
 const reducer = (accumulator, currentValue) => accumulator + currentValue
@@ -23,30 +23,24 @@ function displayMarketValues() {
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
       if (keys[i + 1] === 'stock') {
         element.innerHTML = `${string}t`
-      } else if (keys[i + 1] === 'price') {
+      } else if (keys[i + 1] === 'cost') {
         element.innerHTML = `${string}<span class="font">C</span>`
       } else element.innerHTML = `(${string})`
     })
   }
+  helper.totalValueUpdate(data)
 }
 
-function inputListenerValueUpdater(i) {
-  const inputField = document.querySelector(`#input_value_${i}`)
+function inputListenerMarket(inputField, i) {
   const maxValueSpan = document.querySelector(`.maxValue_${i}`)
-  inputField.value = Math.round(inputField.valueAsNumber)
+  helper.inputValueNormNumber(inputField)
 
-  let cap = Math.round(credits / data[i].price)
+  let cap = Math.round(credits / data[i].cost)
   if (cap < data[i].quantity) {
     cap = data[i].quantity
   }
 
-  if (
-    inputField.value <= 0 ||
-    inputField.value == '' ||
-    isNaN(inputField.value)
-  ) {
-    inputField.value = ''
-  } else if (inputField.valueAsNumber > cap) {
+  if (inputField.valueAsNumber > cap) {
     inputField.value = cap
   }
 
@@ -55,49 +49,25 @@ function inputListenerValueUpdater(i) {
     maxValueSpan.innerText = `(${data[i].quantity})`
   } else maxValueSpan.innerText = `(${roh})`
 
-  totalAmountUpdate()
+  helper.totalValueUpdate(data)
 }
 
 // klick auf max anzahl Units
-function clickEventListenerValueUpdater(i) {
+function clickEventListenerMarket(i) {
   const inputField = document.querySelector(`#input_value_${i}`)
   const maxValueSpan = document.querySelector(`.maxValue_${i}`)
 
   if (maxValueSpan.innerText == '(0)') {
     inputField.value = ''
-    maxValueSpan.innerText = `(${data[i].quantity})`
+    const string = data[i].quantity
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    maxValueSpan.innerText = `(${string})`
   } else {
     inputField.value = data[i].quantity
     maxValueSpan.innerText = '(0)'
   }
-  totalAmountUpdate()
-}
-
-function totalAmountUpdate() {
-  const totalValue = inputValueCost()
-  document.querySelector('.span__total-cost').innerHTML =
-    totalValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-    '<span class="font">C</span>'
-}
-
-function getInputValues() {
-  const inputFields = document.querySelectorAll(`.tradeInputField`)
-  const totalValues = []
-  inputFields.forEach((input) => {
-    input = input.valueAsNumber
-    if (isNaN(input)) {
-      input = 0
-    }
-    totalValues.push(input)
-  })
-  return totalValues
-}
-
-function inputValueCost() {
-  const cost = getInputValues()
-    .map((res, i) => res * data[i].price)
-    .reduce(reducer)
-  return cost
+  helper.totalValueUpdate(data)
 }
 
 function marktFormSubmit(event, eventName) {
@@ -109,12 +79,12 @@ function marktFormSubmit(event, eventName) {
 }
 
 function submitCheck(event) {
-  const totalValue = getInputValues().reduce(reducer)
+  const totalValue = helper.getInputValues().reduce(reducer)
   if (totalValue <= 0) {
     errorMessage('bitte wähle mindestens einen Rohstoff aus')
     return false
   }
-  if (inputValueCost() > credits && event === 'buy') {
+  if (helper.inputValueCost(data) > credits && event === 'buy') {
     errorMessage('Du hast nicht genug Credits dafür')
     return false
   }
@@ -127,7 +97,7 @@ function submitCheck(event) {
 
 function sellRohstoffCheck() {
   let sell = true
-  const tradeValues = getInputValues()
+  const tradeValues = helper.getInputValues()
   for (let i = 0; i < tradeValues.length; i++) {
     if (tradeValues[i] > data[i].quantity) {
       sell = false
@@ -156,7 +126,7 @@ function endForm(type) {
 }
 
 function setMarketData(boolean) {
-  const tradeValues = getInputValues()
+  const tradeValues = helper.getInputValues()
   data.map((res, i) => {
     res.stock = boolean
       ? res.stock - tradeValues[i]
@@ -168,7 +138,7 @@ function setMarketData(boolean) {
     res.faktor = boolean
       ? res.faktor + tradeValues[i]
       : res.faktor - tradeValues[i]
-    res.price = Math.round(
+    res.cost = Math.round(
       config.basePrice[i] + (res.faktor - config.baseFaktor)
     )
   })
@@ -176,14 +146,14 @@ function setMarketData(boolean) {
 }
 
 function setCredits(boolean) {
-  const totalValue = inputValueCost()
+  const totalValue = helper.inputValueCost(data)
   const newCredits = boolean ? credits - totalValue : credits + totalValue
   localStorage.setItem('credits', newCredits)
 }
 
 function clearInputFields() {
-  const inputFields = document.querySelectorAll(`.tradeInputField`)
-  const totalSpan = document.querySelector(`.span__total-cost`)
+  const inputFields = document.querySelectorAll(`.inputField`)
+  const totalSpan = document.querySelector(`.span__total-value`)
 
   inputFields.forEach((inputField) => {
     inputField.value = ''
@@ -192,8 +162,8 @@ function clearInputFields() {
 }
 
 export {
-  inputListenerValueUpdater,
-  clickEventListenerValueUpdater,
+  inputListenerMarket,
+  clickEventListenerMarket,
   marktFormSubmit,
   displayMarketValues,
 }

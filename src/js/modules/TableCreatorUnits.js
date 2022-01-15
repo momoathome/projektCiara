@@ -27,7 +27,7 @@ const createTable = (data) => {
         <input
           type="number"
           id="unit_${i}"
-          class="recrutUnit"
+          class="inputField"
           min="0"
           max="100000"
         />

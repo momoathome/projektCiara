@@ -1,6 +1,7 @@
 import {creditCheck} from '../../helper/money.js'
 import {combatCheck, unitLimitCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
+import * as helper from '../../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('units'))
 const credits = parseInt(localStorage.getItem('credits'))
 const unitLimit = parseInt(localStorage.getItem('unitLimit'))
@@ -8,10 +9,10 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue
 const MAX__UNIT = []
 
 function maxUnit() {
-  // const inputFields = document.querySelectorAll('.recrutUnit')
+  // const inputFields = document.querySelectorAll('.inputField')
   const playerUnits = getPlayerUnits()
-  const inputUnits = inputUnitArray().reduce(reducer)
-  const reducedCredits = credits - inputUnitCost()
+  const inputUnits = helper.getInputValues().reduce(reducer)
+  const reducedCredits = credits - helper.inputValueCost(data)
 
   data.forEach((unit, i) => {
     if (inputUnits > 0) {
@@ -26,9 +27,8 @@ function maxUnit() {
       MAX__UNIT[i] = unitLimit - playerUnits
     }
   })
-  showQuantity()
-  displayMaxUnit()
-  showCost(inputUnitCost())
+  displayValues()
+  helper.totalValueUpdate(data)
 }
 
 function getPlayerUnits() {
@@ -36,61 +36,27 @@ function getPlayerUnits() {
   return currentTotalUnits
 }
 
-function inputUnitArray() {
-  const inputFields = document.querySelectorAll('.recrutUnit')
-  const inputArray = []
-  inputFields.forEach((input) => {
-    input = input.valueAsNumber
-    if (isNaN(input)) {
-      input = 0
-    }
-    inputArray.push(input)
-  })
-  return inputArray
-}
-
-function inputUnitCost() {
-  const cost = inputUnitArray()
-    .map((unit, i) => unit * data[i].cost)
-    .reduce(reducer)
-  return cost
-}
-
-function showQuantity() {
-  data.forEach((unit, i) => {
-    document.querySelector(`#unit_cargo_${i}`).innerHTML = unit.quantity
-  })
-}
-
-function displayMaxUnit() {
+function displayValues() {
   const clickableValue = document.querySelectorAll('.clickableValue')
 
   clickableValue.forEach((node, i) => {
-    const unitString = MAX__UNIT[i]
+    const string = MAX__UNIT[i]
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    node.innerHTML = `(${unitString})`
+    node.innerText = `(${string})`
   })
-}
 
-function showCost(costs) {
-  // text update für Rekrutierungskosten Text
-  const costString =
-    costs.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-    '<span class="font">C</span>'
-  document.querySelector('.span__total-cost').innerHTML = costString
+  function showQuantity() {
+    data.forEach((unit, i) => {
+      document.querySelector(`#unit_cargo_${i}`).innerText = unit.quantity
+    })
+  }
+  showQuantity()
 }
 
 // listener für den Input
-function inputFieldListener(inputField, i) {
-  inputField.value = Math.round(inputField.valueAsNumber)
-  if (
-    inputField.value < 0 ||
-    inputField.value == '' ||
-    isNaN(inputField.value)
-  ) {
-    inputField.value = ''
-  }
+function inputListenerUnit(inputField, i) {
+  helper.inputValueNormNumber(inputField)
   maxUnit()
 
   if (MAX__UNIT[i] < 0) {
@@ -100,8 +66,8 @@ function inputFieldListener(inputField, i) {
 }
 
 // klick auf max MAX__UNIT Units
-function clickEventListener(i) {
-  const inputFields = document.querySelectorAll('.recrutUnit')
+function clickEventListenerUnit(i) {
+  const inputFields = document.querySelectorAll('.inputField')
   if (inputFields[i].value == 0) {
     inputFields[i].value = MAX__UNIT[i]
     MAX__UNIT[i] = 0
@@ -116,15 +82,15 @@ function clickEventListener(i) {
 }
 
 function inputFieldClear() {
-  const inputFields = document.querySelectorAll('.recrutUnit')
+  const inputFields = document.querySelectorAll('.inputField')
   inputFields.forEach((input) => {
     input.value = ''
   })
 }
 
 function formCheck() {
-  const inputUnits = inputUnitArray().reduce(reducer)
-  const unitCost = inputUnitCost()
+  const inputUnits = helper.getInputValues().reduce(reducer)
+  const unitCost = helper.inputValueCost(data)
 
   if (inputUnits <= 0) {
     errorMessage('bitte wähle mindestens eine Einheit aus')
@@ -144,11 +110,12 @@ function formSubmit(event) {
   if (!formCheck()) return
 
   // SUCCESS
-  const newCredits = credits - inputUnitCost()
+  const newCredits = credits - helper.inputValueCost(data)
   data.map((unit, i) => {
-    unit.quantity += inputUnitArray()[i]
+    unit.quantity += helper.getInputValues()[i]
   })
-  const combat = inputUnitArray()
+  const combat = helper
+    .getInputValues()
     .map((unit, i) => unit * data[i].combat)
     .reduce(reducer)
 
@@ -161,6 +128,5 @@ function formSubmit(event) {
   combatCheck()
   creditCheck()
   unitLimitCheck()
-  document.querySelector('.span__total-cost').innerHTML = ''
 }
-export {maxUnit, inputFieldListener, clickEventListener, formSubmit}
+export {maxUnit, inputListenerUnit, clickEventListenerUnit, formSubmit}
