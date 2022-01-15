@@ -67,16 +67,17 @@ function inputListenerUnit(inputField, i) {
 
 // klick auf max MAX__UNIT Units
 function clickEventListenerUnit(i) {
-  const inputFields = document.querySelectorAll('.inputField')
-  if (inputFields[i].value == 0) {
-    inputFields[i].value = MAX__UNIT[i]
+  const inputField = document.querySelector(`#unit_${i}`)
+
+  if (inputField.value == 0) {
+    inputField.value = MAX__UNIT[i]
     MAX__UNIT[i] = 0
   } else if (MAX__UNIT[i] === 0) {
-    inputFields[i].value = MAX__UNIT[i]
-    MAX__UNIT[i] = inputFields[i].value
+    inputField.value = MAX__UNIT[i]
+    MAX__UNIT[i] = inputField.value
   } else {
-    MAX__UNIT[i] = inputFields[i].valueAsNumber + parseInt(MAX__UNIT[i])
-    inputFields[i].value = MAX__UNIT[i]
+    MAX__UNIT[i] = inputField.valueAsNumber + parseInt(MAX__UNIT[i])
+    inputField.value = MAX__UNIT[i]
   }
   maxUnit()
 }

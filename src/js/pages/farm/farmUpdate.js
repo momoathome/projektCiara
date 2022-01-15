@@ -1,6 +1,5 @@
 import {
   asteroidList,
-  asteroidDomList,
   createAsteroidListInDom,
 } from '../../modules/tableCreatorFarmAsteroid.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
@@ -11,32 +10,25 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue
 let selectedAsteroid
 let selectedAsteroidID
 let mouseOverState = false
-const anzahl = []
-const storageAnzahl = []
 const unitCargo = [0]
 
-function asteroidSelectionUpdater(asteroid, ID) {
-  mouseOverState = true
+function asteroidSelectionUpdater(asteroid, ID, asteroidDomList) {
   if (
-    asteroid.className == asteroidList[ID].class + ' gewählt' ||
+    asteroid.className == `${asteroidList[ID].class} gewählt` ||
     asteroid.className == 'closed'
   ) {
     mouseOverState = false
     unselectAsteroid()
   } else {
-    selectAsteroid(asteroid, ID)
+    selectAsteroid(asteroid, ID, asteroidDomList)
   }
 
-  function selectAsteroid(asteroid, ID) {
+  function selectAsteroid() {
     asteroidDomList.forEach((target) => {
-      if (target.className == 'closed') {
-        target.className = 'closed'
-      } else {
-        target.className = 'notElected'
-      }
+      target.className = target.className == 'closed' ? 'closed' : 'notElected'
     })
     mouseOverState = true
-    asteroid.className = asteroidList[ID].class + ' gewählt'
+    asteroid.className = `${asteroidList[ID].class} gewählt`
     selectedAsteroid = asteroidList[ID]
     selectedAsteroidID = ID
     mouseOverFunction()
@@ -47,6 +39,13 @@ function asteroidSelectionUpdater(asteroid, ID) {
     // unselect asteroid
     selectedAsteroid = ''
     selectedAsteroidID = ''
+  }
+
+  function classReset() {
+    asteroidDomList.forEach((target, index) => {
+      target.className = asteroidList[index].class
+    })
+    mouseOverState = false
   }
 
   function mouseOverFunction() {
@@ -69,115 +68,6 @@ function asteroidSelectionUpdater(asteroid, ID) {
       })
     })
   }
-}
-
-function classReset() {
-  asteroidDomList.forEach((target, index) => {
-    target.className = asteroidList[index].class
-  })
-  mouseOverState = false
-}
-
-function maxUnitCalc() {
-  anzahl.splice(0, anzahl.length)
-  storageAnzahl.splice(0, anzahl.length)
-
-  dbData.units.forEach((unit, i) => {
-    const maxAnzahl = parseInt(localStorage.getItem(`anzahl_${i}`))
-    anzahl.push(maxAnzahl)
-    storageAnzahl.push(maxAnzahl)
-    updater(i)
-  })
-
-  function maxCargoCalc() {
-    const totalMaxUnitCargoSpan = document.querySelector(
-      '.span__total-cargo--max'
-    )
-    const maxCargo = []
-    dbData.units.forEach((unit, i) => {
-      const singleMaxCargo = storageAnzahl[i] * unit.cargo
-      maxCargo.push(singleMaxCargo)
-    })
-
-    const maxCargoInnerText = maxCargo
-      .reduce(reducer)
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    totalMaxUnitCargoSpan.innerText = maxCargoInnerText
-  }
-
-  maxCargoCalc()
-}
-
-function updater(i) {
-  const anzahlString = anzahl[i]
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${anzahlString})`
-}
-
-function cargoUpdater(i) {
-  // capacity der Schiffe
-  const cargoWert = []
-  dbData.units.forEach((unit, i) => {
-    cargoWert[i] = unit.cargo
-  })
-  const inputField = document.querySelector(`#unit_${i}`)
-  let cargo = parseInt(inputField.value) * cargoWert[i]
-  if (isNaN(cargo)) {
-    cargo = 0
-  }
-  unitCargo[i] = cargo
-  document.querySelector(`.unitCargo_${i}`).innerText = cargo
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-
-  function totalCargoUpdater() {
-    const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
-    const totalUnitCargoInnerText = unitCargo
-      .reduce(reducer)
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    totalUnitCargoSpan.innerText = totalUnitCargoInnerText
-  }
-
-  totalCargoUpdater()
-}
-// needs to be outside to store the value till reload
-const inputArray = []
-function InputListenerValueUpdater(i) {
-  const inputField = document.querySelector(`#unit_${i}`)
-  inputField.value = Math.round(parseInt(inputField.value))
-  if (parseInt(inputField.value) < 0 || inputField.value == '') {
-    inputField.value = ''
-  } else if (inputField.value > parseInt(anzahl[i] + inputArray[i])) {
-    inputField.value = parseInt(anzahl[i] + inputArray[i])
-  }
-
-  anzahl[i] = storageAnzahl[i] - inputField.value
-  inputArray[i] = parseInt(inputField.value)
-  updater(i)
-  cargoUpdater(i)
-}
-
-function clickEventListenerAnzahlUpdater(i) {
-  const inputField = document.querySelector(`#unit_${i}`)
-
-  if (inputField.value == 0) {
-    inputField.value = anzahl[i]
-    anzahl[i] = 0
-  } else {
-    if (anzahl[i] !== 0) {
-      const value = anzahl[i] + parseInt(inputField.value)
-      inputField.value = value
-      anzahl[i] = 0
-    } else {
-      anzahl[i] = parseInt(inputField.value)
-      inputField.value = 0
-    }
-  }
-  updater(i)
-  cargoUpdater(i)
 }
 
 const selectedAsteroidRoh = []
@@ -318,10 +208,4 @@ function farmAbschliesen(boolean) {
   rohstoffCheck()
 }
 
-export {
-  maxUnitCalc,
-  formSubmit,
-  InputListenerValueUpdater,
-  clickEventListenerAnzahlUpdater,
-  asteroidSelectionUpdater,
-}
+export {formSubmit, asteroidSelectionUpdater}

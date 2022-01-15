@@ -32,7 +32,7 @@ function inputValueNormNumber(inputField) {
   inputField.value = Math.round(inputField.valueAsNumber)
 
   if (
-    inputField.value < 0 ||
+    inputField.value <= 0 ||
     inputField.value == '' ||
     isNaN(inputField.value)
   ) {

@@ -9,13 +9,18 @@ import {
   clickEventListenerMarket,
   marktFormSubmit,
 } from '../pages/market/marktUpdate.js'
+import {asteroidSelectionUpdater} from '../pages/farm/farmUpdate.js'
+import {
+  InputListenerFleet,
+  clickEventListenerFleet,
+} from '../pages/farm/fleetUpdate.js'
 
 function addEventlistenerUnits() {
-  const UnitForm = document.querySelector('.form__unit')
+  const form = document.querySelector('.form__unit')
 
   clickListener(clickEventListenerUnit, '.clickableValue')
   inputListener(inputListenerUnit, '.inputField')
-  UnitForm.addEventListener('submit', (event) => {
+  form.addEventListener('submit', (event) => {
     formSubmit(event)
   })
 }
@@ -24,7 +29,7 @@ function addEventlistenerStructure() {
   clickListener(upgradeFunction, '.btn__upgrade')
 }
 
-const addEventlistenerMarket = () => {
+function addEventlistenerMarket() {
   const marktForm = document.querySelector('.form__market')
 
   clickListener(clickEventListenerMarket, '.clickableValue')
@@ -34,6 +39,27 @@ const addEventlistenerMarket = () => {
     if (event.submitter.id === 'buyButton') {
       marktFormSubmit(event, 'buy')
     } else marktFormSubmit(event, 'sell')
+  })
+}
+
+function addEventListenerFleet() {
+  const form = document.querySelector('.form__farm')
+
+  clickListener(clickEventListenerFleet, '.clickableValue')
+  inputListener(InputListenerFleet, '.inputField')
+  form.addEventListener('submit', (event) => {
+    formSubmit(event)
+  })
+}
+
+function addEventListenerAsteroid() {
+  const asteroidListBody = document.querySelectorAll('.table__body--asteroid')
+  const asteroidDomList = asteroidListBody[0].childNodes
+
+  asteroidDomList.forEach((asteroid, index) => {
+    asteroid.addEventListener('click', () => {
+      asteroidSelectionUpdater(asteroid, index, asteroidDomList)
+    })
   })
 }
 
@@ -59,4 +85,6 @@ export {
   addEventlistenerUnits,
   addEventlistenerStructure,
   addEventlistenerMarket,
+  addEventListenerFleet,
+  addEventListenerAsteroid,
 }
