@@ -22,5 +22,6 @@ You can sell the Ressources at the market to get your first credits.
 
 From there you can upgrade your Modules and get more units to farm more asteroids.
 
+
 <img src="https://i.imgur.com/dAP98eb.gif" width="1000" height="480" />
 
