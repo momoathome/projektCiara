@@ -2,161 +2,112 @@ import {
   asteroidList,
   createAsteroidListInDom,
 } from '../../modules/tableCreatorFarmAsteroid.js'
+import {selectedAsteroid, selectedAsteroidID} from './asteroidUpdate.js'
+import {totalCargo, maxUnit} from './fleetUpdate.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 import {rohstoffCheck} from '../../helper/checkFunction.js'
-import dbData from '../../helper/getData.js'
+import * as helper from '../../helper/updateHelper.js'
+const data = JSON.parse(localStorage.getItem('ressources'))
+const dataUnits = JSON.parse(localStorage.getItem('units'))
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 
-let selectedAsteroid
-let selectedAsteroidID
-let mouseOverState = false
-const unitCargo = [0]
+function formSubmitFleet(event) {
+  event.preventDefault()
+  if (!formCheck()) return
 
-function asteroidSelectionUpdater(asteroid, ID, asteroidDomList) {
-  if (
-    asteroid.className == `${asteroidList[ID].class} gewählt` ||
-    asteroid.className == 'closed'
-  ) {
-    mouseOverState = false
-    unselectAsteroid()
-  } else {
-    selectAsteroid(asteroid, ID, asteroidDomList)
-  }
-
-  function selectAsteroid() {
-    asteroidDomList.forEach((target) => {
-      target.className = target.className == 'closed' ? 'closed' : 'notElected'
-    })
-    mouseOverState = true
-    asteroid.className = `${asteroidList[ID].class} gewählt`
-    selectedAsteroid = asteroidList[ID]
-    selectedAsteroidID = ID
-    mouseOverFunction()
-  }
-
-  function unselectAsteroid() {
-    classReset()
-    // unselect asteroid
-    selectedAsteroid = ''
-    selectedAsteroidID = ''
-  }
-
-  function classReset() {
-    asteroidDomList.forEach((target, index) => {
-      target.className = asteroidList[index].class
-    })
-    mouseOverState = false
-  }
-
-  function mouseOverFunction() {
-    asteroidDomList.forEach((target, index) => {
-      target.addEventListener('mouseover', () => {
-        if (target.className == 'notElected') {
-          target.className = asteroidList[index].class
-        }
-      })
-      target.addEventListener('mouseout', () => {
-        if (mouseOverState === true) {
-          if (
-            target.className == asteroidList[index].class &&
-            target.className !== 'abgeschlossen' &&
-            target.className !== 'closed'
-          ) {
-            target.className = 'notElected'
-          }
-        }
-      })
-    })
-  }
+  // SUCCESS
+  rohEditFunction()
+  succesMessage('Great Success')
 }
 
-const selectedAsteroidRoh = []
-const myRessources = []
-
-function formSubmit(event) {
-  event.preventDefault()
+function formCheck() {
   // checkt ob ein Asteroid angeklickt ist
   if (
     selectedAsteroidID === '' ||
     selectedAsteroidID === undefined ||
-    isNaN(selectedAsteroidID)
+    isNaN(selectedAsteroidID) ||
+    asteroidList[selectedAsteroidID].class == 'closed'
   ) {
-    return errorMessage('Bitte wähle einen Asteroiden aus')
-  } else {
-    // checkt ob eine Einheit ausgewählt wurde
-    const cargo = unitCargo.reduce(reducer)
-    if (cargo <= 0) {
-      return errorMessage('bitte wähle mindestens eine Einheit aus')
-    } else {
-      // erfolgreich einen Asteroid gefarmt
-      rohEditFunction()
-      succesMessage('Great Success')
-    }
+    errorMessage('Bitte wähle einen Asteroiden aus')
+    return false
   }
+  // checkt ob eine Einheit ausgewählt wurde
+  if (totalCargo().reduce(reducer) <= 0) {
+    errorMessage('bitte wähle mindestens eine Einheit aus')
+    return false
+  }
+  return true
 }
 
 function rohEditFunction() {
-  getSelectedAsteroidRoh()
-  const cargo = unitCargo.reduce(reducer)
-  const asteroidRoh = selectedAsteroidRoh.reduce(reducer)
+  const totalRoh = getSelectedAsteroidRoh().reduce(reducer)
 
-  if (asteroidRoh < cargo) {
+  if (totalRoh < totalCargo().reduce(reducer)) {
     // alle Rohstoffe aufs Konto
-    calcNewAsteroidRoh(true)
-    farmAbschliesen(true)
+    const playerRessource = updateAsteroidRessources(true)
+    farmAbschliesen(true, playerRessource)
   } else {
     // nur ein teil der Rohstoffe aufs Konto
-    calcNewAsteroidRoh(false)
-    farmAbschliesen(false)
+    const playerRessource = updateAsteroidRessources(false)
+    farmAbschliesen(false, playerRessource)
   }
 }
 
 function getSelectedAsteroidRoh() {
-  const arr = []
-  Object.entries(selectedAsteroid).forEach(([key, value], index) => {
-    arr[index] = value
+  const selectedRessources = []
+  Object.entries(selectedAsteroid).forEach(([key, value]) => {
+    selectedRessources.push(value)
   })
-  arr.splice(4, 3)
-  arr.forEach((value, i) => {
-    selectedAsteroidRoh[i] = value
-  })
+  selectedRessources.splice(4, 4)
+  return selectedRessources
 }
 
-function calcNewAsteroidRoh(boolean) {
+function updateAsteroidRessources(boolean) {
   const rohstoffArray = []
-
-  // asteroid wird komplett verbraucht und alle Rohstoffe an spieler übertragen
+  // asteroid wird komplett verbraucht und alle Rohstoffe aufs Konto
   if (boolean) {
     rohstoffArray.push(0, 0, 0, 0)
   } else {
     // berechnet wie viele Rohstoffe der Spieler, mit der eingesetzten cargo anzahl der Schiffe erhalten kann
     // und zieht diese Anzahl dann gleichmäßig dem Asteroiden ab
     // bei ungeraden zahlen wir ein Rest berechnet, dieser wird am ende dem höchsten wert abgezogen
+    calcAsteroidRestRessource()
+  }
 
-    const cargo = unitCargo.reduce(reducer)
+  function calcAsteroidRestRessource() {
+    const cargo = totalCargo().reduce(reducer)
     const subtract = Math.floor(cargo / 4)
     let rest = cargo % 4
-    const val = selectedAsteroidRoh.map((value) => value - subtract)
-    val.forEach((element, i) => {
+    const asteroidRessources = getSelectedAsteroidRoh().map(
+      (value) => value - subtract
+    )
+
+    asteroidRessources.forEach((element, i) => {
       if (element < 0) {
-        val[i] = 0
+        asteroidRessources[i] = 0
         rest += 0 - element
       }
     })
-    const largest = Math.max(...val)
+    const largest = Math.max(...asteroidRessources)
 
-    val.forEach((element, i) => {
+    asteroidRessources.forEach((element, i) => {
       if (element == largest) {
-        val[i] = val[i] - rest
+        asteroidRessources[i] -= rest
       }
     })
-    rohstoffArray.push(...val)
-
-    rohstoffArray.forEach((element, i) => {
-      myRessources[i] = selectedAsteroidRoh[i] - element
-    })
+    rohstoffArray.push(...asteroidRessources)
   }
+
+  function playerResources() {
+    const playerRessources = []
+    rohstoffArray.forEach((element, i) => {
+      playerRessources.push(getSelectedAsteroidRoh()[i] - element)
+    })
+    return playerRessources
+  }
+
   setNewAsteroidRoh(rohstoffArray)
+  return playerResources()
 }
 
 function setNewAsteroidRoh(array) {
@@ -166,10 +117,40 @@ function setNewAsteroidRoh(array) {
     Carbon: array[1],
     Kyberkristall: array[2],
     Hydrogenium: array[3],
+    ID: asteroid.ID,
     mainRohIndex: asteroid.mainRohIndex,
     size: asteroid.size,
     class: asteroid.class,
   })
+}
+
+function farmAbschliesen(boolean, playerResource) {
+  if (boolean) {
+    asteroidList[selectedAsteroidID].class = 'closed'
+  }
+  setRohLocalstorage(playerResource)
+  // cleart die inputfelder
+  helper.inputFieldClear()
+
+  updateAsteroidDom()
+  rohstoffCheck()
+  cargoReset()
+  maxUnit(dataUnits)
+}
+
+function setRohLocalstorage(array) {
+  data.map((res, i) => {
+    res.quantity += array[i]
+  })
+  localStorage.setItem('ressources', JSON.stringify(data))
+}
+
+function cargoReset() {
+  dataUnits.forEach((unit, i) => {
+    document.querySelector(`.unitCargo_${i}`).innerText = ''
+  })
+  const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
+  totalUnitCargoSpan.innerText = ''
 }
 
 function updateAsteroidDom() {
@@ -178,34 +159,4 @@ function updateAsteroidDom() {
   createAsteroidListInDom()
 }
 
-function setRohLocalstorage(array) {
-  array.forEach((value, i) => {
-    let res = localStorage.getItem(`roh_${i}`)
-    res = parseInt(res) + parseInt(value)
-    localStorage.setItem(`roh_${i}`, res)
-  })
-}
-
-function farmAbschliesen(boolean) {
-  if (boolean) {
-    asteroidList[selectedAsteroidID].class = 'closed'
-    setRohLocalstorage(selectedAsteroidRoh)
-  } else {
-    setRohLocalstorage(myRessources)
-  }
-
-  // cleart die inputfelder
-  dbData.units.forEach((value, i) => {
-    document.querySelector(`#unit_${i}`).value = ''
-    cargoUpdater(i)
-  })
-  selectedAsteroid = ''
-  selectedAsteroidID = ''
-
-  // classReset()
-  updateAsteroidDom()
-  maxUnitCalc()
-  rohstoffCheck()
-}
-
-export {formSubmit, asteroidSelectionUpdater}
+export {formSubmitFleet}

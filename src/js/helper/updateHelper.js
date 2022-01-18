@@ -39,4 +39,18 @@ function inputValueNormNumber(inputField) {
     inputField.value = ''
   }
 }
-export {totalValueUpdate, inputValueCost, getInputValues, inputValueNormNumber}
+
+function inputFieldClear() {
+  const inputFields = document.querySelectorAll('.inputField')
+  inputFields.forEach((input) => {
+    input.value = ''
+  })
+}
+
+export {
+  totalValueUpdate,
+  inputValueCost,
+  getInputValues,
+  inputValueNormNumber,
+  inputFieldClear,
+}

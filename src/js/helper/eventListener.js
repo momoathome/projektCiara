@@ -9,7 +9,8 @@ import {
   clickEventListenerMarket,
   marktFormSubmit,
 } from '../pages/market/marktUpdate.js'
-import {asteroidSelectionUpdater} from '../pages/farm/farmUpdate.js'
+import {formSubmitFleet} from '../pages/farm/farmUpdate.js'
+import {asteroidSelectionUpdater} from '../pages/farm/asteroidUpdate.js'
 import {
   InputListenerFleet,
   clickEventListenerFleet,
@@ -48,7 +49,7 @@ function addEventListenerFleet() {
   clickListener(clickEventListenerFleet, '.clickableValue')
   inputListener(InputListenerFleet, '.inputField')
   form.addEventListener('submit', (event) => {
-    formSubmit(event)
+    formSubmitFleet(event)
   })
 }
 

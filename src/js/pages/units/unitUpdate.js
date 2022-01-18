@@ -9,7 +9,7 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue
 const MAX__UNIT = []
 
 function maxUnit() {
-  // const inputFields = document.querySelectorAll('.inputField')
+  const credits = parseInt(localStorage.getItem('credits'))
   const playerUnits = getPlayerUnits()
   const inputUnits = helper.getInputValues().reduce(reducer)
   const reducedCredits = credits - helper.inputValueCost(data)
@@ -82,20 +82,13 @@ function clickEventListenerUnit(i) {
   maxUnit()
 }
 
-function inputFieldClear() {
-  const inputFields = document.querySelectorAll('.inputField')
-  inputFields.forEach((input) => {
-    input.value = ''
-  })
-}
-
 function formCheck() {
   const inputUnits = helper.getInputValues().reduce(reducer)
   const unitCost = helper.inputValueCost(data)
 
   if (inputUnits <= 0) {
     errorMessage('bitte wähle mindestens eine Einheit aus')
-    inputFieldClear()
+    helper.inputFieldClear()
     return false
   }
   if (unitCost > credits) {
@@ -120,11 +113,11 @@ function formSubmit(event) {
     .map((unit, i) => unit * data[i].combat)
     .reduce(reducer)
 
-  inputFieldClear()
-  succesMessage('Great Success')
   localStorage.setItem('credits', newCredits)
   localStorage.setItem('combat', combat)
   localStorage.setItem('units', JSON.stringify(data))
+  succesMessage('Great Success')
+  helper.inputFieldClear()
   maxUnit()
   combatCheck()
   creditCheck()

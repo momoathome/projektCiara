@@ -4,9 +4,16 @@ const config = {
   baseWage: 200,
   faktor: 1,
   asteroidNumber: 15,
-  asteroidAtk: [1250, 15_000, 50_000, 100_000, 250_000],
   asteroidBaseRes: [55, 100],
   asteroidMinMaxSize: [1, 11],
+  mainRes: {
+    titanium: [1.1, 0.3, 0.1, 0.15],
+    carbon: [0.3, 1.2, 0.1, 0.15],
+    kristall: [0.2, 0.2, 0.9, 0.1],
+    hydro: [0.2, 0.2, 0.05, 0.9],
+    default: [0.3, 0.4, 0.2, 0.25],
+  },
+  asteroidAtk: [1250, 15_000, 50_000, 100_000, 250_000],
   basePrice: [350, 140, 1400, 900],
   baseFaktor: 10_000,
   unitLimit: [

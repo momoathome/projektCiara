@@ -4,19 +4,17 @@ import config from '../config.js'
 const asteroidList = []
 
 const createTableAsteroiden = (data) => {
-  const roh = []
-
   function createAsteroiden() {
     // erstellt die asteroiden und führt für jeden einzelnen die funktionen aus
     for (let i = 0; i < config.asteroidNumber; i++) {
       const size = createAsteroidSize()
-      mineralsForAsteroid(
+      const minerals = createAsteroidMinerals(
         config.asteroidBaseRes[0],
         config.asteroidBaseRes[1],
         size
       )
-      const mainRoh = mainRessource()
-      pushAsteroidInList(mainRoh, size)
+      const mainRoh = mainRessource(minerals)
+      pushAsteroidInList(mainRoh, size, i)
     }
     createAsteroidListInDom()
   }
@@ -29,10 +27,12 @@ const createTableAsteroiden = (data) => {
     return randSize.toFixed(2)
   }
 
-  function mineralsForAsteroid(min, max, size) {
-    data.forEach((e, i) => {
-      roh[i] = Math.round(randomInt(min, max) * size)
+  function createAsteroidMinerals(min, max, size) {
+    const roh = []
+    data.forEach(() => {
+      roh.push(Math.round(randomInt(min, max) * size))
     })
+    return roh
   }
 
   const randomInt = (min, max) => {
@@ -40,58 +40,40 @@ const createTableAsteroiden = (data) => {
     return value
   }
 
-  function mainRessource() {
+  function mainRessource(minerals) {
     const mainValue = randomInt(1, 99)
-    let mainRoh
-
-    // if None
-    if (mainValue >= 60) {
-      mainRoh = -1
-      roh[0] = Math.floor(roh[0] * 0.3)
-      roh[1] = Math.floor(roh[1] * 0.4)
-      roh[2] = Math.floor(roh[2] * 0.2)
-      roh[3] = Math.floor(roh[3] * 0.25)
-      // if Titanium
-    } else if (mainValue >= 40) {
-      mainRoh = 0
-      roh[0] = Math.floor(roh[0] * 1.2)
-      roh[1] = Math.floor(roh[1] * 0.3)
-      roh[2] = Math.floor(roh[2] * 0.1)
-      roh[3] = Math.floor(roh[3] * 0.15)
-      // if Carbon
-    } else if (mainValue >= 10) {
-      mainRoh = 1
-      roh[0] = Math.floor(roh[0] * 0.3)
-      roh[1] = Math.floor(roh[1] * 1.1)
-      roh[2] = Math.floor(roh[2] * 0.1)
-      roh[3] = Math.floor(roh[3] * 0.15)
-      // if Kristall
-    } else if (mainValue >= 6) {
-      mainRoh = 2
-      roh[0] = Math.floor(roh[0] * 0.2)
-      roh[1] = Math.floor(roh[1] * 0.2)
-      roh[2] = Math.floor(roh[2] * 1.0)
-      roh[3] = Math.floor(roh[3] * 0.1)
-      // if Hydro
-    } else {
-      mainRoh = 3
-      roh[0] = Math.floor(roh[0] * 0.2)
-      roh[1] = Math.floor(roh[1] * 0.2)
-      roh[2] = Math.floor(roh[2] * 0.05)
-      roh[3] = Math.floor(roh[3] * 1.0)
+    // prettier-ignore
+    const mainResMultiplie = (res, index, main) => Math.floor(res *= config.mainRes[main][index])
+    const mainRes = (main, i) => {
+      const ressources = minerals.map((res, index) =>
+        mainResMultiplie(res, index, main)
+      )
+      ressources.push(i)
+      return ressources
     }
-    return mainRoh
+
+    // None/default
+    if (mainValue >= 60) return mainRes('default', -1)
+    // Titanium
+    if (mainValue >= 40) return mainRes('titanium', 0)
+    // Carbon
+    if (mainValue >= 10) return mainRes('carbon', 1)
+    // Kristall
+    if (mainValue >= 6) return mainRes('kristall', 2)
+    // Hydro
+    return mainRes('hydro', 3)
   }
 
   // push in rohSave array, zum weiterverarbeiten in "farmUpdate"
   // zum ein und ausblenden der daten wichtig, beim wählen der Asteroiden zum farmen
-  function pushAsteroidInList(mainRoh, size) {
+  function pushAsteroidInList(mainRoh, size, ID) {
     asteroidList.push({
-      Titanium: roh[0],
-      Carbon: roh[1],
-      Kyberkristall: roh[2],
-      Hydrogenium: roh[3],
-      mainRohIndex: mainRoh,
+      Titanium: mainRoh[0],
+      Carbon: mainRoh[1],
+      Kyberkristall: mainRoh[2],
+      Hydrogenium: mainRoh[3],
+      ID: ID,
+      mainRohIndex: mainRoh[4],
       size: size,
       class: 'asteroid',
     })

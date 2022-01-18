@@ -4,23 +4,18 @@ const data = JSON.parse(localStorage.getItem('units'))
 
 function maxUnit(data) {
   data.forEach((unit, i) => {
-    updater(i)
+    const string = unit.quantity
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${string})`
   })
-
   maxCargo()
 }
 
-function updater(i) {
-  const string = data[i].quantity
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${string})`
-}
-
 function maxCargo() {
-  const totalMaxUnitCargoSpan = document.querySelector(
-    '.span__total-cargo--max'
-  )
+  //prettier-ignore
+  const totalMaxUnitCargoSpan = document.querySelector('.span__total-cargo--max')
+
   const maxCargo = []
   data.forEach((unit) => {
     const singleMaxCargo = unit.quantity * unit.cargo
@@ -34,23 +29,29 @@ function maxCargo() {
   totalMaxUnitCargoSpan.innerText = string
 }
 
-function cargoUpdater(i) {
-  // capacity der Schiffe
+function singleCargo(i) {
   const inputField = helper.getInputValues()
-  let cargo = inputField[i] * data[i].cargo
+  const cargo = inputField[i] * data[i].cargo
   if (isNaN(cargo)) {
-    cargo = 0
+    return 0
   }
+  return cargo
+}
 
-  document.querySelector(`.unitCargo_${i}`).innerText = cargo
+function totalCargo() {
+  const inputField = helper.getInputValues()
+  const total = inputField.map((value, i) => value * data[i].cargo)
+  return total
+}
+
+function cargoUpdater(i) {
+  document.querySelector(`.unitCargo_${i}`).innerText = singleCargo(i)
     .toString()
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 
   function totalCargoUpdater() {
     const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
-    const current = inputField.map((value, i) => value * data[i].cargo)
-    console.log(current)
-    const string = current
+    const string = totalCargo()
       .reduce(reducer)
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
@@ -64,7 +65,6 @@ function cargoUpdater(i) {
 function InputListenerFleet(inputField, i) {
   const maxValueSpan = document.querySelector(`.maxUnitfarm_${i}`)
   helper.inputValueNormNumber(inputField)
-  console.log(inputField)
   if (inputField.valueAsNumber > data[i].quantity) {
     inputField.value = data[i].quantity
   }
@@ -92,4 +92,4 @@ function clickEventListenerFleet(i) {
   cargoUpdater(i)
 }
 
-export {InputListenerFleet, clickEventListenerFleet, maxUnit}
+export {InputListenerFleet, clickEventListenerFleet, maxUnit, totalCargo}
