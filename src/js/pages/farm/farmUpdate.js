@@ -122,7 +122,7 @@ function setNewAsteroidRoh(array) {
 
 function farmAbschliesen(boolean, playerResource, asteroid) {
   if (boolean) {
-    asteroidList[asteroid[4]].class = 'closed'
+    asteroidList[asteroid.ID].class = 'closed'
   }
 
   setRohLocalstorage(playerResource)
