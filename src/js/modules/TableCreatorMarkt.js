@@ -17,7 +17,7 @@ const createTable = (data) => {
           id="input_value_${i}"
           class="inputField"
           min="0"
-          max="100000"
+          max="1000000"
         />
         <span class="maxValue_${i} clickableValue">(0)</span>
       </td>

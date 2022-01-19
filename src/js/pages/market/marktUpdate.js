@@ -4,7 +4,6 @@ import {rohstoffCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 import * as helper from '../../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('ressources'))
-const credits = parseInt(localStorage.getItem('credits'))
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 
 function displayMarketValues() {
@@ -32,6 +31,7 @@ function displayMarketValues() {
 }
 
 function inputListenerMarket(inputField, i) {
+  const credits = parseInt(localStorage.getItem('credits'))
   const maxValueSpan = document.querySelector(`.maxValue_${i}`)
   helper.inputValueNormNumber(inputField)
 
@@ -79,11 +79,13 @@ function marktFormSubmit(event, eventName) {
 }
 
 function submitCheck(event) {
+  const credits = parseInt(localStorage.getItem('credits'))
   const totalValue = helper.getInputValues().reduce(reducer)
   if (totalValue <= 0) {
     errorMessage('bitte wähle mindestens einen Rohstoff aus')
     return false
   }
+  console.log(`cost= ${helper.inputValueCost(data)}`)
   if (helper.inputValueCost(data) > credits && event === 'buy') {
     errorMessage('Du hast nicht genug Credits dafür')
     return false
@@ -146,8 +148,11 @@ function setMarketData(boolean) {
 }
 
 function setCredits(boolean) {
+  const credits = parseInt(localStorage.getItem('credits'))
   const totalValue = helper.inputValueCost(data)
+  console.log(credits)
   const newCredits = boolean ? credits - totalValue : credits + totalValue
+  console.log(`newCredits= ${newCredits}`)
   localStorage.setItem('credits', newCredits)
 }
 

@@ -1,8 +1,11 @@
 const config = {
+  // one Time use on Initiation
   startUpCash: 1_000_000,
+  // needed for wage calculation
   ticks: 5,
-  baseWage: 200,
+  baseWage: 10,
   faktor: 1,
+  // asteroid Config, Total Number / base Ressources / Asteroid size = multiplier for Ressources / main Ressource with it's final multiplier
   asteroidNumber: 15,
   asteroidBaseRes: [55, 100],
   asteroidMinMaxSize: [1, 11],
@@ -13,7 +16,9 @@ const config = {
     hydro: [0.2, 0.2, 0.05, 0.9],
     default: [0.3, 0.4, 0.2, 0.25],
   },
+  // currently not in use
   asteroidAtk: [1250, 15_000, 50_000, 100_000, 250_000],
+  // market Config, default Cost / multiplier for the cost according to the Stock
   basePrice: [350, 140, 1400, 900],
   baseFaktor: 10_000,
   unitLimit: [

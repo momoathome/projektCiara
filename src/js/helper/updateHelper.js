@@ -9,7 +9,7 @@ function totalValueUpdate(data) {
 
 function inputValueCost(data) {
   const cost = getInputValues()
-    .map((unit, i) => unit * data[i].cost)
+    .map((val, i) => val * data[i].cost)
     .reduce(reducer)
 
   return cost

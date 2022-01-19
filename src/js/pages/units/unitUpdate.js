@@ -3,7 +3,6 @@ import {combatCheck, unitLimitCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 import * as helper from '../../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('units'))
-const credits = parseInt(localStorage.getItem('credits'))
 const unitLimit = parseInt(localStorage.getItem('unitLimit'))
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 const MAX__UNIT = []
@@ -85,6 +84,7 @@ function clickEventListenerUnit(i) {
 function formCheck() {
   const inputUnits = helper.getInputValues().reduce(reducer)
   const unitCost = helper.inputValueCost(data)
+  const credits = parseInt(localStorage.getItem('credits'))
 
   if (inputUnits <= 0) {
     errorMessage('bitte wähle mindestens eine Einheit aus')
@@ -104,14 +104,18 @@ function formSubmit(event) {
   if (!formCheck()) return
 
   // SUCCESS
+  const credits = parseInt(localStorage.getItem('credits'))
+  const currentCombat = parseInt(localStorage.getItem('combat'))
   const newCredits = credits - helper.inputValueCost(data)
   data.map((unit, i) => {
     unit.quantity += helper.getInputValues()[i]
   })
-  const combat = helper
-    .getInputValues()
-    .map((unit, i) => unit * data[i].combat)
-    .reduce(reducer)
+  const combat =
+    currentCombat +
+    helper
+      .getInputValues()
+      .map((unit, i) => unit * data[i].combat)
+      .reduce(reducer)
 
   localStorage.setItem('credits', newCredits)
   localStorage.setItem('combat', combat)
