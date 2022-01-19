@@ -1,7 +1,5 @@
 import {asteroidList} from '../../modules/tableCreatorFarmAsteroid.js'
 
-let selectedAsteroid
-let selectedAsteroidID
 let mouseOverState = false
 
 function asteroidSelectionUpdater(asteroid, ID, asteroidDomList) {
@@ -21,16 +19,13 @@ function asteroidSelectionUpdater(asteroid, ID, asteroidDomList) {
     })
     mouseOverState = true
     asteroid.className = `${asteroidList[ID].class} gewählt`
-    selectedAsteroid = asteroidList[ID]
-    selectedAsteroidID = ID
+    sessionStorage.setItem('asteroid', JSON.stringify(asteroidList[ID]))
     mouseOverFunction()
   }
 
   function unselectAsteroid() {
     classReset()
-    // unselect asteroid
-    selectedAsteroid = ''
-    selectedAsteroidID = ''
+    sessionStorage.removeItem('asteroid')
   }
 
   function classReset() {
@@ -61,4 +56,4 @@ function asteroidSelectionUpdater(asteroid, ID, asteroidDomList) {
   }
 }
 
-export {asteroidSelectionUpdater, selectedAsteroid, selectedAsteroidID}
+export {asteroidSelectionUpdater}

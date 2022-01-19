@@ -85,7 +85,6 @@ function submitCheck(event) {
     errorMessage('bitte wähle mindestens einen Rohstoff aus')
     return false
   }
-  console.log(`cost= ${helper.inputValueCost(data)}`)
   if (helper.inputValueCost(data) > credits && event === 'buy') {
     errorMessage('Du hast nicht genug Credits dafür')
     return false
@@ -136,7 +135,7 @@ function setMarketData(boolean) {
     res.quantity = boolean
       ? res.quantity + tradeValues[i]
       : res.quantity - tradeValues[i]
-    tradeValues[i] /= 2000
+    tradeValues[i] /= 5000
     res.faktor = boolean
       ? res.faktor + tradeValues[i]
       : res.faktor - tradeValues[i]
@@ -150,9 +149,7 @@ function setMarketData(boolean) {
 function setCredits(boolean) {
   const credits = parseInt(localStorage.getItem('credits'))
   const totalValue = helper.inputValueCost(data)
-  console.log(credits)
   const newCredits = boolean ? credits - totalValue : credits + totalValue
-  console.log(`newCredits= ${newCredits}`)
   localStorage.setItem('credits', newCredits)
 }
 

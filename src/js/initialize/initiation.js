@@ -40,7 +40,6 @@ function initFunction(data) {
   }
 
   initDate()
-  initValues()
 }
 
 function firstInitiation() {

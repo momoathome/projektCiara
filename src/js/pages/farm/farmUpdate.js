@@ -2,7 +2,6 @@ import {
   asteroidList,
   createAsteroidListInDom,
 } from '../../modules/tableCreatorFarmAsteroid.js'
-import {selectedAsteroid, selectedAsteroidID} from './asteroidUpdate.js'
 import {totalCargo, maxUnit} from './fleetUpdate.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 import {rohstoffCheck} from '../../helper/checkFunction.js'
@@ -13,21 +12,17 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue
 
 function formSubmitFleet(event) {
   event.preventDefault()
-  if (!formCheck()) return
+  const asteroid = JSON.parse(sessionStorage.getItem('asteroid'))
+  if (!formCheck(asteroid)) return
 
   // SUCCESS
-  rohEditFunction()
+  rohEditFunction(asteroid)
   succesMessage('Great Success')
 }
 
-function formCheck() {
+function formCheck(asteroid) {
   // checkt ob ein Asteroid angeklickt ist
-  if (
-    selectedAsteroidID === '' ||
-    selectedAsteroidID === undefined ||
-    isNaN(selectedAsteroidID) ||
-    asteroidList[selectedAsteroidID].class == 'closed'
-  ) {
+  if (asteroid == null) {
     errorMessage('Bitte wähle einen Asteroiden aus')
     return false
   }
@@ -39,23 +34,24 @@ function formCheck() {
   return true
 }
 
-function rohEditFunction() {
+function rohEditFunction(asteroid) {
   const totalRoh = getSelectedAsteroidRoh().reduce(reducer)
 
   if (totalRoh < totalCargo().reduce(reducer)) {
     // alle Rohstoffe aufs Konto
     const playerRessource = updateAsteroidRessources(true)
-    farmAbschliesen(true, playerRessource)
+    farmAbschliesen(true, playerRessource, asteroid)
   } else {
     // nur ein teil der Rohstoffe aufs Konto
     const playerRessource = updateAsteroidRessources(false)
-    farmAbschliesen(false, playerRessource)
+    farmAbschliesen(false, playerRessource, asteroid)
   }
 }
 
 function getSelectedAsteroidRoh() {
+  const asteroid = JSON.parse(sessionStorage.getItem('asteroid'))
   const selectedRessources = []
-  Object.entries(selectedAsteroid).forEach(([key, value]) => {
+  Object.entries(asteroid).forEach(([key, value]) => {
     selectedRessources.push(value)
   })
   selectedRessources.splice(4, 4)
@@ -111,8 +107,8 @@ function updateAsteroidRessources(boolean) {
 }
 
 function setNewAsteroidRoh(array) {
-  const asteroid = asteroidList[selectedAsteroidID]
-  asteroidList.splice(selectedAsteroidID, 1, {
+  const asteroid = JSON.parse(sessionStorage.getItem('asteroid'))
+  asteroidList.splice(asteroid.ID, 1, {
     Titanium: array[0],
     Carbon: array[1],
     Kyberkristall: array[2],
@@ -124,18 +120,18 @@ function setNewAsteroidRoh(array) {
   })
 }
 
-function farmAbschliesen(boolean, playerResource) {
+function farmAbschliesen(boolean, playerResource, asteroid) {
   if (boolean) {
-    asteroidList[selectedAsteroidID].class = 'closed'
+    asteroidList[asteroid[4]].class = 'closed'
   }
-  setRohLocalstorage(playerResource)
-  // cleart die inputfelder
-  helper.inputFieldClear()
 
+  setRohLocalstorage(playerResource)
+  helper.inputFieldClear()
   updateAsteroidDom()
   rohstoffCheck()
   cargoReset()
   maxUnit(dataUnits)
+  sessionStorage.removeItem('asteroid')
 }
 
 function setRohLocalstorage(array) {
