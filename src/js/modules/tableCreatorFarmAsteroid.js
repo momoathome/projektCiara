@@ -53,13 +53,13 @@ const createTableAsteroiden = (data) => {
     }
 
     // None/default
-    if (mainValue >= 60) return mainRes('default', -1)
+    if (mainValue >= 40) return mainRes('default', -1)
     // Titanium
-    if (mainValue >= 40) return mainRes('titanium', 0)
+    if (mainValue >= 30) return mainRes('titanium', 0)
     // Carbon
     if (mainValue >= 10) return mainRes('carbon', 1)
     // Kristall
-    if (mainValue >= 6) return mainRes('kristall', 2)
+    if (mainValue >= 5) return mainRes('kristall', 2)
     // Hydro
     return mainRes('hydro', 3)
   }

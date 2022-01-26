@@ -12,9 +12,10 @@
     border-radius: 2rem;
     box-shadow: 0px 10px 20px -15px hsla(230, 25%, 5%, 0.2);
     transition: transform 0.3s;
+    animation: move-in 0.5s linear;
 
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.075);
       cursor: pointer;
     }
   }

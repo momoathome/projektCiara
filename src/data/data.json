@@ -11,42 +11,42 @@
       "name": "Fighter",
       "cost": 250000,
       "combat": 150,
-      "cargo": 20,
+      "cargo": 25,
       "quantity": 0
     },
     {
       "name": "Guardian",
       "cost": 500000,
       "combat": 300,
-      "cargo": 50,
+      "cargo": 40,
       "quantity": 0
     },
     {
       "name": "Destroyer",
       "cost": 1500000,
       "combat": 1000,
-      "cargo": 150,
+      "cargo": 100,
       "quantity": 0
     },
     {
       "name": "Nova",
       "cost": 3200000,
       "combat": 2500,
-      "cargo": 250,
+      "cargo": 300,
       "quantity": 0
     },
     {
       "name": "Horus",
       "cost": 7500000,
       "combat": 6000,
-      "cargo": 400,
+      "cargo": 800,
       "quantity": 0
     },
     {
       "name": "Reaper",
       "cost": 10000000,
       "combat": 8000,
-      "cargo": 800,
+      "cargo": 500,
       "quantity": 0
     },
     {
@@ -145,28 +145,28 @@
     {
       "name": "Titanium",
       "stock": 700000,
-      "cost": 350,
+      "cost": 300,
       "quantity": 0,
       "faktor": 10000
     },
     {
       "name": "Carbon",
       "stock": 700000,
-      "cost": 140,
+      "cost": 160,
       "quantity": 0,
       "faktor": 10000
     },
     {
       "name": "Kyberkristall",
       "stock": 700000,
-      "cost": 1400,
+      "cost": 600,
       "quantity": 0,
       "faktor": 10000
     },
     {
       "name": "Hydrogenium",
       "stock": 700000,
-      "cost": 900,
+      "cost": 450,
       "quantity": 0,
       "faktor": 10000
     }
