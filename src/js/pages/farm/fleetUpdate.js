@@ -61,7 +61,6 @@ function cargoUpdater(i) {
   totalCargoUpdater()
 }
 
-// needs to be outside to store the value till reload
 function InputListenerFleet(inputField, i) {
   const maxValueSpan = document.querySelector(`.maxUnitfarm_${i}`)
   helper.inputValueNormNumber(inputField)
@@ -92,4 +91,20 @@ function clickEventListenerFleet(i) {
   cargoUpdater(i)
 }
 
-export {InputListenerFleet, clickEventListenerFleet, maxUnit, totalCargo}
+function chooseAllUnits() {
+  const inputfields = document.querySelectorAll('.inputField')
+  inputfields.forEach((field, i) => {
+    if (data[i].quantity !== 0) {
+      field.value = data[i].quantity
+    }
+    cargoUpdater(i)
+  })
+}
+
+export {
+  InputListenerFleet,
+  clickEventListenerFleet,
+  chooseAllUnits,
+  maxUnit,
+  totalCargo,
+}

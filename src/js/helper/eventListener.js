@@ -14,6 +14,7 @@ import {asteroidSelectionUpdater} from '../pages/farm/asteroidUpdate.js'
 import {
   InputListenerFleet,
   clickEventListenerFleet,
+  chooseAllUnits,
 } from '../pages/farm/fleetUpdate.js'
 
 function addEventlistenerUnits() {
@@ -47,6 +48,7 @@ function addEventListenerFleet() {
   const form = document.querySelector('.form__farm')
 
   clickListener(clickEventListenerFleet, '.clickableValue')
+  clickListener(chooseAllUnits, '.span__text--max')
   inputListener(InputListenerFleet, '.inputField')
   form.addEventListener('submit', (event) => {
     formSubmitFleet(event)

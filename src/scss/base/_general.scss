@@ -39,12 +39,24 @@ body {
   border-radius: 2rem;
   color: $maincolor;
   background-color: $mainBackgroundColor;
+  cursor: default;
+  animation: move-in 0.5s linear;
 
   h3 {
     text-align: center;
     border-bottom: 1px solid $maincolor;
     margin-bottom: 1rem;
     font-size: 1.2rem;
+  }
+}
+@keyframes move-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 .table__main {

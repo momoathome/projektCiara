@@ -27,7 +27,7 @@ function maxUnit() {
     }
   })
   displayValues()
-  helper.totalValueUpdate(data)
+  helper.totalUnitUpdate(data)
 }
 
 function getPlayerUnits() {
@@ -67,13 +67,14 @@ function inputListenerUnit(inputField, i) {
 // klick auf max MAX__UNIT Units
 function clickEventListenerUnit(i) {
   const inputField = document.querySelector(`#unit_${i}`)
-
-  if (inputField.value == 0) {
+  if (
+    inputField.value === 0 ||
+    (inputField.value === '' && MAX__UNIT[i] !== 0)
+  ) {
     inputField.value = MAX__UNIT[i]
     MAX__UNIT[i] = 0
   } else if (MAX__UNIT[i] === 0) {
-    inputField.value = MAX__UNIT[i]
-    MAX__UNIT[i] = inputField.value
+    inputField.value = ''
   } else {
     MAX__UNIT[i] = inputField.valueAsNumber + parseInt(MAX__UNIT[i])
     inputField.value = MAX__UNIT[i]
