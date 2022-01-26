@@ -47,6 +47,45 @@
   }
 }
 
+.td__btn-holder {
+  position: relative;
+  width: 35px;
+  cursor: default;
+
+  .btn__upgrade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.td__btn-holder--active {
+  cursor: pointer;
+
+  .btn__upgrade {
+    border: 1px solid $secondcolor;
+    border-width: 1px 1px 0 0;
+    cursor: pointer;
+
+    &:after {
+      border: 1px solid $secondcolor;
+      border-width: 1px 1px 0 0;
+    }
+  }
+  &:hover {
+    .btn__upgrade {
+      animation: slide 1.4s linear infinite;
+    }
+    .btn__upgrade::after {
+      animation: slide 1.4s linear infinite;
+      animation-delay: 0.35s;
+    }
+  }
+}
+
 @mixin btn-upgrade {
   height: 14px;
   width: 14px;
@@ -60,20 +99,31 @@
   padding: 0;
   transform: rotate(-45deg);
   background: none;
-  cursor: pointer;
-  text-align: center;
+  cursor: default;
 
   &:after {
     @include btn-upgrade;
 
     content: '';
     display: block;
-    transform: translate(7px, -8.5px);
+    transform: translate(-7px, 6.5px);
   }
+}
 
-  &:hover,
-  &:hover::after {
-    border: 1px solid $secondcolor;
-    border-width: 1px 1px 0 0;
+@keyframes slide {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+    bottom: 20px;
+  }
+  50% {
+    opacity: 0;
+    bottom: 0;
+    top: 20px;
+  }
+  100% {
+    opacity: 1;
   }
 }

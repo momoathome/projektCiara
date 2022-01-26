@@ -27,7 +27,7 @@ function addEventlistenerUnits() {
 }
 
 function addEventlistenerStructure() {
-  clickListener(upgradeFunction, '.btn__upgrade')
+  clickListener(upgradeFunction, '.td__btn-holder')
 }
 
 function addEventlistenerMarket() {
