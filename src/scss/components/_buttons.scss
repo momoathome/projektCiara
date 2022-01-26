@@ -77,10 +77,10 @@
   }
   &:hover {
     .btn__upgrade {
-      animation: slide 1.4s linear infinite;
+      animation: slide 1.5s linear infinite;
     }
     .btn__upgrade::after {
-      animation: slide 1.4s linear infinite;
+      animation: slide 1.5s linear infinite;
       animation-delay: 0.35s;
     }
   }
@@ -111,19 +111,19 @@
 }
 
 @keyframes slide {
-  0% {
+  20% {
     opacity: 1;
   }
-  30% {
+  40% {
     opacity: 0;
-    bottom: 20px;
+    bottom: 35px;
   }
-  50% {
+  60% {
     opacity: 0;
     bottom: 0;
     top: 20px;
   }
-  100% {
+  80% {
     opacity: 1;
   }
 }
