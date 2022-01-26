@@ -29,7 +29,7 @@ const createTableBody = (data, index, table) => {
       <td>${energie}<span class="font">E</span></td>
       <td class="structure__cost"><span class="font">C</span></td>
       <td class="color-light structure__level stufe_${index}"></td>
-      <td class="tableButton"><button class="btn__upgrade upgrade_${index}">[+]</button></td>
+      <td class="td__btn-holder"><button class="btn__upgrade upgrade_${index}"></button></td>
     </tr>
     `
   row.innerHTML = tableData

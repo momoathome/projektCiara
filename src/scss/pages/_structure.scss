@@ -13,3 +13,17 @@
     min-width: fit-content !important;
   }
 }
+
+.td__btn-holder {
+  position: relative;
+  width: 20px;
+
+  button {
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}

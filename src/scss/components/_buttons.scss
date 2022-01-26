@@ -47,16 +47,33 @@
   }
 }
 
+@mixin btn-upgrade {
+  height: 14px;
+  width: 14px;
+  border: 1px solid $maincolor;
+  border-width: 1px 1px 0 0;
+}
+
 .btn__upgrade {
-  width: fit-content;
-  border: none;
+  @include btn-upgrade;
+
+  padding: 0;
+  transform: rotate(-45deg);
   background: none;
-  color: $maincolor;
   cursor: pointer;
-  transition: all 0.35s;
   text-align: center;
 
-  &:hover {
-    color: $secondcolor;
+  &:after {
+    @include btn-upgrade;
+
+    content: '';
+    display: block;
+    transform: translate(7px, -8.5px);
+  }
+
+  &:hover,
+  &:hover::after {
+    border: 1px solid $secondcolor;
+    border-width: 1px 1px 0 0;
   }
 }
