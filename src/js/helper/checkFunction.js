@@ -1,7 +1,8 @@
+import {valToString} from '../helper/updateHelper.js'
+
 function combatCheck() {
-  const a = localStorage.getItem('combat')
-  const b = a.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.querySelector('#combat').innerHTML = b
+  const combat = localStorage.getItem('combat')
+  document.querySelector('#combat').innerHTML = valToString(combat)
 }
 
 function rohstoffCheck() {
@@ -9,9 +10,7 @@ function rohstoffCheck() {
   const rohSpan = document.querySelectorAll('.rohValueSpan')
 
   rohSpan.forEach((span, i) => {
-    span.innerText = res[i].quantity
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    span.innerText = valToString(res[i].quantity)
   })
 }
 
@@ -19,14 +18,10 @@ function unitLimitCheck() {
   const units = JSON.parse(localStorage.getItem('units'))
 
   const currentUnits = units.reduce((acc, unit) => acc + unit.quantity, 0)
-  document.querySelector('#currentUnits').innerText = currentUnits
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  document.querySelector('#currentUnits').innerText = valToString(currentUnits)
 
   const unitLimit = localStorage.getItem('unitLimit')
-  document.querySelector('#unitLimit').innerText = unitLimit
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  document.querySelector('#unitLimit').innerText = valToString(unitLimit)
 }
 
 export {combatCheck, rohstoffCheck, unitLimitCheck}

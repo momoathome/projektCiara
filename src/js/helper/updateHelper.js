@@ -1,13 +1,12 @@
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 
 function totalValueUpdate(data) {
+  const span = document.querySelector('.span__total-value')
   const cost = inputValueCost(data)
   if (cost === 0) {
-    return
+    return (span.innerHTML = '')
   }
-  document.querySelector('.span__total-value').innerHTML =
-    cost.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-    '<span class="font">C</span>'
+  span.innerHTML = `${valToString(cost)}<span class="font">C</span>`
 }
 
 function totalUnitUpdate(data) {
@@ -16,22 +15,16 @@ function totalUnitUpdate(data) {
   const totalCostTd = document.querySelector('.tfoot__td--total-cost')
   const totalCargoTd = document.querySelector('.tfoot__td--total-cargo')
 
-  let cost = inputValueCost(data)
-  let combat = units.map((val, i) => val * data[i].combat).reduce(reducer)
-  let cargo = units.map((val, i) => val * data[i].cargo).reduce(reducer)
+  const cost = inputValueCost(data)
+  const combat = units.map((val, i) => val * data[i].combat).reduce(reducer)
+  const cargo = units.map((val, i) => val * data[i].cargo).reduce(reducer)
   if (cost === 0 || combat === 0 || cargo === 0) {
     return clearTotalValue()
   }
 
-  combat = combat.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  cost =
-    cost.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +
-    '<span class="font">C </span>'
-  cargo = cargo.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-
-  totalCombatTd.innerHTML = `${combat}`
-  totalCostTd.innerHTML = `${cost}`
-  totalCargoTd.innerHTML = `${cargo}`
+  totalCombatTd.innerHTML = `${valToString(combat)}`
+  totalCostTd.innerHTML = `${valToString(cost)}<span class="font">C</span>`
+  totalCargoTd.innerHTML = `${valToString(cargo)}`
 
   function clearTotalValue() {
     totalCombatTd.innerHTML = ''
@@ -80,6 +73,10 @@ function inputFieldClear() {
   })
 }
 
+function valToString(value) {
+  return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+}
+
 export {
   totalValueUpdate,
   totalUnitUpdate,
@@ -87,4 +84,5 @@ export {
   getInputValues,
   inputValueNormNumber,
   inputFieldClear,
+  valToString,
 }

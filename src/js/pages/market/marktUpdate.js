@@ -17,9 +17,8 @@ function displayMarketValues() {
 
   function displayValues(node, i) {
     node.forEach((element, index) => {
-      const string = data[index][keys[i + 1]]
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      const string = helper.valToString(data[index][keys[i + 1]])
+      console.log(string)
       if (keys[i + 1] === 'stock') {
         element.innerHTML = `${string}t`
       } else if (keys[i + 1] === 'cost') {
@@ -52,16 +51,13 @@ function inputListenerMarket(inputField, i) {
   helper.totalValueUpdate(data)
 }
 
-// klick auf max anzahl Units
 function clickEventListenerMarket(i) {
   const inputField = document.querySelector(`#input_value_${i}`)
   const maxValueSpan = document.querySelector(`.maxValue_${i}`)
 
   if (maxValueSpan.innerText == '(0)') {
     inputField.value = ''
-    const string = data[i].quantity
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const string = helper.valToString(data[i].quantity)
     maxValueSpan.innerText = `(${string})`
   } else {
     inputField.value = data[i].quantity

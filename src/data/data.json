@@ -16,43 +16,43 @@
     },
     {
       "name": "Guardian",
-      "cost": 500000,
-      "combat": 300,
-      "cargo": 40,
+      "cost": 750000,
+      "combat": 450,
+      "cargo": 75,
       "quantity": 0
     },
     {
       "name": "Destroyer",
-      "cost": 1500000,
-      "combat": 1000,
-      "cargo": 100,
+      "cost": 2500000,
+      "combat": 1500,
+      "cargo": 200,
       "quantity": 0
     },
     {
       "name": "Nova",
-      "cost": 3200000,
-      "combat": 2500,
-      "cargo": 300,
+      "cost": 7500000,
+      "combat": 5000,
+      "cargo": 600,
       "quantity": 0
     },
     {
       "name": "Horus",
-      "cost": 7500000,
-      "combat": 6000,
-      "cargo": 800,
+      "cost": 25000000,
+      "combat": 17000,
+      "cargo": 2250,
       "quantity": 0
     },
     {
       "name": "Reaper",
-      "cost": 10000000,
-      "combat": 8000,
-      "cargo": 500,
+      "cost": 42500000,
+      "combat": 29000,
+      "cargo": 1300,
       "quantity": 0
     },
     {
       "name": "Deathstar",
-      "cost": 600000000,
-      "combat": 400000,
+      "cost": 900000000,
+      "combat": 900000,
       "cargo": 0,
       "quantity": 0
     }

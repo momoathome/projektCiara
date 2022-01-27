@@ -1,4 +1,5 @@
 import config from '../config.js'
+import {valToString} from '../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('structures'))
 
 // aktuelle sekunden
@@ -55,12 +56,13 @@ function geldBerechnung() {
 }
 
 function creditCheck() {
-  let wage = localStorage.getItem('wage')
-  wage = wage.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  let credits = localStorage.getItem('credits')
-  credits = credits.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  document.getElementById(
-    'credits'
-  ).innerHTML = `${credits}<span class="font">C </span><span style="color:#00ff00;">  (+${wage})</span> `
+  const wage = localStorage.getItem('wage')
+  const credits = localStorage.getItem('credits')
+  // prettier-ignore
+  document.getElementById('credits').innerHTML = 
+  `${valToString(credits)}
+  <span class="font">C </span>
+  <span style="color:#00ff00;">(+${valToString(wage)})</span> `
 }
+
 export {creditCheck, geldBerechnung}

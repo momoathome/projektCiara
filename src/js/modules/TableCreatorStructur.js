@@ -1,26 +1,26 @@
 import {addEventlistenerStructure} from '../helper/eventListener.js'
+import {valToString} from '../helper/updateHelper.js'
 
 const producerTable = document.querySelector('.table__body--producer')
 const consumerTable = document.querySelector('.table__body--consumer')
 
 const createTable = (data) => {
   // Table creation
-  data.forEach((value, index) => {
+  data.forEach((value) => {
     if (value.type === 'consumer') {
-      createTableBody(value, index, 'cons')
+      createTableBody(value, 'cons')
     } else if (value.type === 'producer') {
-      createTableBody(value, index, 'prod')
+      createTableBody(value, 'prod')
     }
   })
 
   addEventlistenerStructure()
 }
 
-const createTableBody = (data, index, table) => {
+const createTableBody = (data, table) => {
   const row = document.createElement('tr')
-  const energie = data.energie
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  const energie = valToString(data.energie)
+
   const tableData =
     /* html */
     `

@@ -39,10 +39,7 @@ function displayValues() {
   const clickableValue = document.querySelectorAll('.clickableValue')
 
   clickableValue.forEach((node, i) => {
-    const string = MAX__UNIT[i]
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    node.innerText = `(${string})`
+    node.innerText = `(${helper.valToString(MAX__UNIT[i])})`
   })
 
   function showQuantity() {

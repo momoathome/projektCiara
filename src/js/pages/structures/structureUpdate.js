@@ -2,6 +2,7 @@ import {creditCheck} from '../../helper/money.js'
 import {unitLimitCheck} from '../../helper/checkFunction.js'
 import {errorMessage, succesMessage} from '../../helper/alertMessage.js'
 import config from '../../config.js'
+import {valToString} from '../../helper/updateHelper.js'
 const data = JSON.parse(localStorage.getItem('structures'))
 
 function upgradeFunction(i) {
@@ -49,14 +50,9 @@ const structureUpdate = () => {
   const levelNodes = document.querySelectorAll('.structure__level')
 
   data.forEach((modul, i) => {
-    const cost = modul.cost.credits
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    costNodes[i].innerHTML = `${cost}<span class="font">C</span>`
-    const level = modul.level
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    levelNodes[i].innerHTML = level
+    // prettier-ignore
+    costNodes[i].innerHTML = `${valToString(modul.cost.credits)}<span class="font">C</span>`
+    levelNodes[i].innerHTML = valToString(modul.level)
   })
 }
 

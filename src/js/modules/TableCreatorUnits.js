@@ -1,4 +1,5 @@
 import {addEventlistenerUnits} from '../helper/eventListener.js'
+import {valToString} from '../helper/updateHelper.js'
 
 const tableBody = document.querySelector('.table__body--unit')
 
@@ -6,15 +7,9 @@ const createTable = (data) => {
   // Table creation
   data.forEach((unit, i) => {
     const row = document.createElement('tr')
-    const credits = unit.cost
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    const combat = unit.combat
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    const cargo = unit.cargo
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const credits = valToString(unit.cost)
+    const combat = valToString(unit.combat)
+    const cargo = valToString(unit.cargo)
     const tableData =
       /* html */
       `

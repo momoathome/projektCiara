@@ -4,9 +4,7 @@ const data = JSON.parse(localStorage.getItem('units'))
 
 function maxUnit(data) {
   data.forEach((unit, i) => {
-    const string = unit.quantity
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const string = helper.valToString(unit.quantity)
     document.querySelector(`.maxUnitfarm_${i}`).innerText = `(${string})`
   })
   maxCargo()
@@ -22,11 +20,8 @@ function maxCargo() {
     maxCargo.push(singleMaxCargo)
   })
 
-  const string = maxCargo
-    .reduce(reducer)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-  totalMaxUnitCargoSpan.innerText = string
+  const string = maxCargo.reduce(reducer)
+  totalMaxUnitCargoSpan.innerText = helper.valToString(string)
 }
 
 function singleCargo(i) {
@@ -45,17 +40,14 @@ function totalCargo() {
 }
 
 function cargoUpdater(i) {
-  document.querySelector(`.unitCargo_${i}`).innerText = singleCargo(i)
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  // prettier-ignore
+  const unitCargo = document.querySelector(`.unitCargo_${i}`)
+  unitCargo.innerText = helper.valToString(singleCargo(i))
 
   function totalCargoUpdater() {
     const totalUnitCargoSpan = document.querySelector('.span__total-cargo')
-    const string = totalCargo()
-      .reduce(reducer)
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    totalUnitCargoSpan.innerText = string
+    const string = totalCargo().reduce(reducer)
+    totalUnitCargoSpan.innerText = helper.valToString(string)
   }
 
   totalCargoUpdater()
@@ -79,9 +71,7 @@ function clickEventListenerFleet(i) {
 
   if (maxValueSpan.innerText == '(0)') {
     inputField.value = ''
-    const string = data[i].quantity
-      .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    const string = helper.valToString(data[i].quantity)
     maxValueSpan.innerText = `(${string})`
   } else {
     inputField.value = data[i].quantity

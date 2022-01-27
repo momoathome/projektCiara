@@ -1,9 +1,9 @@
 const config = {
   // one Time use on Initiation
-  startUpCash: 1_000_000,
+  startUpCash: 2_000_000,
   // needed for wage calculation
   ticks: 5,
-  baseWage: 10,
+  baseWage: 100,
   faktor: 1,
   // asteroid Config, Total Number / base Ressources / Asteroid size = multiplier for Ressources / main Ressource with it's final multiplier
   asteroidNumber: 15,
@@ -22,9 +22,9 @@ const config = {
   basePrice: [300, 160, 600, 450],
   baseFaktor: 10_000,
   unitLimit: [
-    50, 100, 150, 250, 350, 500, 700, 950, 1200, 1500, 1850, 2300, 2800, 3400,
-    4100, 5000, 6000, 7200, 8500, 10_000, 12_000, 15_000, 20_000, 27_500,
-    35_000, 45_000, 60_000, 80_000, 110_000, 150_000,
+    25, 50, 75, 100, 150, 200, 250, 325, 400, 500, 625, 750, 900, 1100, 1350,
+    1650, 2000, 2500, 3250, 4000, 5000, 6500, 8000, 10_000, 14_000, 20_000,
+    30_000, 45_000, 65_000, 95_000, 150_000,
   ],
 }
 

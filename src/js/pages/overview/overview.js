@@ -1,22 +1,18 @@
+import {valToString} from '../../helper/updateHelper.js'
+
 const structure = JSON.parse(localStorage.getItem('structures'))
 const units = JSON.parse(localStorage.getItem('units'))
 const ressource = JSON.parse(localStorage.getItem('ressources'))
 
 const createUnitModule = () => {
-  // tableBody
   function createTableBody() {
     const tbody = document.querySelector('.table__body--unit')
+
     units.forEach((unit) => {
       const tr = document.createElement('tr')
-      const combat = unit.combat
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      const cargo = unit.cargo
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      const quantity = unit.quantity
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      const combat = valToString(unit.combat)
+      const cargo = valToString(unit.cargo)
+      const quantity = valToString(unit.quantity)
       const tableData =
         /* html */
         `
@@ -38,15 +34,9 @@ const createStationModule = () => {
 
     structure.forEach((structure) => {
       const row = document.createElement('tr')
-      const energie = structure.energie
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      const cost = structure.cost.credits
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      const level = structure.level
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      const energie = valToString(structure.energie)
+      const cost = valToString(structure.cost.credits)
+      const level = valToString(structure.level)
       const tableData =
         /* html */
         `
@@ -66,14 +56,11 @@ const createStationModule = () => {
 function createMarketModule() {
   function createTableBody() {
     const tableBody = document.querySelector('.table__body--market')
+
     ressource.forEach((roh) => {
       const row = document.createElement('tr')
-      const stock = roh.stock
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-      const quantity = roh.quantity
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      const stock = valToString(roh.stock)
+      const quantity = valToString(roh.quantity)
 
       const tableData =
         /* html */
