@@ -10,11 +10,11 @@ const config = {
   asteroidBaseRes: [200, 300],
   asteroidMinMaxSize: [1, 11],
   mainRes: {
-    titanium: [1.2, 0.2, 0.05, 0.15],
-    carbon: [0.2, 1.2, 0.05, 0.15],
+    titanium: [1.0, 0.2, 0.05, 0.15],
+    carbon: [0.2, 1.0, 0.05, 0.15],
     kristall: [0.05, 0.05, 0.5, 0.02],
     hydro: [0.05, 0.05, 0.02, 0.6],
-    default: [0.3, 0.3, 0.05, 0.1],
+    default: [0.2, 0.2, 0.05, 0.1],
   },
   // currently not in use
   asteroidAtk: [1250, 15_000, 50_000, 100_000, 250_000],

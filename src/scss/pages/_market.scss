@@ -20,15 +20,15 @@
     padding-top: 1rem;
   }
 
-  td {
+  tr > td {
     min-width: 14ch;
   }
 
-  td:where(:nth-child(2)) {
-    min-width: 11ch !important;
+  tr > td:where(:nth-child(2)) {
+    min-width: 11ch;
   }
-  td:where(:nth-child(3)) {
-    min-width: 11ch !important;
+  tr > td:where(:nth-child(3)) {
+    min-width: 11ch;
   }
 }
 

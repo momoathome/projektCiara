@@ -3,9 +3,9 @@
     min-width: 14ch;
   }
 
-  tr > :where(:nth-child(5)),
-  :where(:nth-child(6)) {
-    min-width: 10ch !important;
+  tr > td:where(:nth-child(5)),
+  tr > td:where(:nth-child(6)) {
+    min-width: 10ch;
   }
 
   input {

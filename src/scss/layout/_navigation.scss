@@ -1,39 +1,58 @@
-.nav {
+.nav__main {
   background-color: $mainBackgroundColor;
   font-weight: bold;
+}
 
-  .nav__flex-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav__logo {
+  margin: 0;
+  font-size: 1.7rem;
+  cursor: default;
+  color: $secondcolor;
+}
+
+.nav__list {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+
+  .nav__item {
+    text-transform: uppercase;
+    margin: 0 1rem;
   }
 
-  .nav__logo {
-    margin: 0;
-    font-size: 1.7rem;
-    cursor: default;
-    color: $secondcolor;
-  }
+  a {
+    text-decoration: none;
+    color: $maincolor;
+    transition: all 0.3s;
 
-  .nav__list {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-
-    a {
-      text-decoration: none;
-      text-transform: uppercase;
-      margin: 0 1rem;
-      color: $maincolor;
-      transition: all 0.3s;
-
-      &:hover {
-        color: $secondcolor;
-      }
-    }
-
-    .active {
+    &:hover {
       color: $secondcolor;
     }
   }
+
+  a.active {
+    color: $secondcolor;
+  }
+}
+
+// Mobile Button
+.nav__mobil-menu {
+  display: none;
+}
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: $maincolor;
 }

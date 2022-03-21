@@ -2,24 +2,25 @@
   background-color: $statsBackgroundColor;
   padding: 0.5rem 0;
   cursor: default;
+}
 
-  ul {
-    max-width: 79%;
-    display: flex;
-    justify-content: space-around;
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-  }
+.stat__list {
+  max-width: 78%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
 
-  .reiter {
-    padding: 2px 0px 2px 2px;
-    font-weight: bold;
-    border-radius: 5px;
-    border: none;
-  }
-  .value {
-    color: $secondcolor;
-    font-weight: 400;
-  }
+.reiter {
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}
+
+.value {
+  color: $secondcolor;
+  font-weight: 400;
 }

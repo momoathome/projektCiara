@@ -1,0 +1,213 @@
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    margin: 0;
+    padding: 3rem 1rem 9rem 1rem;
+    font-size: 0.9rem;
+  }
+  .div__table {
+    padding: 1.5rem;
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+  .table__main {
+    padding: 0;
+    th {
+      font-size: inherit;
+    }
+    tr > td {
+      font-size: inherit;
+      padding: 0;
+    }
+  }
+  input.inputField {
+    width: 50px;
+    height: 1.5rem;
+    font-size: 0.9rem;
+  }
+  // Navigation
+  .header__main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: auto;
+    width: 100%;
+    z-index: 50;
+  }
+  .nav__main {
+    padding: 0 1.5rem;
+    background-color: $mobilBackgroundColor;
+  }
+  .navbar {
+    justify-content: space-between;
+  }
+  .nav__list {
+    position: fixed;
+    left: -100%;
+    top: 2.2rem;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    background-color: $mobilBackgroundColor;
+    padding: 0.5rem;
+    z-index: 50;
+  }
+
+  .nav__list.active {
+    left: 0;
+  }
+
+  .nav__item {
+    padding: 0.5rem 0;
+  }
+
+  .nav__mobil-menu {
+    display: block;
+    cursor: pointer;
+  }
+
+  .nav__mobil-menu.active {
+    .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  }
+
+  // Playerstats
+  .section__player-stats {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.5rem 0 0 0;
+    z-index: 50;
+  }
+
+  .stat__toggle {
+    text-align: center;
+  }
+
+  .stat__list {
+    gap: 0px 10px;
+    background-color: $mobilBackgroundColor;
+    max-width: 100%;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .player__stat {
+    display: flex;
+    justify-content: space-between;
+
+    &:where(:first-child) {
+      grid-column: 1 / 3;
+    }
+  }
+
+  // Status Info
+  .section__status {
+    position: fixed;
+    top: 2.2rem;
+    left: 0;
+    width: 100%;
+  }
+
+  // overview Page
+  .container__overview {
+    grid-template-columns: 1fr;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+    background-color: transparent;
+
+    div {
+      padding: 1.5rem;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    tr > td {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    th:not(:first-of-type),
+    tr > td:not(:first-of-type) {
+      padding-left: 0.75rem;
+    }
+  }
+
+  // Hangar Page
+  .table__units {
+    tr > td {
+      min-width: 0;
+      max-width: 100%;
+    }
+    tr > td:where(:last-of-type) {
+      min-width: 15ch;
+    }
+    th:not(:first-of-type),
+    tr > td:not(:first-of-type) {
+      padding-left: 0.5rem;
+    }
+  }
+
+  // Structure Page
+  .table__structures {
+    tr > td {
+      min-width: 0;
+      max-width: 100%;
+      padding-block: 0.25rem;
+    }
+
+    th:not(:first-of-type),
+    tr > td:not(:first-of-type) {
+      padding-left: 0.5rem;
+    }
+  }
+
+  // Market Page
+  .table__market {
+    tr > td {
+      min-width: 0;
+      max-width: 100%;
+      padding-block: 0.25rem;
+    }
+    tr > td:where(:last-of-type) {
+      min-width: 15ch;
+    }
+    th:not(:first-of-type),
+    tr > td:not(:first-of-type) {
+      padding-left: 0.5rem;
+    }
+  }
+
+  // Asteroid Page
+  .container__grid--farm {
+    grid-template-columns: repeat(auto-fit, 100%);
+  }
+
+  // Buttons
+  .btn__submit {
+    width: 6rem;
+    height: 2rem;
+  }
+  .btn__trade {
+    width: 4rem;
+    height: 2rem;
+  }
+  .div__fleet,
+  .table__farm {
+    width: 100%;
+    font-size: inherit;
+  }
+}
