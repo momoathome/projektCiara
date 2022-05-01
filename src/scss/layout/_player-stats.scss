@@ -1,15 +1,18 @@
 .section__player-stats {
   background-color: $statsBackgroundColor;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   cursor: default;
 }
 
 .stat__list {
-  max-width: 78%;
+  width: 90%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, auto));
   gap: 10px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   list-style: none;
 }

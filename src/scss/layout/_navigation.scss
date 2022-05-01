@@ -1,12 +1,17 @@
 .nav__main {
   background-color: $mainBackgroundColor;
   font-weight: bold;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem;
 }
 
 .navbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  width: 90%;
 }
 
 .nav__logo {
