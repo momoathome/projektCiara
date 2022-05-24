@@ -14,7 +14,7 @@ Build the needed Spaceships, farm Asteroids and sell the Minerals and Metalls at
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-I highly recommend to open it in VsCode and start it with the "live Server extension" because its super easy
+Live Version: https://momoathome.github.io/projektCiara/
 
 click on explore and there you are, your spacestation!
 From here you can build units, upgrade your Hangar farm asteroids to get some Ressources.
